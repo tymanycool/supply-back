@@ -1,0 +1,30 @@
+.row-yellow .x-grid-cell {
+	background-color: #FFFFAA;
+}
+
+.row-green .x-grid-cell {
+	background-color: #BBFFBB;
+}
+
+.row-red .x-grid-cell {
+	background-color: #FFDCB9;
+}
+
+.row-valid .x-grid-cell {
+	color : #F0F0F0;
+	background-color: #FCFCFC;
+}
+
+.row-status .x-grid-cell {
+	color : red;
+}
+
+.row-black .x-grid-cell {
+	color : white;
+	background-color: black;
+}
+
+.row-related .x-grid-cell {
+	color : blue;
+	background-color: #FCFCFC;
+}

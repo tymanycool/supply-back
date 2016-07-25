@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.PadOperateLogMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.PadOperateLog" >
+    <id column="sid" property="sid" jdbcType="BIGINT" />
+    <result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="target_shop_id" property="targetShopId" jdbcType="BIGINT" />
+    <result column="target_shop_name" property="targetShopName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, pad_no, operat_time, operator_id,operator, shop_id, shop_name, target_shop_id, target_shop_name, 
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from supply_pad_operate_log
+    where pad_no = #{padNo,jdbcType=VARCHAR}
+    order by operat_time desc
+  </select>
+  <insert id="insertSelective" parameterType="net.shopin.supply.domain.entity.PadOperateLog" >
+    insert into supply_pad_operate_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="padNo != null" >
+        pad_no,
+      </if>
+      <if test="operatTime != null" >
+        operat_time,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="targetShopId != null" >
+        target_shop_id,
+      </if>
+      <if test="targetShopName != null" >
+        target_shop_name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=BIGINT},
+      </if>
+      <if test="padNo != null" >
+        #{padNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatTime != null" >
+        #{operatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopId != null" >
+        #{targetShopId,jdbcType=BIGINT},
+      </if>
+      <if test="targetShopName != null" >
+        #{targetShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

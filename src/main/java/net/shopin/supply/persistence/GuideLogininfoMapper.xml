@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideLogininfoMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.GuideLogininfo" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="chestcard_shoprule" property="chestcardShoprule" jdbcType="VARCHAR" />
+    <result column="chestcard_num" property="chestcardNum" jdbcType="INTEGER" />
+    <result column="chestcard_number" property="chestcardNumber" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="login_username" property="loginUsername" jdbcType="VARCHAR" />
+    <result column="login_password" property="loginPassword" jdbcType="VARCHAR" />
+    <result column="valid_bit" property="validBit" jdbcType="INTEGER" />
+    <result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, guide_no, shop_id, shop_name,chestcard_shoprule,chestcard_num,chestcard_number,real_name,login_username,login_password,valid_bit,creattime
+  </sql>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" >
+    insert into supply_guide_logininfo 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{guideNo,jdbcType=INTEGER},#{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR},
+    	 #{chestcardShoprule,jdbcType=VARCHAR}, #{chestcardNum,jdbcType=INTEGER},#{chestcardNumber,jdbcType=VARCHAR}, 
+    	 #{realName,jdbcType=VARCHAR},#{loginUsername,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR},
+    	 #{validBit,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP}
+     	 )
+  </insert>
+  <select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_logininfo
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="guideNo != null">
+				and guide_no = #{guideNo,jdbcType=BIGINT}
+			</if>
+			<if test="userName != null">
+				and login_username = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="password != null">
+				and login_password = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="shopId != null">
+				and shop_id = #{shopId,jdbcType=BIGINT}
+			</if>
+			<if test="chestcardNumber != null">
+				and chestcard_number = #{chestcardNumber,jdbcType=BIGINT}
+			</if>
+		</where> 
+			order by chestcard_num desc
+	</select>
+   <select id="getCountByParam" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultType="int" >
+		select
+			count(*)
+		from
+			supply_guide_logininfo
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from supply_guide_logininfo
+		where sid = #{sid,jdbcType=BIGINT}
+	</delete>
+	<update id="updateValidBitStatus" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" >
+    update  supply_guide_logininfo
+    <set>
+	    <if test="validBit != null" >
+		      valid_bit = #{validBit,jdbcType=INTEGER},
+		</if>
+    </set>
+    where sid = #{sid,jdbcType=BIGINT}
+    </update>
+    <update id="update" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" >
+    	update supply_guide_logininfo
+    <set>
+	    <if test="chestcardShoprule != null" >
+		    chestcard_shoprule = #{chestcardShoprule,jdbcType=VARCHAR},
+		</if>
+		<if test="chestcardNum != null">
+			chestcard_num = #{chestcardNum,jdbcType=INTEGER},
+		</if>
+		<if test="chestcardNumber != null">
+			chestcard_number = #{chestcardNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="loginUsername != null">
+			login_username = #{loginUsername,jdbcType=VARCHAR},
+		</if>
+		<if test="loginPassword != null">
+			login_password = #{loginPassword,jdbcType=VARCHAR},
+		</if>
+    </set>
+   		 where sid = #{sid,jdbcType=BIGINT}
+    </update>
+     <select id="selectGuideLoginByUsername" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_logininfo
+		<where>
+			<if test="loginUsername != null">
+				and login_username = #{loginUsername,jdbcType=VARCHAR}
+			</if>
+			<if test="loginPassword != null">
+				and login_password = #{loginPassword,jdbcType=VARCHAR}
+			</if>
+			and valid_bit = 1
+		</where> 
+	</select>
+	 <select id="checkChestCardNumIsUnique"  parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
+		  select 
+		    <include refid="Base_Column_List" />
+		  from 
+		  	supply_guide_logininfo
+		   <where>
+			<if test="chestcardNum != null" >
+			      chestcard_number = #{chestcardNum,jdbcType=VARCHAR}
+			</if>
+		    </where>
+    </select>
+    <select id="selectByGuideNo" parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_logininfo
+		<where>
+			<if test="guideNo != null">
+				guide_no = #{guideNo,jdbcType=INTEGER}
+			</if>
+		</where> 
+	</select>
+	<select id="checkIsUnique"  parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
+		  select 
+		    <include refid="Base_Column_List" />
+		  from 
+		  	supply_guide_logininfo
+		   <where>
+			<if test="loginUsername != null" >
+			      login_username = #{loginUsername,jdbcType=VARCHAR}
+			</if>
+		    </where>
+    </select>
+</mapper>

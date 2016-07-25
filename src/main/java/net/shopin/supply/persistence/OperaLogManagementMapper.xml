@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.OperaLogManagementMapper" >
+  <resultMap id="NewBaseResultMap" type="net.shopin.supply.domain.vo.OperaLogManagementVO" >
+     <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getLogForGuideOperate" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+    select 
+    	s.*
+    from 
+    	supply_guide_log s
+    <where>
+   		<if test="guideNoId != null" >
+		       s.guide_no = #{guideNoId,jdbcType=INTEGER} 
+		</if>
+		<if test="operatTimeBId != null" >
+		      and s.operat_time &gt;= #{operatTimeBId,jdbcType=TIMESTAMP}
+		</if>
+		<if test="operatTimeEId != null" >
+		      and s.operat_time &lt;= #{operatTimeEId,jdbcType=TIMESTAMP}
+		</if>
+		<if test="operatorId != null" >
+		      and s.operator LIKE CONCAT('%','${operatorId}','%')
+		</if>
+		<if test="descriptionId != null" >
+		      and s.description LIKE CONCAT('%','${descriptionId}','%')
+		</if>
+		<if test="typeId != null" >
+		      and s.type = #{typeId,jdbcType=INTEGER}
+		</if>
+		<if test="typeDescId != null" >
+		      and s.type_desc LIKE CONCAT('%','${typeDescId}','%')
+		</if>
+		<if test="operatorIdId != null" >
+		      and s.operator_id LIKE CONCAT('%','${operatorIdId}','%')
+		</if>
+	</where>
+	 order by s.operat_time desc limit #{start}, #{limit}
+  </select>
+   <select id="getCountLogForGuideOperate"  parameterType="java.util.Map"  resultType = "int" >
+    select 
+    	count(*)
+    from supply_guide_log s
+     <where>
+   		<if test="guideNoId != null" >
+		       s.guide_no = #{guideNoId,jdbcType=INTEGER}
+		</if>
+		<if test="operatTimeBId != null" >
+		      and s.operat_time &gt;= #{operatTimeBId,jdbcType=TIMESTAMP}
+		</if>
+		<if test="operatTimeEId != null" >
+		      and s.operat_time &lt;= #{operatTimeEId,jdbcType=TIMESTAMP}
+		</if>
+		<if test="operatorId != null" >
+		      and s.operator LIKE CONCAT('%','${operatorId}','%')
+		</if>
+		<if test="descriptionId != null" >
+		      and s.description LIKE CONCAT('%','${descriptionId}','%')
+		</if>
+		<if test="typeId != null" >
+		      and s.type = #{typeId,jdbcType=INTEGER}
+		</if>
+		<if test="typeDescId != null" >
+		      and s.type_desc LIKE CONCAT('%','${typeDescId}','%')
+		</if>
+		<if test="operatorIdId != null" >
+		      and s.operator_id LIKE CONCAT('%','${operatorIdId}','%')
+		</if>
+	</where>	
+  </select>
+</mapper>

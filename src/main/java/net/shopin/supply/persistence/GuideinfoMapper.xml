@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideinfoMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.Guideinfo" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="spell" property="spell" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="guide_card" property="guideCard" jdbcType="VARCHAR" />
+    <result column="guide_bit" property="guideBit" jdbcType="INTEGER" />
+    <result column="valid_bit" property="validBit" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="present_address" property="presentAddress" jdbcType="VARCHAR" />
+    <result column="education_cart_num" property="educationCartNum" jdbcType="VARCHAR" />
+    <result column="kitas_num" property="kitasNum" jdbcType="VARCHAR" />
+    <result column="kitas_endtime" property="kitasEndtime" jdbcType="TIMESTAMP" />
+    <result column="health_cart_num" property="healthCartNum" jdbcType="VARCHAR" />
+    <result column="health_cart_endtime" property="healthCartEndtime" jdbcType="TIMESTAMP" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="stature" property="stature" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operator_time" property="operatorTime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="chest_bit" property="chestBit" jdbcType="INTEGER" />
+    <result column="deposit_bit" property="depositBit" jdbcType="INTEGER" />
+    <result column="deposit_num" property="depositNum" jdbcType="VARCHAR" />
+    <result column="guide_status" property="guideStatus" jdbcType="INTEGER" />
+    <result column="entrytime" property="entrytime" jdbcType="TIMESTAMP" />
+    <result column="leavetime" property="leavetime" jdbcType="TIMESTAMP" />
+    <result column="authorize" property="authorize" jdbcType="INTEGER" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="NewBaseResultMap" type="net.shopin.supply.domain.vo.GuideinfoVO" >
+     <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="spell" property="spell" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="guide_card" property="guideCard" jdbcType="VARCHAR" />
+    <result column="guide_bit" property="guideBit" jdbcType="INTEGER" />
+    <result column="valid_bit" property="validBit" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="present_address" property="presentAddress" jdbcType="VARCHAR" />
+    <result column="education_cart_num" property="educationCartNum" jdbcType="VARCHAR" />
+    <result column="kitas_num" property="kitasNum" jdbcType="VARCHAR" />
+    <result column="kitas_endtime" property="kitasEndtime" jdbcType="TIMESTAMP" />
+    <result column="health_cart_num" property="healthCartNum" jdbcType="VARCHAR" />
+    <result column="health_cart_endtime" property="healthCartEndtime" jdbcType="TIMESTAMP" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="stature" property="stature" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operator_time" property="operatorTime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="chest_bit" property="chestBit" jdbcType="INTEGER" />
+    <result column="deposit_bit" property="depositBit" jdbcType="INTEGER" />
+    <result column="deposit_num" property="depositNum" jdbcType="VARCHAR" />
+    <result column="guide_status" property="guideStatus" jdbcType="INTEGER" />
+    <result column="entrytime" property="entrytime" jdbcType="TIMESTAMP" />
+    <result column="leavetime" property="leavetime" jdbcType="TIMESTAMP" />
+    <result column="chestcard_number" property="chestcardNumber" jdbcType="VARCHAR" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="categroys" property="categroys" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    
+    <result column="change_supply_id" property="changeSupplyId" jdbcType="INTEGER" />
+    <result column="change_supply_name" property="changeSupplyName" jdbcType="VARCHAR" />
+    <result column="change_brand_id" property="changeBrandId" jdbcType="VARCHAR" />
+    <result column="change_brand" property="changeBrand" jdbcType="VARCHAR" />
+    <result column="change_categorys_id" property="changeCategorysId" jdbcType="INTEGER" />
+    <result column="change_categroys" property="changeCategroys" jdbcType="VARCHAR" />
+    <result column="change_supply_bit" property="changeSupplyBit" jdbcType="INTEGER" />
+    
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="operatoe_name" property="operatoeName" jdbcType="VARCHAR" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, guide_no,spell,mobile,email,guide_card, guide_bit, valid_bit,sex, name, address ,present_address,
+    education_cart_num,kitas_num,kitas_endtime,health_cart_num,health_cart_endtime,education,age,stature,
+    operator,operator_time,createtime,chest_bit,deposit_bit,deposit_num,guide_status,entrytime,leavetime,authorize,endtime
+  </sql>
+   <insert id="insert" parameterType="net.shopin.supply.domain.entity.Guideinfo" >
+    insert into supply_guideinfo 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{guideNo,jdbcType=INTEGER},#{spell,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+    	 #{email,jdbcType=VARCHAR}, #{guideCard,jdbcType=VARCHAR}, #{guideBit,jdbcType=INTEGER}, #{validBit,jdbcType=INTEGER},
+    	 #{sex,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},  #{address,jdbcType=VARCHAR},#{presentAddress,jdbcType=VARCHAR},
+    	 #{educationCartNum,jdbcType=VARCHAR},#{kitasNum,jdbcType=VARCHAR},#{kitasEndtime,jdbcType=TIMESTAMP},
+    	 #{healthCartNum,jdbcType=VARCHAR},#{healthCartEndtime,jdbcType=TIMESTAMP},#{education,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},
+     	 #{stature,jdbcType=VARCHAR},#{operator,jdbcType=VARCHAR}, #{operatorTime,jdbcType=TIMESTAMP}, 
+      	 #{createtime,jdbcType=TIMESTAMP},#{chestBit,jdbcType=INTEGER},#{depositBit,jdbcType=INTEGER}, #{depositNum,jdbcType=VARCHAR},
+      	 #{guideStatus,jdbcType=INTEGER},#{entrytime,jdbcType=TIMESTAMP}, #{leavetime,jdbcType=TIMESTAMP},
+      	 #{authorize,jdbcType=TIMESTAMP},#{endtime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+   		 <include refid="Base_Column_List" />
+    from 
+    	supply_guideinfo
+    where 
+    	sid = #{sid,jdbcType=INTEGER}
+  </select>
+   <select id="getAllGuideInfoListPage" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+		SELECT
+			info.*, p.flag,
+			p.start_time,
+			p.end_time,
+			p.operatoe_name,
+			p.operat_time
+		FROM
+			(((
+				SELECT
+					s.*, l.chestcard_number,
+					l.shop_id,
+					l.shop_name
+				FROM
+					supply_guideinfo s
+				LEFT JOIN supply_guide_logininfo l ON s.guide_no = l.guide_no
+			) info
+		 LEFT JOIN supply_permission p on info.guide_no = p.guide_no )
+		 LEFT JOIN supply_guide_supply sgs on info.guide_no = sgs.guide_no
+		)
+    	
+    <where>
+    	<if test="name != null" >
+		      and info.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and info.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+		<if test="chestcardNumber != null" >
+		      and info.chestcard_number LIKE CONCAT('%','${chestcardNumber}','%')
+		</if>
+		<if test="validBit != null" >
+		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="shopId != null" >
+		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+		<if test="supplyId != null" >
+		      and sgs.supply_id = #{supplyId,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by info.createtime desc limit #{start}, #{limit}
+  </select>
+  <select id="getAllGuideInfoList" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+
+    select 
+    	s.*,l.chestcard_number,l.shop_id,l.shop_name
+    from 
+    	supply_guideinfo s 
+    	left join 
+    	supply_guide_logininfo l
+    	on s.guide_no = l.guide_no
+    <where>
+    	<if test="name != null" >
+		      and s.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and s.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+		<if test="chestcardNumber != null" >
+		      and l.chestcard_number LIKE CONCAT('%','${chestcardNumber}','%')
+		</if>
+		<if test="validBit != null" >
+		      and s.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and s.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="shopId != null" >
+		      and l.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by s.createtime desc
+  </select>
+ <select id="getCountByParam"  parameterType="net.shopin.supply.domain.entity.Guideinfo"  resultType="int" >
+    	
+    	SELECT
+			count(*)
+		FROM
+			(((
+				SELECT
+					s.*, l.chestcard_number,
+					l.shop_id,
+					l.shop_name
+				FROM
+					supply_guideinfo s
+				LEFT JOIN supply_guide_logininfo l ON s.guide_no = l.guide_no
+			) info
+		 LEFT JOIN supply_permission p on info.guide_no = p.guide_no )
+		 LEFT JOIN supply_guide_supply sgs on info.guide_no = sgs.guide_no
+		)
+    	
+	   <where>
+	    <if test="name != null" >
+		      and info.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and info.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+		<if test="chestcardNumber != null" >
+		      and info.chestcard_number LIKE CONCAT('%','${chestcardNumber}','%')
+		</if>
+		<if test="validBit != null" >
+		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="shopId != null" >
+		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+		<if test="supplyId != null" >
+		      and sgs.supply_id = #{supplyId,jdbcType=INTEGER}
+		</if>
+	    </where>
+    </select>
+	<update id="updateValidBitStatus" parameterType="net.shopin.supply.domain.entity.Guideinfo" >
+    update  supply_guideinfo
+    <set>
+	    <if test="validBit != null" >
+		      valid_bit = #{validBit,jdbcType=INTEGER},
+		</if>
+		<if test="operatorTime != null" >
+		      operator_time = #{operatorTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="operator != null" >
+		      operator = #{operator,jdbcType=VARCHAR}
+		</if>
+    </set>
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+   <select id="selectGuideListByParam" parameterType="java.util.Map" resultType="net.shopin.supply.domain.entity.Guideinfo">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guideinfo g
+		<where>
+			g.guide_no in (
+				select 
+					gs.guide_no
+				from
+					supply_guide_supply gs
+				where
+					gs.shop_id = #{shopid} and gs.supply_id = #{shid}
+			)
+			
+		</where> 
+	</select>
+  <update id="update" parameterType="net.shopin.supply.domain.entity.Guideinfo" >
+    update supply_guideinfo
+    <set >
+      	 <if test="guideNo != null" >
+	       guide_no = #{guideNo,jdbcType=BIGINT},
+	      </if>
+		 <if test="sex != null" >
+	       sex = #{sex,jdbcType=VARCHAR},
+	      </if>
+		 <if test="name != null" >
+	         name = #{name,jdbcType=VARCHAR},
+	      </if>
+		 <if test="address != null" >
+	         address = #{address,jdbcType=VARCHAR},
+	      </if>
+		 <if test="presentAddress != null" >
+	         present_address = #{presentAddress,jdbcType=VARCHAR},
+	      </if>
+		 <if test="educationCartNum != null" >
+	         education_cart_num = #{educationCartNum,jdbcType=VARCHAR},
+	      </if>
+		 <if test="kitasNum != null" >
+	         kitas_num = #{kitasNum,jdbcType=VARCHAR},
+	      </if>
+	      <if test="kitasEndtime != null" >
+	        kitas_endtime = #{kitasEndtime,jdbcType=TIMESTAMP},
+	      </if>
+		 <if test="healthCartNum != null" >
+	        health_cart_num = #{healthCartNum,jdbcType=VARCHAR},
+	      </if>
+	      <if test="healthCartEndtime != null" >
+	        health_cart_endtime = #{healthCartEndtime},
+	      </if>
+		 <if test="education != null" >
+	        education = #{education,jdbcType=VARCHAR},
+	      </if>
+		 <if test="age != null" >
+	        age = #{age,jdbcType=VARCHAR},
+	      </if>
+		 <if test="stature != null" >
+	        stature = #{stature,jdbcType=VARCHAR},
+	      </if>
+		 <if test="spell != null" >
+	        spell = #{spell,jdbcType=VARCHAR},
+	      </if>
+	      <if test="mobile != null" >
+	        mobile = #{mobile,jdbcType=VARCHAR},
+	      </if>
+	      <if test="email != null" >
+	        email = #{email,jdbcType=VARCHAR},
+	      </if>
+	      <if test="guideCard != null" >
+	        guide_card = #{guideCard,jdbcType=VARCHAR},
+	      </if>
+	      <if test="guideBit != null" >
+	        guide_bit = #{guideBit,jdbcType=INTEGER},
+	      </if>
+	      <if test="validBit != null" >
+	        valid_bit = #{validBit,jdbcType=INTEGER},
+	      </if>
+	      <if test="operator != null" >
+	        operator = #{operator,jdbcType=VARCHAR},
+	      </if>
+	      <if test="operatorTime != null" >
+	        operator_time = #{operatorTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="createtime != null" >
+	        createtime = #{createtime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="chestBit != null" >
+	        chest_bit = #{chestBit,jdbcType=INTEGER},
+	      </if>
+	      <if test="depositBit != null" >
+	        deposit_bit = #{depositBit,jdbcType=INTEGER},
+	      </if>
+	      <if test="depositNum != null" >
+	        deposit_num = #{depositNum,jdbcType=VARCHAR},
+	      </if>
+	      <if test="entrytime != null" >
+	        entrytime = #{entrytime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="leavetime != null" >
+	        leavetime = #{leavetime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="guideStatus != null" >
+	        guide_status = #{guideStatus,jdbcType=INTEGER}
+	      </if>
+    </set>
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+   <select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.Guideinfo" resultMap="BaseResultMap">
+  	select 
+		<include refid="Base_Column_List" />
+	from 
+		supply_guideinfo
+	<where>
+		 <if test="sid != null" >
+	       and sid = #{sid,jdbcType=BIGINT}
+	      </if>
+		 <if test="guideNo != null" >
+	       and guide_no = #{guideNo,jdbcType=BIGINT}
+	      </if>
+		 <if test="sex != null" >
+	       and sex = #{sex,jdbcType=VARCHAR}
+	      </if>
+		 <if test="name != null" >
+	        and name = #{name,jdbcType=VARCHAR}
+	      </if>
+		 <if test="spell != null" >
+	        and spell = #{spell,jdbcType=VARCHAR}
+	      </if>
+	      <if test="mobile != null" >
+	        and mobile = #{mobile,jdbcType=VARCHAR}
+	      </if>
+	      <if test="email != null" >
+	        and email = #{email,jdbcType=VARCHAR}
+	      </if>
+	      <if test="guideCard != null" >
+	        and guide_card = #{guideCard,jdbcType=VARCHAR}
+	      </if>
+	      <if test="guideBit != null" >
+	        and guide_bit = #{guideBit,jdbcType=INTEGER}
+	      </if>
+	      <if test="validBit != null" >
+	        and valid_bit = #{validBit,jdbcType=INTEGER}
+	      </if>
+	      <if test="operator != null" >
+	        and operator = #{operator,jdbcType=VARCHAR}
+	      </if>
+	      <if test="operatorTime != null" >
+	        and operator_time = #{operatorTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="createtime != null" >
+	        and createtime = #{createtime,jdbcType=TIMESTAMP}
+	      </if>
+	</where>
+    	order by guide_no desc
+  </select>
+    <delete id="delete" parameterType="java.lang.Integer">
+    	delete from supply_guideinfo
+    	where sid=#{sid,jdbcType=BIGINT}
+    </delete>
+    <select id="getAllGuideInfoListByShopPage" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+
+    select 
+    	guide.*,login.shop_name,login.shop_id,login.shop_name,login.chestcard_number
+    from 
+    	supply_guideinfo guide,supply_guide_logininfo login
+    <where>
+    	guide.guide_no = login.guide_no
+    	<if test="shopId != null" >
+		      and login.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+    	<if test="validBit != null" >
+		      and guide.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+    	<if test="guideStatusId != null" >
+		      and guide.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+    	<if test="healthCartEndtime != null" >
+		      and guide.health_cart_endtime &lt;= #{healthCartEndtime,jdbcType=INTEGER}
+		</if>
+    	<if test="kitasEndtime != null" >
+		      and guide.kitas_endtime &lt;= #{kitasEndtime,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by guide.createtime desc limit #{start}, #{limit}
+  </select>
+    <select id="getAllGuideInfoListByShop" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+
+    select 
+    	guide.*,login.shop_name,login.shop_id,login.shop_name,login.chestcard_number
+    from 
+    	supply_guideinfo guide,supply_guide_logininfo login
+    <where>
+    	guide.guide_no = login.guide_no
+    	<if test="shopId != null" >
+		      and login.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+    	<if test="validBit != null" >
+		      and guide.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+    	<if test="guideStatusId != null" >
+		      and guide.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+    	<if test="healthCartEndtime != null" >
+		      and guide.health_cart_endtime &lt;= #{healthCartEndtime,jdbcType=INTEGER}
+		</if>
+    	<if test="kitasEndtime != null" >
+		      and guide.kitas_endtime &lt;= #{kitasEndtime,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by guide.createtime desc
+  </select>
+ <select id="getCountByParamByShop"  parameterType="java.util.Map"  resultType="int" >
+	  select 
+	    count(*)
+	  from 
+	  	supply_guideinfo guide,supply_guide_logininfo login
+	   <where>
+	    	 guide.guide_no = login.guide_no
+	    	<if test="shopId != null" >
+			      and login.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+	    	<if test="validBit != null" >
+			      and guide.valid_bit = #{validBit,jdbcType=INTEGER}
+			</if>
+			<if test="guideStatusId != null" >
+			      and guide.guide_status = #{guideStatusId,jdbcType=INTEGER}
+			</if>
+			<if test="healthCartEndtime != null" >
+			      and guide.health_cart_endtime &lt;= #{healthCartEndtime,jdbcType=INTEGER}
+			</if>
+	    	<if test="kitasEndtime != null" >
+			      and guide.kitas_endtime &lt;= #{kitasEndtime,jdbcType=INTEGER}
+			</if>
+	    </where>
+    </select>
+    
+    <select id="getAllGuideInfoListBySupplyPage" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+    select info.*,p.flag,p.start_time,p.end_time,p.operatoe_name,p.operat_time from (select 
+    	guide.*, supply.supply_id,supply.supply_name,supply.brand,supply.categroys,supply.shop_name,supply.shop_id,supply.valid_bit as supplyVal,logininfo.chestcard_number
+    from 
+    	supply_guideinfo guide,supply_guide_supply supply,supply_guide_logininfo logininfo
+    WHERE
+    guide.guide_no = supply.guide_no and supply.valid_bit = 1 and logininfo.guide_no=supply.guide_no) info LEFT JOIN supply_permission p on info.guide_no = p.guide_no
+    <where>
+    	<if test="supplyId != null" >
+		      and info.supply_id = #{supplyId,jdbcType=INTEGER}
+		</if>
+    	<if test="brandId != null" >
+		      and info.brand_id = #{brandId,jdbcType=INTEGER}
+		</if>
+    	<if test="shopId != null" >
+		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+		<if test="validBit != null" >
+		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="name != null" >
+		      and info.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and info.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+    	<if test="flag != null" >
+		      and p.flag = #{flag,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by info.createtime desc limit #{start}, #{limit}
+  </select>
+ <select id="getCountByParamBySupply"  parameterType="java.util.Map"  resultType="int" >
+	select count(*) from (select 
+    	guide.*, supply.supply_id,supply.supply_name,supply.brand,supply.categroys,supply.shop_name,supply.shop_id,supply.valid_bit as supplyVal
+    from 
+    	supply_guideinfo guide,supply_guide_supply supply
+    WHERE
+    guide.guide_no = supply.guide_no and supply.valid_bit = 1) info LEFT JOIN supply_permission p on info.guide_no = p.guide_no
+	   <where>
+		    <if test="supplyId != null" >
+			      and info.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+	    	<if test="brandId != null" >
+			      and info.brand_id = #{brandId,jdbcType=INTEGER}
+			</if>
+	    	<if test="shopId != null" >
+			      and info.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="validBit != null" >
+			      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+			</if>
+			<if test="guideStatusId != null" >
+			      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+			</if>
+			<if test="name != null" >
+			      and info.name LIKE CONCAT('%','${name}','%')
+			</if>
+	    	<if test="spell != null" >
+			      and info.spell LIKE CONCAT('%','${spell}','%')
+			</if>
+	    	<if test="flag != null" >
+			      and p.flag = #{flag,jdbcType=INTEGER}
+			</if>
+	    </where>
+    </select>
+    <select id="getAllGuideInfoListBySupply" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+    select info.*,p.flag,p.start_time,p.end_time,p.operatoe_name,p.operat_time from (select 
+    	guide.*, supply.supply_id,supply.supply_name,supply.brand,supply.categroys,supply.shop_name,supply.shop_id,l.chestcard_number
+    from 
+    	supply_guideinfo guide,supply_guide_supply supply,supply_guide_logininfo l
+    WHERE
+    guide.guide_no = supply.guide_no and guide.guide_no=l.guide_no and supply.valid_bit = 1) info LEFT JOIN supply_permission p on info.guide_no = p.guide_no
+    <where>
+   		<if test="shopId != null" >
+		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+    	<if test="supplyId != null" >
+		      and info.supply_id = #{supplyId,jdbcType=INTEGER}
+		</if>
+    	<if test="brandId != null" >
+		      and info.brand_id = #{brandId,jdbcType=INTEGER}
+		</if>
+		<if test="validBit != null" >
+		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="name != null" >
+		      and info.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and info.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+		<if test="flag != null" >
+		      and p.flag = #{flag,jdbcType=INTEGER}
+		</if>
+    </where>
+    order by info.createtime desc
+  </select>
+  
+  <select id="getAllGuideInfoListForAuthorizeGuideJob" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
+    select info.*,p.flag,p.start_time,p.end_time,p.operatoe_name,p.operat_time from (select 
+    	guide.*, supply.supply_id,supply.supply_name,supply.brand,supply.categroys,supply.shop_name,supply.shop_id,l.chestcard_number
+    from 
+    	supply_guideinfo guide,supply_guide_supply supply,supply_guide_logininfo l
+    WHERE
+    guide.guide_no = supply.guide_no and guide.guide_no=l.guide_no and supply.valid_bit = 1) info LEFT JOIN supply_permission p on info.guide_no = p.guide_no
+    <where>
+   		<if test="shopId != null" >
+		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+    	<if test="supplyId != null" >
+		      and info.supply_id = #{supplyId,jdbcType=INTEGER}
+		</if>
+    	<if test="brandId != null" >
+		      and info.brand_id = #{brandId,jdbcType=INTEGER}
+		</if>
+		<if test="validBit != null" >
+		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		</if>
+		<if test="guideStatusId != null" >
+		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		</if>
+		<if test="name != null" >
+		      and info.name LIKE CONCAT('%','${name}','%')
+		</if>
+    	<if test="spell != null" >
+		      and info.spell LIKE CONCAT('%','${spell}','%')
+		</if>
+		<if test="flag != null" >
+		      and p.flag = #{flag,jdbcType=INTEGER}
+		</if>
+		<if test="endTime != null" >
+		      and p.end_time &gt;= DATE_FORMAT(#{endTime,jdbcType=TIMESTAMP},'%Y-%m-%d %T')
+		</if>
+		<if test="sendFlag == 'bj'">
+			  and info.shop_id in('1001','1011','1002','1003','1004','1005','1006','1007','1008','1010','1011')
+		</if>
+		<if test="sendFlag == 'hz'">
+			  and info.shop_id in('1301','1311')
+		</if>
+    </where>
+    order by p.operat_time desc
+  </select>
+  
+  <update id="updateByGuideNo" parameterType="net.shopin.supply.domain.entity.Guideinfo" >
+   		 update supply_guideinfo
+    <set>
+		<if test="operator != null" >
+		      operator = #{operator,jdbcType=VARCHAR},
+		</if>
+		<if test="operatorTime != null" >
+		      operator_time = #{operatorTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="authorize != null" >
+		      authorize = #{authorize,jdbcType=INTEGER},
+		</if>
+		<if test="endtime != null" >
+		      endtime = #{endtime,jdbcType=VARCHAR}
+		</if>
+    </set>
+    where guide_no = #{guideNo,jdbcType=BIGINT}
+  </update>
+  <select id="selectByGuideNo" resultMap="NewBaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    	s.*,p.flag,p.end_time
+    from 
+    	supply_guideinfo s 
+    	left join 
+    	supply_permission p
+    	on s.guide_no = p.guide_no
+	 where s.guide_no = #{guideNo,jdbcType=INTEGER}
+  </select>
+</mapper>

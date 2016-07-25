@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.expense.mapper.ExpenseSupplyAreaMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.expense.po.ExpenseSupplyArea" >
+    <id column="sid" property="sid" jdbcType="BIGINT" />
+    <result column="shop_sid" property="shopSid" jdbcType="VARCHAR" />
+    <result column="category_sid" property="categorySid" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="supply_sid" property="supplySid" jdbcType="VARCHAR" />
+    <result column="cal_date" property="calDate" jdbcType="TIMESTAMP" />
+    <result column="brand_sid" property="brandSid" jdbcType="VARCHAR" />
+    <result column="cal_area" property="calArea" jdbcType="DOUBLE" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sid, shop_sid, category_sid, category_name, supply_sid, cal_date, brand_sid, cal_area, 
+    supply_name, brand_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.shopin.expense.po.ExpenseSupplyAreaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from expense_supply_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from expense_supply_area
+    where sid = #{sid,jdbcType=BIGINT}
+  </select>
+  <select id="querySupplyAreaInfo" resultMap="BaseResultMap" parameterType="net.shopin.expense.po.QueryPo">
+  	select
+  	shop_sid, supply_sid, brand_sid
+  	from expense_supply_area
+  	<where>
+  		<if test="shopSid!=null and shopSid!=''">
+  			and shop_sid = #{shopSid}
+  		</if>
+  		<if test="supplySid!=null and supplySid!=''">
+  			and supply_sid = #{supplySid}
+  		</if>
+  		<if test="brandSid!=null and brandSid!=''">
+  			and brand_sid = #{brandSid}
+  		</if>
+  		<if test="month!=null and month!=''">
+  			and left(cal_date, 7) = #{month}
+  		</if>
+  		<if test="purchaseSid!=null and purchaseSid!=''">
+  			and ASCII(category_sid) in
+  			(
+	  			select category_sid
+	  			from purchase_category
+	  			where
+	  			purchase_center_sid = #{purchaseSid}
+	  		)
+  		</if>
+  		and cal_area &gt; 0.0
+  	</where>
+  	group by shop_sid, supply_sid, brand_sid
+  </select>
+  <select id="querySupplyLayerAreaInfo" resultMap="BaseResultMap" parameterType="net.shopin.expense.po.QueryPo">
+  	select
+  	shop_sid, supply_name, supply_sid
+  	from expense_supply_area
+  	<where>
+  		<if test="shopSid!=null and shopSid!=''">
+  			and shop_sid = #{shopSid}
+  		</if>
+  		<if test="supplySid!=null and supplySid!=''">
+  			and supply_sid = #{supplySid}
+  		</if>
+  		<if test="month!=null and month!=''">
+  			and left(cal_date, 7) = #{month}
+  		</if>
+  		<if test="purchaseSid!=null and purchaseSid!=''">
+  			and ASCII(category_sid) in
+  			(
+	  			select category_sid
+	  			from purchase_category
+	  			where
+	  			purchase_center_sid = #{purchaseSid}
+	  		)
+  		</if>
+  		and cal_area &gt; 0.0
+  	</where>
+  	group by shop_sid, supply_name, supply_sid
+  </select>
+  <select id="querySupplyAreaDetail" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from expense_supply_area
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="brandSid!=null and brandSid!=''">
+    		and brand_sid = #{brandSid}
+    	</if>
+    	<if test="month!=null and month!=''">
+    		and left(cal_date, 7) = #{month}
+    	</if>
+    	and cal_area &gt; 0.0
+    </where>
+    order by cal_date
+  </select>
+  <select id="querySupplyLayerAreaDetail" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from expense_supply_area
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="month!=null and month!=''">
+    		and left(cal_date, 7) = #{month}
+    	</if>
+    	and cal_area &gt; 0.0
+    </where>
+    order by cal_date
+  </select>
+   <select id="getSupplyAreaForDay" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from expense_supply_area
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="day!=null and day!=''">
+    		and cal_date = #{day}
+    	</if>
+    	and cal_area &gt; 0.0
+    </where>
+    order by cal_date
+  </select>
+  <select id="querySupplyAreaDetailCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select 
+    count(*)
+    from expense_supply_area
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="brandSid!=null and brandSid!=''">
+    		and brand_sid = #{brandSid}
+    	</if>
+    	<if test="calDate!=null and calDate!=''">
+    		and left(cal_date, 10) = #{calDate}
+    	</if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from expense_supply_area
+    where sid = #{sid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.shopin.expense.po.ExpenseSupplyAreaExample" >
+    delete from expense_supply_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.shopin.expense.po.ExpenseSupplyArea" >
+    insert into expense_supply_area (shop_sid, category_sid, 
+      category_name, supply_sid, cal_date, 
+      brand_sid, cal_area, supply_name, 
+      brand_name)
+    values (#{shopSid,jdbcType=VARCHAR}, #{categorySid,jdbcType=VARCHAR}, 
+      #{categoryName,jdbcType=VARCHAR}, #{supplySid,jdbcType=VARCHAR}, #{calDate,jdbcType=TIMESTAMP}, 
+      #{brandSid,jdbcType=VARCHAR}, #{calArea,jdbcType=DOUBLE}, #{supplyName,jdbcType=VARCHAR}, 
+      #{brandName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.shopin.expense.po.ExpenseSupplyArea" >
+    insert into expense_supply_area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="shopSid != null" >
+        shop_sid,
+      </if>
+      <if test="categorySid != null" >
+        category_sid,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="supplySid != null" >
+        supply_sid,
+      </if>
+      <if test="calDate != null" >
+        cal_date,
+      </if>
+      <if test="brandSid != null" >
+        brand_sid,
+      </if>
+      <if test="calArea != null" >
+        cal_area,
+      </if>
+      <if test="supplyName != null" >
+        supply_name,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=BIGINT},
+      </if>
+      <if test="shopSid != null" >
+        #{shopSid,jdbcType=VARCHAR},
+      </if>
+      <if test="categorySid != null" >
+        #{categorySid,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplySid != null" >
+        #{supplySid,jdbcType=VARCHAR},
+      </if>
+      <if test="calDate != null" >
+        #{calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandSid != null" >
+        #{brandSid,jdbcType=VARCHAR},
+      </if>
+      <if test="calArea != null" >
+        #{calArea,jdbcType=DOUBLE},
+      </if>
+      <if test="supplyName != null" >
+        #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.shopin.expense.po.ExpenseSupplyAreaExample" resultType="java.lang.Integer" >
+    select count(*) from expense_supply_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update expense_supply_area
+    <set >
+      <if test="record.sid != null" >
+        sid = #{record.sid,jdbcType=BIGINT},
+      </if>
+      <if test="record.shopSid != null" >
+        shop_sid = #{record.shopSid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categorySid != null" >
+        category_sid = #{record.categorySid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryName != null" >
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplySid != null" >
+        supply_sid = #{record.supplySid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calDate != null" >
+        cal_date = #{record.calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.brandSid != null" >
+        brand_sid = #{record.brandSid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calArea != null" >
+        cal_area = #{record.calArea,jdbcType=DOUBLE},
+      </if>
+      <if test="record.supplyName != null" >
+        supply_name = #{record.supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandName != null" >
+        brand_name = #{record.brandName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update expense_supply_area
+    set sid = #{record.sid,jdbcType=BIGINT},
+      shop_sid = #{record.shopSid,jdbcType=VARCHAR},
+      category_sid = #{record.categorySid,jdbcType=VARCHAR},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      supply_sid = #{record.supplySid,jdbcType=VARCHAR},
+      cal_date = #{record.calDate,jdbcType=TIMESTAMP},
+      brand_sid = #{record.brandSid,jdbcType=VARCHAR},
+      cal_area = #{record.calArea,jdbcType=DOUBLE},
+      supply_name = #{record.supplyName,jdbcType=VARCHAR},
+      brand_name = #{record.brandName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.shopin.expense.po.ExpenseSupplyArea" >
+    update expense_supply_area
+    <set >
+      <if test="shopSid != null" >
+        shop_sid = #{shopSid,jdbcType=VARCHAR},
+      </if>
+      <if test="categorySid != null" >
+        category_sid = #{categorySid,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplySid != null" >
+        supply_sid = #{supplySid,jdbcType=VARCHAR},
+      </if>
+      <if test="calDate != null" >
+        cal_date = #{calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandSid != null" >
+        brand_sid = #{brandSid,jdbcType=VARCHAR},
+      </if>
+      <if test="calArea != null" >
+        cal_area = #{calArea,jdbcType=DOUBLE},
+      </if>
+      <if test="supplyName != null" >
+        supply_name = #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.shopin.expense.po.ExpenseSupplyArea" >
+    update expense_supply_area
+    set shop_sid = #{shopSid,jdbcType=VARCHAR},
+      category_sid = #{categorySid,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      supply_sid = #{supplySid,jdbcType=VARCHAR},
+      cal_date = #{calDate,jdbcType=TIMESTAMP},
+      brand_sid = #{brandSid,jdbcType=VARCHAR},
+      cal_area = #{calArea,jdbcType=DOUBLE},
+      supply_name = #{supplyName,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+</mapper>

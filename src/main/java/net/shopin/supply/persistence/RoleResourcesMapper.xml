@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.shopin.supply.persistence.RoleResourcesMapper">
+	<resultMap id="RoleResResultMap" type="net.shopin.supply.domain.entity.RoleResources" >
+    <id column="sid" property="sid" jdbcType="BIGINT" />
+    <result column="role_sid" property="roleSid" jdbcType="BIGINT" />
+    <result column="rs_sid" property="rsSid" jdbcType="BIGINT" />
+  	</resultMap>
+	<sql id="Base_Column_List">
+		sid,role_sid,rs_sid
+	</sql>
+	<select id="getRoleResourcesByParam" parameterType="net.shopin.supply.domain.entity.RoleResources"
+	 resultMap="RoleResResultMap">
+		select *
+		from
+		supply_role_resources
+		<where>
+			<if test="sid != null">
+				sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="roleSid != null">
+				role_sid = #{roleSid,jdbcType=BIGINT}
+			</if>
+			<if test="rsSid != null">
+				rs_sid = #{rsSid,jdbcType=BIGINT}
+			</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="net.shopin.supply.domain.entity.RoleResources" useGeneratedKeys="true" keyProperty="sid">
+		insert into supply_role_resources(
+			role_sid,rs_sid
+		)values(
+			#{roleSid,jdbcType=BIGINT},
+			#{rsSid,jdbcType=BIGINT}
+		)
+	</insert>
+	<delete id="deleteResources" parameterType="net.shopin.supply.domain.entity.RoleResources">
+		delete from supply_role_resources
+		<where>
+			<if test="sid != null">
+				sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="roleSid != null">
+				role_sid = #{roleSid,jdbcType=BIGINT}
+			</if>
+		</where>
+	</delete>
+</mapper>

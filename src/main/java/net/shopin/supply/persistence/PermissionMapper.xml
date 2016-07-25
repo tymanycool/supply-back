@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.Permission" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operatoe_name" property="operatoeName" jdbcType="VARCHAR" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, guide_no, type, type_desc, start_time, end_time, operator_id, operatoe_name, 
+    operat_time, creattime,flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from supply_permission
+    where sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="net.shopin.supply.domain.entity.Permission" >
+    select 
+    <include refid="Base_Column_List" />
+    from supply_permission
+    <where>
+		 <if test="guideNo != null" >
+	       and guide_no = #{guideNo,jdbcType=BIGINT}
+	     </if>
+	 </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from supply_permission
+    where sid = #{sid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.Permission" >
+    insert into supply_permission (sid, guide_no, type, 
+      type_desc, start_time, end_time, 
+      operator_id, operatoe_name, operat_time, 
+      creattime,flag)
+    values (#{sid,jdbcType=INTEGER}, #{guideNo,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{typeDesc,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=VARCHAR}, 
+      #{operatorId,jdbcType=VARCHAR}, #{operatoeName,jdbcType=VARCHAR}, #{operatTime,jdbcType=TIMESTAMP}, 
+      #{creattime,jdbcType=TIMESTAMP},#{flag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="net.shopin.supply.domain.entity.Permission" >
+    insert into supply_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="guideNo != null" >
+        guide_no,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="typeDesc != null" >
+        type_desc,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operatoeName != null" >
+        operatoe_name,
+      </if>
+      <if test="operatorTime != null" >
+        operat_time,
+      </if>
+      <if test="creattime != null" >
+        creattime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="guideNo != null" >
+        #{guideNo,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeDesc != null" >
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatoeName != null" >
+        #{operatoeName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        #{operatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creattime != null" >
+        #{creattime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.shopin.supply.domain.entity.Permission" >
+    update supply_permission
+    <set >
+      <if test="guideNo != null" >
+        guide_no = #{guideNo,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeDesc != null" >
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatoeName != null" >
+        operatoe_name = #{operatoeName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        operat_time = #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creattime != null" >
+        creattime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.shopin.supply.domain.entity.Permission" >
+    update supply_permission
+      <set>
+		<if test="startTime != null" >
+		      start_time = #{startTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="endTime != null" >
+		      end_time = #{endTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="operatorId != null" >
+		      operator_id = #{operatorId,jdbcType=VARCHAR},
+		</if>
+		<if test="operatoeName != null" >
+		      operatoe_name = #{operatoeName,jdbcType=VARCHAR},
+		</if>
+		<if test="operatTime != null" >
+		      operat_time = #{operatTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="flag != null" >
+		      flag = #{flag,jdbcType=INTEGER},
+		</if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

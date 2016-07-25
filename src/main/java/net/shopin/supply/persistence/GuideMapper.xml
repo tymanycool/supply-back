@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.Guide" >
+    <id column="SID" property="sid" jdbcType="INTEGER" />
+    <result column="GUIDE_NAME" property="guideName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PASSWORD" property="loginPassword" jdbcType="VARCHAR" />
+    <result column="SPELL" property="spell" jdbcType="VARCHAR" />
+    <result column="GUIDE_PHONE" property="guidePhone" jdbcType="VARCHAR" />
+    <result column="GUIDE_EMAIL" property="guideEmail" jdbcType="VARCHAR" />
+    <result column="GUIDE_CARD" property="guideCard" jdbcType="VARCHAR" />
+    <result column="SHOP_ID" property="shopId" jdbcType="VARCHAR" />
+    <result column="SHOP_NAME" property="shopName" jdbcType="VARCHAR" />
+    <result column="SUPPLY_BIT" property="supplyBit" jdbcType="VARCHAR" />
+    <result column="GUIDE_BIT" property="guideBit" jdbcType="VARCHAR" />
+    <result column="VALID_BIT" property="validBit" jdbcType="VARCHAR" />
+    <result column="OPT_USER_ID" property="optUserId" jdbcType="VARCHAR" />
+    <result column="OPT_USER_NAME" property="optUserName" jdbcType="VARCHAR" />
+    <result column="OPT_USER_TIME" property="optUserTime" jdbcType="TIMESTAMP" />
+    <result column="roleID" property="roleid" jdbcType="INTEGER" />
+    <result column="authorize" property="authorize" jdbcType="INTEGER" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SID, GUIDE_NAME, LOGIN_PASSWORD, SPELL, GUIDE_PHONE, GUIDE_EMAIL, GUIDE_CARD, SHOP_ID, 
+    SHOP_NAME, SUPPLY_BIT, GUIDE_BIT, VALID_BIT, OPT_USER_ID, OPT_USER_NAME, OPT_USER_TIME, 
+    roleID, authorize, endtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from guide
+    where SID = #{sid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from guide
+    where SID = #{sid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.Guide" >
+    insert into guide (SID, GUIDE_NAME, LOGIN_PASSWORD, 
+      SPELL, GUIDE_PHONE, GUIDE_EMAIL, 
+      GUIDE_CARD, SHOP_ID, SHOP_NAME, 
+      SUPPLY_BIT, GUIDE_BIT, VALID_BIT, 
+      OPT_USER_ID, OPT_USER_NAME, OPT_USER_TIME, 
+      roleID, authorize, endtime
+      )
+    values (#{sid,jdbcType=INTEGER}, #{guideName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{spell,jdbcType=VARCHAR}, #{guidePhone,jdbcType=VARCHAR}, #{guideEmail,jdbcType=VARCHAR}, 
+      #{guideCard,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
+      #{supplyBit,jdbcType=VARCHAR}, #{guideBit,jdbcType=VARCHAR}, #{validBit,jdbcType=VARCHAR}, 
+      #{optUserId,jdbcType=VARCHAR}, #{optUserName,jdbcType=VARCHAR}, #{optUserTime,jdbcType=TIMESTAMP}, 
+      #{roleid,jdbcType=INTEGER}, #{authorize,jdbcType=INTEGER}, #{endtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.shopin.supply.domain.entity.Guide" >
+    insert into guide
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        SID,
+      </if>
+      <if test="guideName != null" >
+        GUIDE_NAME,
+      </if>
+      <if test="loginPassword != null" >
+        LOGIN_PASSWORD,
+      </if>
+      <if test="spell != null" >
+        SPELL,
+      </if>
+      <if test="guidePhone != null" >
+        GUIDE_PHONE,
+      </if>
+      <if test="guideEmail != null" >
+        GUIDE_EMAIL,
+      </if>
+      <if test="guideCard != null" >
+        GUIDE_CARD,
+      </if>
+      <if test="shopId != null" >
+        SHOP_ID,
+      </if>
+      <if test="shopName != null" >
+        SHOP_NAME,
+      </if>
+      <if test="supplyBit != null" >
+        SUPPLY_BIT,
+      </if>
+      <if test="guideBit != null" >
+        GUIDE_BIT,
+      </if>
+      <if test="validBit != null" >
+        VALID_BIT,
+      </if>
+      <if test="optUserId != null" >
+        OPT_USER_ID,
+      </if>
+      <if test="optUserName != null" >
+        OPT_USER_NAME,
+      </if>
+      <if test="optUserTime != null" >
+        OPT_USER_TIME,
+      </if>
+      <if test="roleid != null" >
+        roleID,
+      </if>
+      <if test="authorize != null" >
+        authorize,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="guideName != null" >
+        #{guideName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="spell != null" >
+        #{spell,jdbcType=VARCHAR},
+      </if>
+      <if test="guidePhone != null" >
+        #{guidePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="guideEmail != null" >
+        #{guideEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="guideCard != null" >
+        #{guideCard,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyBit != null" >
+        #{supplyBit,jdbcType=VARCHAR},
+      </if>
+      <if test="guideBit != null" >
+        #{guideBit,jdbcType=VARCHAR},
+      </if>
+      <if test="validBit != null" >
+        #{validBit,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserId != null" >
+        #{optUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserName != null" >
+        #{optUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserTime != null" >
+        #{optUserTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="authorize != null" >
+        #{authorize,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.shopin.supply.domain.entity.Guide" >
+    update guide
+    <set >
+      <if test="guideName != null" >
+        GUIDE_NAME = #{guideName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="spell != null" >
+        SPELL = #{spell,jdbcType=VARCHAR},
+      </if>
+      <if test="guidePhone != null" >
+        GUIDE_PHONE = #{guidePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="guideEmail != null" >
+        GUIDE_EMAIL = #{guideEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="guideCard != null" >
+        GUIDE_CARD = #{guideCard,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        SHOP_ID = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        SHOP_NAME = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyBit != null" >
+        SUPPLY_BIT = #{supplyBit,jdbcType=VARCHAR},
+      </if>
+      <if test="guideBit != null" >
+        GUIDE_BIT = #{guideBit,jdbcType=VARCHAR},
+      </if>
+      <if test="validBit != null" >
+        VALID_BIT = #{validBit,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserId != null" >
+        OPT_USER_ID = #{optUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserName != null" >
+        OPT_USER_NAME = #{optUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="optUserTime != null" >
+        OPT_USER_TIME = #{optUserTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleid != null" >
+        roleID = #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="authorize != null" >
+        authorize = #{authorize,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.shopin.supply.domain.entity.Guide" >
+    update guide
+    set GUIDE_NAME = #{guideName,jdbcType=VARCHAR},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      SPELL = #{spell,jdbcType=VARCHAR},
+      GUIDE_PHONE = #{guidePhone,jdbcType=VARCHAR},
+      GUIDE_EMAIL = #{guideEmail,jdbcType=VARCHAR},
+      GUIDE_CARD = #{guideCard,jdbcType=VARCHAR},
+      SHOP_ID = #{shopId,jdbcType=VARCHAR},
+      SHOP_NAME = #{shopName,jdbcType=VARCHAR},
+      SUPPLY_BIT = #{supplyBit,jdbcType=VARCHAR},
+      GUIDE_BIT = #{guideBit,jdbcType=VARCHAR},
+      VALID_BIT = #{validBit,jdbcType=VARCHAR},
+      OPT_USER_ID = #{optUserId,jdbcType=VARCHAR},
+      OPT_USER_NAME = #{optUserName,jdbcType=VARCHAR},
+      OPT_USER_TIME = #{optUserTime,jdbcType=TIMESTAMP},
+      roleID = #{roleid,jdbcType=INTEGER},
+      authorize = #{authorize,jdbcType=INTEGER},
+      endtime = #{endtime,jdbcType=TIMESTAMP}
+    where SID = #{sid,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByParam" parameterType="java.util.Map" resultType="net.shopin.supply.domain.entity.Guide">
+		select
+			g.SID sid,
+			g.GUIDE_NAME guideName,
+			g.LOGIN_PASSWORD loginPassword,
+			g.SPELL spell,
+			g.GUIDE_PHONE guidePhone,
+			g.GUIDE_EMAIL guideEmail,
+			g.GUIDE_CARD guideCard,
+			g.SHOP_ID shopId,
+			g.SHOP_NAME shopName,
+			g.SUPPLY_BIT supplyBit,
+			g.GUIDE_BIT guideBit,
+			g.VALID_BIT validBit,
+			g.OPT_USER_ID optUserId,
+			g.OPT_USER_NAME optUserName,
+			g.OPT_USER_TIME optUserTime,
+			g.roleID roleid,
+			g.authorize authorize,
+			g.endtime endtime
+		from
+			guide g,
+			guideinfo i
+		<where>
+			g.SID = i.GUIDE_ID
+			<if test="shopid != null">
+				and g.SHOP_ID = #{shopid}
+			</if>
+			<if test="shid != null">
+				and i.SH_ID = #{shid}
+			</if>
+			<if test="guideid != null">
+				and i.GUIDE_ID = #{guideid}
+			</if>
+		</where> 
+	</select>
+</mapper>

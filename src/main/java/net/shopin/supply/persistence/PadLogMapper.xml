@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.PadLogMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.PadLog" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="operator_sid" property="operatorSid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, pad_no, operat_time, operator, description,operator_sid
+  </sql>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.PadLog" >
+    insert into supply_pad_log 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{padNo,jdbcType=VARCHAR}, #{operatTime,jdbcType=TIMESTAMP}, 
+     	 #{operator,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{operatorSid,jdbcType=INTEGER}
+     	 )
+  </insert>
+  <select id="selectListByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  SELECT
+	  	<include refid="Base_Column_List"></include>
+	  FROM 
+	  	supply_pad_log
+	  <where>
+	  	<if test="sid !=null and sid !='' ">
+	  		and sid = #{sid,jdbcType=INTEGER}
+	  	</if>
+	  	<if test="padNo !=null and padNo !='' ">
+	  		and pad_no = #{padNo,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="operatTime !=null and operatTime !='' ">
+	  		and operat_time = #{operatTime,jdbcType=TIMESTAMP}
+	  	</if>
+	  	<if test="operator !=null and operator !='' ">
+	  		and operator = #{operator,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="description !=null and description !='' ">
+	  		and description = #{description,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="operatorSid !=null and operatorSid !='' ">
+	  		and operator_sid = #{operatorSid,jdbcType=INTEGER}
+	  	</if>
+	  </where>
+  </select>
+</mapper>

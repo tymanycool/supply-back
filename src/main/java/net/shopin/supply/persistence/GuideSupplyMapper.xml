@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideSupplyMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.GuideSupply" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="brand_ssd_id" property="brandSsdSid" jdbcType="VARCHAR" />
+    <result column="categroys" property="categroys" jdbcType="VARCHAR" />
+    <result column="categorys_id" property="categorysId" jdbcType="INTEGER" />
+    <result column="change_supply_id" property="changeSupplyId" jdbcType="INTEGER" />
+    <result column="change_supply_name" property="changeSupplyName" jdbcType="VARCHAR" />
+    <result column="change_brand_id" property="changeBrandId" jdbcType="VARCHAR" />
+    <result column="change_brand_ssd_id" property="changeBrandSsdId" jdbcType="VARCHAR" />
+    <result column="change_brand" property="changeBrand" jdbcType="VARCHAR" />
+    <result column="change_categorys_id" property="changeCategorysId" jdbcType="INTEGER" />
+    <result column="change_categroys" property="changeCategroys" jdbcType="VARCHAR" />
+    <result column="valid_bit" property="validBit" jdbcType="INTEGER" />
+    <result column="change_supply_bit" property="changeSupplyBit" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, supply_id, supply_name,guide_no, shop_id, shop_name,brand,brand_id,brand_ssd_id,categroys,categorys_id,change_supply_id,
+    change_supply_name,change_brand_id,change_brand_ssd_id,change_brand,change_categorys_id,change_categroys,valid_bit,change_supply_bit
+  </sql>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.GuideSupply" >
+    insert into supply_guide_supply 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{supplyId,jdbcType=INTEGER},#{supplyName,jdbcType=VARCHAR},#{guideNo,jdbcType=INTEGER}, 
+     	 #{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR},#{brand,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+     	 #{brandSsdSid,jdbcType=VARCHAR},#{categroys,jdbcType=VARCHAR}, #{categorysId,jdbcType=INTEGER},#{changeSupplyId,jdbcType=INTEGER},
+     	 #{changeSupplyName,jdbcType=VARCHAR},#{changeBrandId,jdbcType=VARCHAR},#{changeBrandSsdId,jdbcType=VARCHAR},#{changeBrand,jdbcType=VARCHAR},
+     	 #{changeCategorysId,jdbcType=INTEGER},#{changeCategroys,jdbcType=VARCHAR},#{validBit,jdbcType=INTEGER},
+     	 #{changeSupplyBit,jdbcType=INTEGER}
+     	 )
+  </insert>
+  <select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_supply
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="guideNo != null">
+				and guide_no = #{guideNo,jdbcType=BIGINT}
+			</if>
+			<if test="shopid != null">
+				and shop_id = #{shopid,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and supply_id = #{supplyId,jdbcType=BIGINT}
+			</if>
+			and valid_bit = 1
+		</where> 
+	</select>
+	<select id="selectGuideSupplyByParam" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_supply
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="guideNo != null">
+				and guide_no = #{guideNo,jdbcType=BIGINT}
+			</if>
+			<if test="shopid != null">
+				and shop_id = #{shopid,jdbcType=BIGINT}
+			</if>
+		</where> 
+	</select>
+   <select id="getCountByParam" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
+		select
+			count(*)
+		from
+			supply_guide_supply
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+		</where> 
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from supply_guide_supply
+		where sid = #{sid,jdbcType=BIGINT}
+	</delete>
+	<select id="loginSupplyValide" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_supply
+		<where>
+			<if test="guideNo != null">
+				and guide_no = #{guideNo,jdbcType=INTEGER}
+			</if>
+			<if test="supplyId != null">
+				and supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			and valid_bit = 1
+		</where> 
+	</select>
+	<update id="updateValidBitStatus" parameterType="net.shopin.supply.domain.entity.GuideSupply" >
+    update  supply_guide_supply
+    <set>
+	    <if test="validBit != null" >
+		      valid_bit = #{validBit,jdbcType=INTEGER},
+		</if>
+    </set>
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+	<select id="get" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_guide_supply
+		<where>
+			sid = #{sid,jdbcType=BIGINT}
+		</where> 
+	</select>
+	<update id="changeGuideSupply" parameterType="net.shopin.supply.domain.entity.GuideSupply" >
+	    update  supply_guide_supply
+	    <set>
+		    <if test="supplyId != null" >
+			   supply_id = #{supplyId,jdbcType=INTEGER},
+			</if>
+		    <if test="supplyName != null" >
+			   supply_name = #{supplyName,jdbcType=VARCHAR},
+			</if>
+		    <if test="brandId != null" >
+			   brand_id = #{brandId,jdbcType=VARCHAR},
+			</if>
+		    <if test="brandSsdSid != null" >
+			   brand_ssd_id = #{brandSsdSid,jdbcType=VARCHAR},
+			</if>
+		    <if test="brand != null" >
+			   brand = #{brand,jdbcType=VARCHAR},
+			</if>
+		    <if test="categorysId != null" >
+			   categorys_id = #{categorysId,jdbcType=INTEGER},
+			</if>
+		    <if test="categroys != null" >
+			   categroys = #{categroys,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeSupplyId != null" >
+			   change_supply_id = #{changeSupplyId,jdbcType=INTEGER},
+			</if>
+		    <if test="changeSupplyName != null" >
+			   change_supply_name = #{changeSupplyName,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeBrandId != null" >
+			   change_brand_id = #{changeBrandId,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeBrandSsdId != null" >
+			   change_brand_ssd_id = #{changeBrandSsdId,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeBrand != null" >
+			   change_brand = #{changeBrand,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeCategorysId != null" >
+			   change_categorys_id = #{changeCategorysId,jdbcType=INTEGER},
+			</if>
+		    <if test="changeCategroys != null" >
+			   change_categroys = #{changeCategroys,jdbcType=VARCHAR},
+			</if>
+		    <if test="changeSupplyBit != null" >
+			   change_supply_bit = #{changeSupplyBit,jdbcType=INTEGER},
+			</if>
+	    </set>
+	    where sid = #{sid,jdbcType=BIGINT}
+	  </update>
+	  
+	  <update id="updateBrandSSDSid" parameterType="net.shopin.supply.domain.entity.GuideSupply" >
+	    update  supply_guide_supply
+	    <set>
+		    <if test="brandSsdSid != null" >
+			   brand_ssd_id = #{brandSsdSid,jdbcType=VARCHAR},
+			</if>
+	    </set>
+	    where brand_id = #{brandId,jdbcType=BIGINT}
+	  </update>
+	  
+	  <update id="updateChangeBrandSSDSid" parameterType="net.shopin.supply.domain.entity.GuideSupply" >
+	    update  supply_guide_supply
+	    <set>
+		    <if test="changeBrandSsdId != null" >
+			   change_brand_ssd_id = #{changeBrandSsdId,jdbcType=VARCHAR},
+			</if>
+	    </set>
+	    where change_brand_id = #{changeBrandId,jdbcType=BIGINT}
+	  </update>
+</mapper>

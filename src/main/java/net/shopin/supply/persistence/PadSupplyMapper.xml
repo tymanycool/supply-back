@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.PadSupplyMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.PadSupply" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="target_shop_id" property="targetShopId" jdbcType="INTEGER" />
+    <result column="target_shop_name" property="targetShopName" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, pad_no, supply_id, supply_name, shop_id,shop_name,createtime,target_shop_name,target_shop_id
+  </sql>
+  <!--
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.PadSupply" >
+    insert into supply_pad_supply 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{padNo,jdbcType=VARCHAR}, #{supplyId,jdbcType=INTEGER}, 
+     	 #{supplyName,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+     	 #{targetShopId,jdbcType=INTEGER}, #{targetShopName,jdbcType=VARCHAR}
+     	 )
+  </insert>
+  -->
+    <insert id="insert" parameterType="net.shopin.supply.domain.entity.PadSupply" >
+    insert into supply_pad_supply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="padNo != null" >
+        pad_no,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="supplyName != null" >
+        supply_name,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="targetShopId != null" >
+        target_shop_id,
+      </if>
+      <if test="targetShopName != null" >
+        target_shop_name,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=BIGINT},
+      </if>
+      <if test="padNo != null" >
+        #{padNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="supplyName != null" >
+        #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopId != null" >
+        #{targetShopId,jdbcType=INTEGER},
+      </if>
+      <if test="targetShopName != null" >
+        #{targetShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+   <select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.PadSupply" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_pad_supply
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and pad_no = #{padNo,jdbcType=VARCHAR}
+			</if>
+		</where> 
+	</select>
+	<select id="selectPadSupplyByPadNo" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			supply_pad_supply
+		<where>
+			<if test="padNo != null">
+				pad_no = #{padNo,jdbcType=VARCHAR}
+			</if>
+		</where> 
+	</select>
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from supply_pad_supply
+		where sid = #{sid,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByPadNo" parameterType="java.lang.String">
+		delete from supply_pad_supply
+		where pad_no = #{padNo,jdbcType=VARCHAR}
+	</delete>
+	<!--added by syk-->
+	 <update id="updateByPrimaryKeySelective" parameterType="net.shopin.supply.domain.entity.PadSupply" >
+    update supply_pad_supply
+<set >
+      <if test="supplyId != null " >
+        supply_id = #{supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="supplyName != null " >
+        supply_name = #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null  " >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null  " >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopName != null " >
+        target_shop_name = #{targetShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopId != null " >
+        target_shop_id = #{targetShopId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null  " >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pad_no = #{padNo,jdbcType=VARCHAR}
+  </update>
+	 <update id="update" parameterType="net.shopin.supply.domain.entity.PadSupply" >
+    update supply_pad_supply
+    <set >
+      <if test="supplyId != null and supplyId != '' " >
+        supply_id = #{supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="supplyName != null and supplyName != '' " >
+        supply_name = #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null and shopId != '' " >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null and  shopName != '' " >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopName != null and targetShopName != '' " >
+        target_shop_name = #{targetShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetShopId != null and targetShopId != '' " >
+        target_shop_id = #{targetShopId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null and createtime != '' " >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="padNo != null and padNo != '' " >
+        pad_no = #{padNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateNoSelective" parameterType="net.shopin.supply.domain.entity.PadSupply" >
+    UPDATE 
+    	supply_pad_supply
+    SET
+	    supply_id = #{supplyId,jdbcType=BIGINT},
+	    supply_name = #{supplyName,jdbcType=VARCHAR},
+	    shop_id = #{shopId,jdbcType=INTEGER},
+	    shop_name = #{shopName,jdbcType=VARCHAR},
+	    target_shop_name = #{targetShopName,jdbcType=VARCHAR},
+		target_shop_id = #{targetShopId,jdbcType=INTEGER},
+		createtime = #{createtime,jdbcType=TIMESTAMP},
+		pad_no = #{padNo,jdbcType=VARCHAR}
+	WHERE 
+		  sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

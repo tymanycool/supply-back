@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideLogMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.GuideLog" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, guide_no, operat_time, operator, description,type,type_desc,operator_id
+  </sql>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.PadLog" >
+    insert into supply_guide_log
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{guideNo,jdbcType=INTEGER}, #{operatTime,jdbcType=TIMESTAMP}, 
+     	 #{operator,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{typeDesc,jdbcType=VARCHAR},
+     	 #{operatorId,jdbcType=VARCHAR}
+     	 )
+  </insert>
+</mapper>

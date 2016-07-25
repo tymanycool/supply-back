@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.GuideinfoAttachMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.GuideinfoAttach" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="guide_no" property="guideNo" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="family_name" property="familyName" jdbcType="VARCHAR" />
+    <result column="relation" property="relation" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="work_starttime" property="workStarttime" jdbcType="TIMESTAMP" />
+    <result column="work_endtime" property="workEndtime" jdbcType="TIMESTAMP" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="leave_result" property="leaveResult" jdbcType="VARCHAR" />
+    <result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, guide_no,type, family_name,relation, mobile, work_starttime, work_endtime, company, position, 
+    leave_result, creattime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+   		 <include refid="Base_Column_List" />
+    from 
+    	supply_guideinfo_attach
+    where 
+    	sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="net.shopin.supply.domain.entity.GuideinfoAttach" >
+    insert into supply_guideinfo_attach 
+		(<include refid="Base_Column_List" />)
+    values (
+    	 #{sid,jdbcType=INTEGER}, #{guideNo,jdbcType=INTEGER},#{type,jdbcType=VARCHAR}, #{familyName,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR},
+     	 #{mobile,jdbcType=VARCHAR}, #{workStarttime,jdbcType=TIMESTAMP}, #{workEndtime,jdbcType=TIMESTAMP}, 
+     	 #{company,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
+     	 #{leaveResult,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP})
+  </insert>
+   <select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.GuideinfoAttach" resultMap="BaseResultMap">
+  	select 
+		<include refid="Base_Column_List" />
+	from 
+		supply_guideinfo_attach
+	<where>
+		1 = 1
+		 <if test="sid != null" >
+	       and sid = #{sid,jdbcType=BIGINT}
+	      </if>
+		 <if test="guideNo != null" >
+	       and guide_no = #{guideNo,jdbcType=BIGINT}
+	      </if>
+		 <if test="type != null" >
+	       and type = #{type,jdbcType=BIGINT}
+	      </if>
+		 <if test="familyName != null" >
+	        and family_name = #{familyName,jdbcType=VARCHAR}
+	      </if>
+		 <if test="relation != null" >
+	        and relation = #{relation,jdbcType=VARCHAR}
+	      </if>
+	      <if test="mobile != null" >
+	        and mobile = #{mobile,jdbcType=VARCHAR}
+	      </if>
+	      <if test="email != null" >
+	        and email = #{email,jdbcType=VARCHAR}
+	      </if>
+	      <if test="workStarttime != null" >
+	        and work_starttime = #{workStarttime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="workEndtime != null" >
+	        and work_endtime = #{workEndtime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="company != null" >
+	        and company = #{company,jdbcType=VARCHAR}
+	      </if>
+	      <if test="position != null" >
+	        and position = #{position,jdbcType=VARCHAR}
+	      </if>
+	      <if test="leaveResult != null" >
+	        and leaveResult = #{leaveResult,jdbcType=VARCHAR}
+	      </if>
+	      <if test="createtime != null" >
+	        and creattime = #{creattime,jdbcType=TIMESTAMP}
+	      </if>
+    	order by creattime desc
+	</where>
+  </select>
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from supply_guideinfo_attach
+    where sid = #{sid,jdbcType=BIGINT}
+  </delete>
+</mapper>

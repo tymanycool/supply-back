@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.expense.mapper.ExpenseAreaChangeDayMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.expense.po.ExpenseAreaChangeDay" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="VARCHAR" />
+    <result column="change_day" property="changeDay" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, month, change_day, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from expense_area_change_day
+    where sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <select id="getChangeDaysByMonth" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from expense_area_change_day
+  	where month = #{month}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from expense_area_change_day
+    where sid = #{sid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="net.shopin.expense.po.ExpenseAreaChangeDay" >
+    insert into expense_area_change_day (month, change_day, 
+      memo)
+    values (#{month,jdbcType=VARCHAR}, #{changeDay,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.shopin.expense.po.ExpenseAreaChangeDay" >
+    insert into expense_area_change_day
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="changeDay != null" >
+        change_day,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="changeDay != null" >
+        #{changeDay,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="net.shopin.expense.po.ExpenseAreaChangeDay" >
+    update expense_area_change_day
+    <set >
+      <if test="month != null" >
+        month = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="changeDay != null" >
+        change_day = #{changeDay,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.shopin.expense.po.ExpenseAreaChangeDay" >
+    update expense_area_change_day
+    set month = #{month,jdbcType=VARCHAR},
+      change_day = #{changeDay,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

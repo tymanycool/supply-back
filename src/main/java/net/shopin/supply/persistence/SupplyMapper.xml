@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.SupplyMapper" >
+  
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.Supply" >
+    <id column="sid" property="sid" jdbcType="BIGINT" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="supply_sid" property="supplySid" jdbcType="BIGINT" />
+    <result column="brand_sid" property="brandSid" jdbcType="VARCHAR" />
+    <result column="category_sid" property="categorySid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid,supply_name, brand_name, category_name, pic_url ,supply_sid,brand_sid,category_sid
+  </sql>
+ 
+   <insert id="insertBrandLOGO" parameterType="net.shopin.supply.domain.entity.Supply" useGeneratedKeys="true" keyProperty="sid">
+    insert into supply_brand_logo (sid, supply_name, 
+       brand_name, category_name,  pic_url,supply_sid,brand_sid,category_sid)
+    values (#{sid}, #{supplyName}, #{brandName},#{categoryName}, #{picUrl},#{supplySid},#{brandSid},#{categorySid})
+  </insert>
+  
+  
+  
+   <update id="updateSupply" parameterType="net.shopin.supply.domain.entity.Supply" >
+    update supply_brand_logo
+    <set >
+      <if test="supplyName != null" >
+        supply_name = #{supplyName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="supplySid != null" >
+        supply_sid = #{supplySid,jdbcType=BIGINT},
+      </if>
+      <if test="brandSid != null" >
+        brand_sid = #{brandSid,jdbcType=VARCHAR},
+      </if>
+      <if test="categorySid != null" >
+        category_sid = #{categorySid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		supply_brand_logo
+		where sid = #{sid,jdbcType=INTEGER}
+	</delete>
+	
+	
+	
+	<select id="selectListSupply" parameterType="net.shopin.supply.domain.entity.Supply" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from supply_brand_logo
+  	<where>
+  		<if test="supplyName != null and supplyName !='' ">
+  			supply_name LIKE "%"#{supplyName}"%"
+  		</if>
+  		<if test="brandName != null and brandName !='' ">
+			and  brand_name LIKE "%"#{brandName}"%"
+		</if>
+		<if test="categoryName != null and categoryName !='' ">
+  			and  category_name LIKE "%"#{categoryName}"%"
+  		</if>
+  		<if test="supplySid != null and supplySid !='' ">
+  			and  supply_sid = #{supplySid}
+  		</if>
+  		<if test="brandSid != null and brandSid !='' ">
+  			and  brand_sid = #{brandSid}
+  		</if>
+  		<if test="categorySid != null and categorySid !='' ">
+  			and  category_sid =#{categorySid}
+  		</if>
+  	</where>
+    LIMIT  #{start},#{pageSize}
+  </select>
+  <select id="supplyCount" resultType="int" parameterType="net.shopin.supply.domain.entity.Supply">
+		select
+  	  	count(1)
+  		from supply_brand_logo
+  	<where>
+  		<if test="supplyName != null and supplyName !='' ">
+  			supply_name LIKE "%"#{supplyName}"%"
+  		</if>
+  		<if test="brandName != null and brandName !='' ">
+			and  brand_name LIKE "%"#{brandName}"%"
+		</if>
+		<if test="categoryName != null and categoryName !='' ">
+  			and  category_name LIKE "%"#{categoryName}"%"
+  		</if>
+  		<if test="supplySid != null and supplySid !='' ">
+  			and  supply_sid = #{supplySid}
+  		</if>
+  		<if test="brandSid != null and brandSid !='' ">
+  			and  brand_sid = #{brandSid}
+  		</if>
+  		<if test="categorySid != null and categorySid !='' ">
+  			and  category_sid =#{categorySid}
+  		</if>
+  	</where>
+	</select>
+
+	 <select id="selectBySupplyKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from supply_brand_logo
+		where sid = #{sid,jdbcType=INTEGER}
+	</select>
+</mapper>

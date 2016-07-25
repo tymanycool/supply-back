@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.expense.mapper.ShopSupplyBrandChargestatusMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.expense.po.ShopSupplyBrandChargestatus" >
+    <result column="shop_sid" property="shopSid" jdbcType="INTEGER" />
+    <result column="supply_sid" property="supplySid" jdbcType="INTEGER" />
+    <result column="brand_sid" property="brandSid" jdbcType="VARCHAR" />
+    <result column="expense_status" property="expenseStatus" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    shop_sid, supply_sid, brand_sid, expense_status
+  </sql>
+  <select id="getStatus" parameterType="net.shopin.expense.po.ExpenseSupplyArea" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from shop_supply_brand_chargestatus
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="brandSid!=null and brandSid!=''">
+    		and brand_sid = #{brandSid}
+    	</if>
+    </where>
+  </select>
+  <select id="getStatusByStatus" parameterType="net.shopin.expense.po.ShopSupplyBrandChargestatus" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from shop_supply_brand_chargestatus
+    <where>
+    	<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="brandSid!=null and brandSid!=''">
+    		and brand_sid = #{brandSid}
+    	</if>
+    </where>
+  </select>
+  <insert id="insert" parameterType="net.shopin.expense.po.ShopSupplyBrandChargestatus" >
+    insert into shop_supply_brand_chargestatus (shop_sid, supply_sid, brand_sid, 
+      expense_status)
+    values (#{shopSid,jdbcType=INTEGER}, #{supplySid,jdbcType=INTEGER}, #{brandSid,jdbcType=VARCHAR}, 
+      #{expenseStatus,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="net.shopin.expense.po.ShopSupplyBrandChargestatus" >
+    insert into shop_supply_brand_chargestatus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shopSid != null" >
+        shop_sid,
+      </if>
+      <if test="supplySid != null" >
+        supply_sid,
+      </if>
+      <if test="brandSid != null" >
+        brand_sid,
+      </if>
+      <if test="expenseStatus != null" >
+        expense_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shopSid != null" >
+        #{shopSid,jdbcType=INTEGER},
+      </if>
+      <if test="supplySid != null" >
+        #{supplySid,jdbcType=INTEGER},
+      </if>
+      <if test="brandSid != null" >
+        #{brandSid,jdbcType=VARCHAR},
+      </if>
+      <if test="expenseStatus != null" >
+        #{expenseStatus,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="net.shopin.expense.po.ShopSupplyBrandChargestatus">
+  	update shop_supply_brand_chargestatus
+  	set expense_status = #{expenseStatus}
+  	<where>
+  		<if test="shopSid!=null and shopSid!=''">
+    		and shop_sid = #{shopSid}
+    	</if>
+    	<if test="supplySid!=null and supplySid!=''">
+    		and supply_sid = #{supplySid}
+    	</if>
+    	<if test="brandSid!=null and brandSid!=''">
+    		and brand_sid = #{brandSid}
+    	</if>
+  	</where>
+  </update>
+</mapper>

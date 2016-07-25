@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.SupplyinfoMapper" >
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.SupplyInfo" >
+    <id column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="supply_id" property="supplyId" jdbcType="INTEGER" />
+    <result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+    <result column="supply_adderss" property="supplyAdderss" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="timezone" property="timezone" jdbcType="VARCHAR" />
+    <result column="tax_jurisdiction" property="taxJurisdiction" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="tax_code" property="taxCode" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="controll_account" property="controllAccount" jdbcType="VARCHAR" />
+    <result column="plan_delivery_time" property="planDeliveryTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="SAP_status" property="SAPStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sid, supply_id, supply_name, supply_adderss, country, timezone,tax_jurisdiction,language,mobile,tax_code,
+    industry,controll_account,plan_delivery_time,operator,createtime,audit_time,SAP_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+   		 <include refid="Base_Column_List" />
+    from 
+    	supply_info 
+    where 
+    	sid = #{sid,jdbcType=INTEGER}
+  </select>
+   <select id="selectListByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from 
+    	supply_info
+  </select>
+</mapper>

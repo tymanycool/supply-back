@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.persistence.PadBaseinfoMapper">
+	<resultMap id="BaseResultMap" type="net.shopin.supply.domain.entity.PadBaseinfo">
+		<id column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+		<result column="pad_purchase_batch_no" property="padPurchaseBatchNo"
+			jdbcType="VARCHAR" />
+		<result column="mac_address" property="macAddress" jdbcType="VARCHAR" />
+		<result column="purchase_orderno" property="purchaseOrderno"
+			jdbcType="VARCHAR" />
+		<result column="pad_status" property="padStatus" jdbcType="INTEGER" />
+		<result column="use_type" property="useType" jdbcType="INTEGER" />
+		<result column="use_type_desc" property="useTypeDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="operator_sid" property="operatorSid" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="NewBaseResultMap" type="net.shopin.supply.domain.vo.PadBaseinfoVO">
+		<id column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+		<result column="pad_purchase_batch_no" property="padPurchaseBatchNo"
+			jdbcType="VARCHAR" />
+		<result column="mac_address" property="macAddress" jdbcType="VARCHAR" />
+		<result column="purchase_orderno" property="purchaseOrderno"
+			jdbcType="VARCHAR" />
+		<result column="pad_status" property="padStatus" jdbcType="INTEGER" />
+		<result column="use_type" property="useType" jdbcType="INTEGER" />
+		<result column="use_type_desc" property="useTypeDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+		<result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="operator_sid" property="operatorSid" jdbcType="INTEGER" />
+		<!-- add by qutengfei for 查看pad安装应用 in 20150723 start -->
+		<result column="shop_id" property="shopId" jdbcType="INTEGER" />
+		<!-- add by qutengfei for 查看pad安装应用 in 20150723 start -->
+		<result column="target_shop_id" property="targetShopId"
+			jdbcType="INTEGER" />
+		<result column="target_shop_name" property="targetShopName"
+			jdbcType="VARCHAR" />
+		<result column="padStatusTotal" property="padStatusTotal"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="PadInfoBaseResultMap" type="net.shopin.supply.domain.vo.PadInfoCheckVO">
+		<id column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="pad_no" property="padNo" jdbcType="VARCHAR" />
+		<result column="pad_purchase_batch_no" property="padPurchaseBatchNo"
+			jdbcType="VARCHAR" />
+		<result column="mac_address" property="macAddress" jdbcType="VARCHAR" />
+		<result column="pad_supply" property="padSupply" jdbcType="VARCHAR" />
+		<result column="pad_brand" property="padBrand" jdbcType="VARCHAR" />
+		<result column="pad_purchase_time" property="padPurchaseTime"
+			jdbcType="DATE" />
+		<result column="purchase_orderno" property="purchaseOrderno"
+			jdbcType="VARCHAR" />
+		<result column="pad_status" property="padStatus" jdbcType="INTEGER" />
+		<result column="use_type" property="useType" jdbcType="INTEGER" />
+		<result column="use_type_desc" property="useTypeDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="supply_name" property="supplyName" jdbcType="VARCHAR" />
+		<result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="operator_sid" property="operatorSid" jdbcType="INTEGER" />
+		<result column="shop_id" property="shopId" jdbcType="INTEGER" />
+		<result column="target_shop_id" property="targetShopId"
+			jdbcType="INTEGER" />
+		<result column="target_shop_name" property="targetShopName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="map" id="padStatusMap">
+	<result column="padStatusTotal" property="padStatusTotal" jdbcType="INTEGER" />
+		<result column="pad_status" property="padStatus" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		sid, pad_no, pad_purchase_batch_no, mac_address, purchase_orderno,
+		pad_status, use_type, use_type_desc,
+		create_time,brand,operator,operator_sid
+	</sql>
+	<insert id="insert" parameterType="net.shopin.supply.domain.entity.PadBaseinfo">
+		insert into supply_pad_baseinfo
+		(
+		<include refid="Base_Column_List" />
+		)
+		values (
+		#{sid,jdbcType=INTEGER}, #{padNo,jdbcType=VARCHAR},
+		#{padPurchaseBatchNo,jdbcType=VARCHAR},#{macAddress,jdbcType=VARCHAR},
+		#{purchaseOrderno,jdbcType=VARCHAR}, #{padStatus,jdbcType=INTEGER},
+		#{useType,jdbcType=INTEGER}, #{useTypeDesc,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{brand,jdbcType=VARCHAR},#{operator,jdbcType=VARCHAR},
+		#{operatorSid,jdbcType=INTEGER}
+		)
+	</insert>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from
+		supply_pad_baseinfo
+		where
+		sid = #{sid,jdbcType=BIGINT}
+	</select>
+	<select id="selectPadByPadNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from
+		supply_pad_baseinfo
+		where
+		pad_no = #{padNo,jdbcType=VARCHAR}
+	</select>
+<!-- 获取pad和供应商的关联信息	 -->
+	<select id="getPadBaseAndSupplyList" parameterType="java.util.Map"
+		resultMap="NewBaseResultMap">
+		select
+		b.*,s.*
+		from
+		supply_pad_baseinfo b left join
+		supply_pad_supply s
+		on
+		b.pad_no = s.pad_no
+		<where>
+			<if test="padStatus != null">
+				and b.pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by b.create_time desc limit #{start}, #{limit}
+	</select>
+	<!-- 获取关联供应商的PAD的个数	 -->
+	<select id="getCountByPadBaseAndSupplyInfo" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT
+			count(b.sid)
+		FROM
+			supply_pad_baseinfo as b left join
+			supply_pad_supply as s
+		ON
+			b.pad_no = s.pad_no
+		<where>
+			<if test="padStatus != null">
+				and b.pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT} 
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCountByParam" parameterType="net.shopin.supply.domain.entity.PadBaseinfo"
+		resultType="int">
+		SELECT
+			count(*)
+		FROM
+			supply_pad_baseinfo b
+		<where>
+			<if test="padStatus != null">
+				and b.pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	
+	<update id="update" parameterType="net.shopin.supply.domain.entity.PadBaseinfo">
+		update supply_pad_baseinfo
+		<set>
+			<if test="macAddress != null">
+				mac_address = #{macAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="padStatus != null">
+				pad_status = #{padStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="padNo != null">
+				pad_no = #{padNo,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseOrderno != null">
+				purchase_orderno = #{purchaseOrderno,jdbcType=INTEGER},
+			</if>
+			<if test="useType != null">
+				use_type = #{useType,jdbcType=BIGINT},
+			</if>
+			<if test="useTypeDesc != null">
+				use_type_desc = #{useTypeDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				brand = #{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				operator = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorSid != null">
+				operator_sid = #{operatorSid,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime !=null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where sid = #{sid,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectListByParam" parameterType="net.shopin.supply.domain.entity.PadBaseinfo"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		supply_pad_baseinfo
+		<where>
+			<if test="sid != null">
+				and sid = #{sid,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and pad_no = #{padNo,jdbcType=VARCHAR}
+			</if>
+			<if test="macAddress != null">
+				and mac_address = #{macAddress,jdbcType=VARCHAR}
+			</if>
+			<if test="purchaseOrderno != null">
+				and purchase_orderno = #{purchaseOrderno,jdbcType=VARCHAR}
+			</if>
+			<if test="padStatus != null">
+				and pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+		</where>
+	</select>
+	<select id="selectPadByMacaddress" parameterType="net.shopin.supply.domain.entity.PadBaseinfo"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		supply_pad_baseinfo
+		<where>
+			<if test="macAddress != null">
+				mac_address = #{macAddress,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<select id="checkPadinfoIsUnique" parameterType="net.shopin.supply.domain.entity.PadBaseinfo"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		supply_pad_baseinfo
+		<where>
+			<if test="padNo != null">
+				and pad_no = #{padNo,jdbcType=VARCHAR}
+			</if>
+			<if test="macAddress != null">
+				and mac_address = #{macAddress,jdbcType=VARCHAR}
+			</if>
+			<if test="sid != null">
+				sid = #{sid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<delete id="deletePadInfoBySid" parameterType="java.lang.Long">
+		delete from supply_pad_baseinfo
+		where sid = #{sid,jdbcType=BIGINT}
+	</delete>
+	<select id="selectPadInfoReport" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(b.pad_status)
+		FROM
+		supply_pad_baseinfo b LEFT JOIN
+		supply_pad_supply s
+		ON b.pad_no = s.pad_no
+		<where>
+			s.shop_id is not null 
+			<if test="shopId!=null and shopId!=''">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="hasBatchNo =='isNew'">
+				and b.pad_purchase_batch_no is not null
+			</if>
+			<if test="hasBatchNo =='isOld'">
+				and b.pad_purchase_batch_no is null
+			</if>
+		</where>
+		GROUP BY pad_status HAVING b.pad_status= #{padStatus,jdbcType=INTEGER}
+	</select>
+	<select id="selectPadStatusNumByShopId" parameterType="java.util.Map"
+		resultMap="NewBaseResultMap">
+		SELECT
+			b.pad_status,COUNT(DISTINCT(b.pad_no)) as padStatusTotal
+		FROM
+			supply_pad_baseinfo b,supply_pad_supply s
+		WHERE 
+			b.pad_no = s.pad_no 
+		AND 
+			s.shop_id is not null
+		<if test="shopId != null and shopId != '' ">
+			and s.shop_id = #{shopId,jdbcType=INTEGER}
+		</if>
+		<if test="hasBatchNo =='isNew'">
+			and b.pad_purchase_batch_no is not null and b.pad_purchase_batch_no != '00000000'
+		</if>
+		<if test="hasBatchNo =='isOld'">
+			and b.pad_purchase_batch_no = '00000000'
+		</if>
+		GROUP BY b.pad_status  
+		<if test="padStatus!=null and padStatus!=''">
+		HAVING b.pad_status= #{padStatus,jdbcType=INTEGER}
+		</if>
+	</select>
+
+
+	<sql id="Base_Column_List_PadInfoCheckVO">
+		b.sid,
+		b.pad_purchase_batch_no,
+		b.pad_no,
+		b.mac_address,
+		b.pad_status,
+		b.use_type,
+		b.use_type_desc,
+		b.create_time,
+		b.operator,
+		b.operator_sid,
+		p.pad_supply,
+		p.pad_brand,
+		p.pad_purchase_time,
+		s.supply_name,
+		s.target_shop_name,
+		s.target_shop_id,
+		s.shop_name,
+		s.shop_id
+	</sql>
+	<!--关联订货信息查询 -->
+	<select id="getPadInfoAndPurchaseInfo" parameterType="java.util.Map"
+		resultMap="PadInfoBaseResultMap">
+		SELECT
+		b.sid,b.pad_purchase_batch_no,b.pad_no,b.mac_address,b.pad_status,
+		b.use_type,b.use_type_desc,b.create_time,b.operator,b.operator_sid,
+		p.pad_supply,p.pad_brand,p.pad_purchase_time,s.supply_name,s.target_shop_name,s.target_shop_id,s.shop_name,s.shop_id
+		FROM
+		supply_pad_baseinfo AS b
+		LEFT JOIN supply_pad_purchase AS p
+		ON b.pad_purchase_batch_no = p.pad_purchase_batch_no
+		LEFT JOIN supply_pad_supply AS s
+		ON b.pad_no = s.pad_no
+		<where>
+			<if test="padStatus != null">
+				and b.pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+			<if test="padSupply !=null ">
+				and p.pad_supply = #{padSupply,jdbcType=VARCHAR}
+			</if>
+			<if test="padBrand !=null ">
+				and p.pad_brand = #{padBrand,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by b.create_time desc limit #{start}, #{limit}
+	</select>
+	<select id="getCountByPadInfoAndPurchaseInfo" parameterType="net.shopin.supply.domain.entity.PadBaseinfo"
+		resultType="int">
+		select
+		count(b.pad_no)
+		from
+		supply_pad_baseinfo AS b
+		LEFT JOIN supply_pad_purchase AS p
+		ON b.pad_purchase_batch_no = p.pad_purchase_batch_no
+		LEFT JOIN supply_pad_supply AS s
+		ON b.pad_no = s.pad_no
+		<where>
+			<if test="padStatus != null">
+				and b.pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+			<if test="padSupply !=null ">
+				and p.pad_supply = #{padSupply,jdbcType=VARCHAR}
+			</if>
+			<if test="padBrand !=null ">
+				and p.pad_brand = #{padBrand,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getPadCanAllocateList" parameterType="java.util.Map" 
+	resultMap="NewBaseResultMap">
+	select
+		b.*,s.*
+		from
+		supply_pad_baseinfo b left join
+		supply_pad_supply s
+		on
+		b.pad_no = s.pad_no
+		<where>
+			<choose>
+				<when test="padStatus !=null and padStatus !='' and padStatus != -1">
+					and b.pad_status = #{padStatus,jdbcType=INTEGER}
+				</when>
+				<otherwise>
+					and b.pad_status in(0,2,5)   <!-- 0:在库，2：送修，5：在途 -->
+				</otherwise>
+			</choose>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by b.create_time desc limit #{start}, #{limit}
+	
+	</select>
+	<select id="getPadCanAllocatCount" parameterType="java.util.Map" 
+	resultType="INTEGER">
+	select
+		count(b.pad_no)
+		from
+		supply_pad_baseinfo b left join
+		supply_pad_supply s
+		on
+		b.pad_no = s.pad_no
+		<where>
+			<!-- 0:在库，2：送修，5：在途 -->
+			<choose>
+				<when test="padStatus !=null and padStatus !='' and padStatus != -1">
+					and b.pad_status = #{padStatus,jdbcType=INTEGER}
+				</when>
+				<otherwise>
+					and b.pad_status in(0,2,5)
+				</otherwise>
+			</choose>
+			<if test="padNo != null">
+				and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+			</if>
+			<if test="macAddress != null">
+				and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+			</if>
+			<if test="useType != null">
+				and b.use_type = #{useType,jdbcType=BIGINT}
+			</if>
+			<if test="supplyId != null">
+				and s.supply_id = #{supplyId,jdbcType=INTEGER}
+			</if>
+			<if test="shopId != null">
+				and s.shop_id = #{shopId,jdbcType=INTEGER}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+			<if test="targetShopId != null">
+				and s.target_shop_id = #{targetShopId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+<!-- 获取pad数量-->
+	<select id="getPadCountByBatchNo" parameterType="java.util.Map" resultType="Integer">
+		select count(b.sid) from supply_pad_baseinfo b
+		<where>
+			<if test="padNo != null">
+				and pad_no = #{padNo,jdbcType=VARCHAR}
+			</if>
+			<if test="macAddress != null">
+				and mac_address = #{macAddress,jdbcType=VARCHAR}
+			</if>
+			<if test="purchaseOrderno != null">
+				and purchase_orderno = #{purchaseOrderno,jdbcType=VARCHAR}
+			</if>
+			<if test="padStatus != null">
+				and pad_status = #{padStatus,jdbcType=BIGINT}
+			</if>
+			<if test="padPurchaseBatchNo != null">
+				and pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	<sql id="padBaseinfoSql">
+		<if test="sid != null">
+			and b.sid = #{sid,jdbcType=INTEGER}
+		</if>
+		<if test="padNo != null">
+			and b.pad_no LIKE CONCAT('%',#{padNo},'%')
+		</if>
+		<if test="macAddress != null">
+			and b.mac_address LIKE CONCAT('%',#{macAddress},'%')
+		</if>
+		<if test="useType != null">
+			and b.use_type = #{useType,jdbcType=BIGINT}
+		</if>
+		<if test="useTypeDesc != null">
+			and b.use_type_desc = #{useTypeDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="padPurchaseBatchNo != null">
+			and b.pad_purchase_batch_no = #{padPurchaseBatchNo,jdbcType=VARCHAR}
+		</if>
+		<if test="padStatus !=null">
+			and b.pad_status = #{padStatus,jdbcType=INTEGER}
+		</if>
+		<if test="createTime !=null">
+			and b.create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="brand !=null">
+			and b.brand = #{brand,jdbcType=VARCHAR}
+		</if>
+		<if test="operator !=null">
+			and b.operator = #{operator,jdbcType=VARCHAR}
+		</if>
+		<if test="operatorSid !=null">
+			and b.operator_sid = #{operatorSid,jdbcType=INTEGER}
+		</if>
+	</sql>
+</mapper>

@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.ledger.mapper.LedgerQualificationMapperCustom" >
+  
+  <!-- 以下是资质台账基本信息映射 -->
+  <resultMap id="BaseResultMapOfLedgerQualification" type="net.shopin.ledger.po.LedgerQualification" >
+	<!-- 资质台账基本信息映射，不包括大文本 -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="expiration_date" property="expirationDate" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="mobile_phone1" property="mobilePhone1" jdbcType="VARCHAR" />
+    <result column="mobile_phone1_name" property="mobilePhone1Name" jdbcType="VARCHAR" />
+    <result column="mobile_phone2" property="mobilePhone2" jdbcType="VARCHAR" />
+    <result column="mobile_phone2_name" property="mobilePhone2Name" jdbcType="VARCHAR" />
+    <result column="fixed_telephone" property="fixedTelephone" jdbcType="VARCHAR" />
+    <result column="fixed_telephone_name" property="fixedTelephoneName" jdbcType="VARCHAR" />
+    <result column="brand_level" property="brandLevel" jdbcType="VARCHAR" />
+    <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="registration_number" property="registrationNumber" jdbcType="VARCHAR" />
+    <result column="approved_category" property="approvedCategory" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="application_date" property="applicationDate" jdbcType="DATE" />
+    <result column="trademark_holder_name" property="trademarkHolderName" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="acting_level" property="actingLevel" jdbcType="VARCHAR" />
+    <result column="first_proxy_date" property="firstProxyDate" jdbcType="DATE" />
+    <result column="first_proxy_annotation" property="firstProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="second_proxy_date" property="secondProxyDate" jdbcType="DATE" />
+    <result column="second_proxy_annotation" property="secondProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="third_proxy_date" property="thirdProxyDate" jdbcType="DATE" />
+    <result column="third_proxy_annotation" property="thirdProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="forth_proxy_date" property="forthProxyDate" jdbcType="DATE" />
+    <result column="forth_proxy_annotation" property="forthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="fifth_proxy_date" property="fifthProxyDate" jdbcType="DATE" />
+    <result column="fifth_proxy_annotation" property="fifthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="sixth_proxy_date" property="sixthProxyDate" jdbcType="DATE" />
+    <result column="sixth_proxy_annotation" property="sixthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="declaration" property="declaration" jdbcType="VARCHAR" />
+    <result column="information_maintenance_date" property="informationMaintenanceDate" jdbcType="DATE" />
+    <result column="information_maintenance_name" property="informationMaintenanceName" jdbcType="VARCHAR" />
+    <result column="approval_status" property="approvalStatus" jdbcType="VARCHAR" />
+    <result column="review_date" property="reviewDate" jdbcType="DATE" />
+    <result column="review_name" property="reviewName" jdbcType="VARCHAR" />
+    <result column="valid" property="valid" jdbcType="BIT" />
+  </resultMap>
+  <!-- 资质台账基本信息大文本映射 -->
+  <resultMap id="ResultMapWithBLOBsOfLedgerQualification" type="net.shopin.ledger.po.LedgerQualificationWithBLOBs" extends="BaseResultMapOfLedgerQualification" >
+    <result column="single_store_authorization" property="singleStoreAuthorization" jdbcType="LONGVARCHAR" />
+    <result column="description_problem" property="descriptionProblem" jdbcType="LONGVARCHAR" />
+    <result column="mark" property="mark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <!--ActingLevelVo-->
+  <resultMap id="BaseResultMapOfActingLevelVo" type="net.shopin.supply.domain.vo.ActingLevelVO">
+  	<result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+  	<result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+  	<result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="acting_level" property="actingLevel" jdbcType="VARCHAR" />
+  </resultMap>
+   <!--ActingLevelVo 列-->
+  <sql id="Base_Column_List_ActingLevelVo">
+  	ledger_qualification.supplier_code,
+  	ledger_qualification_supply_info.supplier_name,
+  	category,
+  	brand_name,
+  	acting_level
+  </sql>
+  <!--QualiErrorInfoVO-->
+  <resultMap id="BaseResultMapOfQualiErrorInfoVO" type="net.shopin.supply.domain.vo.QualiErrorInfoVO">
+  	<result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+  	<result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+  	<result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--QualiErrorInfoVO 列-->
+  <sql id="Base_Column_List_QualiErrorInfoVO">
+  	ledger_qualification.supplier_code,
+  	ledger_qualification_supply_info.supplier_name,
+  	category,
+  	brand_name
+  </sql>
+  
+  
+  <!-- 以下是资质台账分页综合查询映射 -->
+  <resultMap id="BaseResultMapByPagingAndExample" type="net.shopin.ledger.po.LedgerQualificationCustom" >
+  	<!-- 
+	  	由于ledger_qualification表的id字段会和ledger_qualification_supply_info表、ledger_qualification_inspection表的id字段冲突，
+	  	所以这里要特殊标记:ledger_qualification_table_id
+  	 -->
+    <id column="ledger_qualification_table_id" property="id" jdbcType="INTEGER" />
+    <result column="expiration_date" property="expirationDate" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="mobile_phone1" property="mobilePhone1" jdbcType="VARCHAR" />
+    <result column="mobile_phone1_name" property="mobilePhone1Name" jdbcType="VARCHAR" />
+    <result column="mobile_phone2" property="mobilePhone2" jdbcType="VARCHAR" />
+    <result column="mobile_phone2_name" property="mobilePhone2Name" jdbcType="VARCHAR" />
+    <result column="fixed_telephone" property="fixedTelephone" jdbcType="VARCHAR" />
+    <result column="fixed_telephone_name" property="fixedTelephoneName" jdbcType="VARCHAR" />
+    <result column="brand_level" property="brandLevel" jdbcType="VARCHAR" />
+    <!-- 
+    	由于ledger_qualification表的supplier_code字段会和ledger_qualification_supply_info表的supplier_code字段冲突，
+    	所以这里要特殊标记:ledger_qualification_table_supplier_code
+     -->
+    <result column="ledger_qualification_table_supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="registration_number" property="registrationNumber" jdbcType="VARCHAR" />
+    <result column="approved_category" property="approvedCategory" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="application_date" property="applicationDate" jdbcType="DATE" />
+    <result column="trademark_holder_name" property="trademarkHolderName" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="acting_level" property="actingLevel" jdbcType="VARCHAR" />
+    <result column="first_proxy_date" property="firstProxyDate" jdbcType="DATE" />
+    <result column="first_proxy_annotation" property="firstProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="second_proxy_date" property="secondProxyDate" jdbcType="DATE" />
+    <result column="second_proxy_annotation" property="secondProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="third_proxy_date" property="thirdProxyDate" jdbcType="DATE" />
+    <result column="third_proxy_annotation" property="thirdProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="forth_proxy_date" property="forthProxyDate" jdbcType="DATE" />
+    <result column="forth_proxy_annotation" property="forthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="fifth_proxy_date" property="fifthProxyDate" jdbcType="DATE" />
+    <result column="fifth_proxy_annotation" property="fifthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="sixth_proxy_date" property="sixthProxyDate" jdbcType="DATE" />
+    <result column="sixth_proxy_annotation" property="sixthProxyAnnotation" jdbcType="VARCHAR" />
+    <result column="declaration" property="declaration" jdbcType="VARCHAR" />
+    <result column="information_maintenance_date" property="informationMaintenanceDate" jdbcType="DATE" />
+    <result column="information_maintenance_name" property="informationMaintenanceName" jdbcType="VARCHAR" />
+    <result column="approval_status" property="approvalStatus" jdbcType="VARCHAR" />
+    <result column="review_date" property="reviewDate" jdbcType="DATE" />
+    <result column="review_name" property="reviewName" jdbcType="VARCHAR" />
+    <result column="valid" property="valid" jdbcType="BIT" />
+    <result column="single_store_authorization" property="singleStoreAuthorization" jdbcType="LONGVARCHAR" />
+    <result column="description_problem" property="descriptionProblem" jdbcType="LONGVARCHAR" />
+    <result column="mark" property="mark" jdbcType="LONGVARCHAR" />
+    
+    <association property="ledgerQualificationSupplyInfo" javaType="net.shopin.ledger.po.LedgerQualificationSupplyInfo">
+    	<!-- 
+	    	ledger_qualification_supply_info表的id会和ledger_qualification表和ledger_qualification_inspection表的id冲突，
+	    	需要特殊标记:ledger_qualification_supply_info_table_id
+		-->
+    	<id column="ledger_qualification_supply_info_table_id" property="id" jdbcType="INTEGER" />
+    	<!-- 
+    		ledger_qualification_supply_info表的supplier_code会和ledger_qualification表的supplier_code冲突，
+    		需要特殊标记：ledger_qualification_supply_info_table_supplier_code
+    	 -->
+	    <result column="ledger_qualification_supply_info_table_supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+	    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+	    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+	    <result column="national_tax_registration" property="nationalTaxRegistration" jdbcType="BIT" />
+	    <result column="land_tax_registration" property="landTaxRegistration" jdbcType="BIT" />
+	    <result column="general_taxpayer" property="generalTaxpayer" jdbcType="VARCHAR" />
+	    <result column="isblacklist" property="isblacklist" jdbcType="BIT" />
+    </association>
+  </resultMap>
+  
+  
+  
+  <!-- 供应商基本信息映射 -->
+  <resultMap id="BaseResultMapOfSupplyInfo" type="net.shopin.ledger.po.LedgerQualificationSupplyInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="national_tax_registration" property="nationalTaxRegistration" jdbcType="BIT" />
+    <result column="land_tax_registration" property="landTaxRegistration" jdbcType="BIT" />
+    <result column="general_taxpayer" property="generalTaxpayer" jdbcType="VARCHAR" />
+    <result column="isblacklist" property="isblacklist" jdbcType="BIT" />
+  </resultMap>
+  
+  <!-- 质检报告映射，不包括大文本 -->
+  <resultMap id="BaseResultMapOfInspection" type="net.shopin.ledger.po.LedgerQualificationInspection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ledger_qualification_id" property="ledgerQualificationId" jdbcType="INTEGER" />
+    <result column="inspection_type" property="inspectionType" jdbcType="VARCHAR" />
+    <result column="inspection_date" property="inspectionDate" jdbcType="DATE" />
+  </resultMap>
+  
+  <!-- 质检报告大本文映射 -->
+  <resultMap id="ResultMapWithBLOBsOfInspection" type="net.shopin.ledger.po.LedgerQualificationInspection" extends="BaseResultMapOfInspection" >
+    <result column="inspection_content" property="inspectionContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <!-- 供应商基本信息表所有字段 -->
+  <sql id="Base_Column_List_SupplyInfo" >
+    id, supplier_code, supplier_name, business_license, national_tax_registration, land_tax_registration, 
+    general_taxpayer, isblacklist
+  </sql>
+  <!-- 质检报告信息表所有字段 -->
+  <sql id="Base_Column_List_Inspection" >
+    id, ledger_qualification_id, inspection_type, inspection_date, inspection_content
+  </sql>
+  
+  
+  
+  
+  
+  <!-- 分页综合查询资质台账所有字段 -->
+  <sql id="Base_Column_List_Paging_Example">
+  	<!-- 资质台账基本信息 -->
+  	ledger_qualification.id ledger_qualification_table_id, expiration_date, status, mobile_phone1, mobile_phone1_name, mobile_phone2, mobile_phone2_name, 
+    fixed_telephone, fixed_telephone_name, brand_level, ledger_qualification.supplier_code ledger_qualification_table_supplier_code, category, brand_name, 
+    registration_number, approved_category, end_date, application_date, trademark_holder_name, 
+    certificate_type, certificate_number, acting_level, first_proxy_date, first_proxy_annotation, 
+    second_proxy_date, second_proxy_annotation, third_proxy_date, third_proxy_annotation, 
+    forth_proxy_date, forth_proxy_annotation, fifth_proxy_date, fifth_proxy_annotation,sixth_proxy_date,sixth_proxy_annotation, 
+    declaration, information_maintenance_date, information_maintenance_name, approval_status, 
+    review_date, review_name, valid,
+    single_store_authorization, description_problem, mark
+    <!-- 供应商基本信息 -->
+    ,ledger_qualification_supply_info.id ledger_qualification_supply_info_table_id, ledger_qualification_supply_info.supplier_code ledger_qualification_supply_info_table_supplier_code, supplier_name, business_license, national_tax_registration, land_tax_registration, 
+    general_taxpayer, isblacklist
+  </sql>
+  
+  
+  <!-- 资质台账基本信息查询条件判别 -->
+  <sql id="Example_Where_Clause_LedgerQualification" >
+      <foreach collection="example1.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ledger_qualification.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ledger_qualification.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ledger_qualification.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ledger_qualification.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+
+        </if>
+      </foreach>
+  </sql>
+  <!-- 供应商基本信息查询条件判别 -->
+  <sql id="Example_Where_Clause_LedgerQualificationSupplyInfo" >
+      <foreach collection="example2.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ledger_qualification_supply_info.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ledger_qualification_supply_info.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ledger_qualification_supply_info.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ledger_qualification_supply_info.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+
+        </if>
+      </foreach>
+  </sql>
+  <!-- 质检报告查询条件判别 -->
+  <sql id="Example_Where_Clause_LedgerQualificationInspection" >
+      <foreach collection="example3.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+  </sql>
+  
+  <!-- 向资质台账表插入资质台账基本信息中所有不为空的数据 -->
+  <insert id="insertSelectiveOfLedgerQualification" parameterType="net.shopin.ledger.po.LedgerQualificationWithBLOBs" >
+  	
+  	<!-- 自增主键的返回 -->
+  	<selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+  		select LAST_INSERT_ID()
+  	</selectKey>
+    insert into ledger_qualification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expirationDate != null" >
+        expiration_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="mobilePhone1 != null" >
+        mobile_phone1,
+      </if>
+      <if test="mobilePhone1Name != null" >
+        mobile_phone1_name,
+      </if>
+      <if test="mobilePhone2 != null" >
+        mobile_phone2,
+      </if>
+      <if test="mobilePhone2Name != null" >
+        mobile_phone2_name,
+      </if>
+      <if test="fixedTelephone != null" >
+        fixed_telephone,
+      </if>
+      <if test="fixedTelephoneName != null" >
+        fixed_telephone_name,
+      </if>
+      <if test="brandLevel != null" >
+        brand_level,
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="registrationNumber != null" >
+        registration_number,
+      </if>
+      <if test="approvedCategory != null" >
+        approved_category,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="applicationDate != null" >
+        application_date,
+      </if>
+      <if test="trademarkHolderName != null" >
+        trademark_holder_name,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number,
+      </if>
+      <if test="actingLevel != null" >
+        acting_level,
+      </if>
+      <if test="firstProxyDate != null" >
+        first_proxy_date,
+      </if>
+      <if test="firstProxyAnnotation != null" >
+        first_proxy_annotation,
+      </if>
+      <if test="secondProxyDate != null" >
+        second_proxy_date,
+      </if>
+      <if test="secondProxyAnnotation != null" >
+        second_proxy_annotation,
+      </if>
+      <if test="thirdProxyDate != null" >
+        third_proxy_date,
+      </if>
+      <if test="thirdProxyAnnotation != null" >
+        third_proxy_annotation,
+      </if>
+      <if test="forthProxyDate != null" >
+        forth_proxy_date,
+      </if>
+      <if test="forthProxyAnnotation != null" >
+        forth_proxy_annotation,
+      </if>
+      <if test="fifthProxyDate != null" >
+        fifth_proxy_date,
+      </if>
+      <if test="fifthProxyAnnotation != null" >
+        fifth_proxy_annotation,
+      </if>
+      <if test="sixthProxyDate != null" >
+        sixth_proxy_date,
+      </if>
+      <if test="sixthProxyAnnotation != null" >
+        sixth_proxy_annotation,
+      </if>
+      <if test="declaration != null" >
+        declaration,
+      </if>
+      <if test="informationMaintenanceDate != null" >
+        information_maintenance_date,
+      </if>
+      <if test="informationMaintenanceName != null" >
+        information_maintenance_name,
+      </if>
+      <if test="approvalStatus != null" >
+        approval_status,
+      </if>
+      <if test="reviewDate != null" >
+        review_date,
+      </if>
+      <if test="reviewName != null" >
+        review_name,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="singleStoreAuthorization != null" >
+        single_store_authorization,
+      </if>
+      <if test="descriptionProblem != null" >
+        description_problem,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="expirationDate != null" >
+        #{expirationDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1 != null" >
+        #{mobilePhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1Name != null" >
+        #{mobilePhone1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2 != null" >
+        #{mobilePhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2Name != null" >
+        #{mobilePhone2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephone != null" >
+        #{fixedTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephoneName != null" >
+        #{fixedTelephoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLevel != null" >
+        #{brandLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null" >
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null" >
+        #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedCategory != null" >
+        #{approvedCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="applicationDate != null" >
+        #{applicationDate,jdbcType=DATE},
+      </if>
+      <if test="trademarkHolderName != null" >
+        #{trademarkHolderName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actingLevel != null" >
+        #{actingLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="firstProxyDate != null" >
+        #{firstProxyDate,jdbcType=DATE},
+      </if>
+      <if test="firstProxyAnnotation != null" >
+        #{firstProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="secondProxyDate != null" >
+        #{secondProxyDate,jdbcType=DATE},
+      </if>
+      <if test="secondProxyAnnotation != null" >
+        #{secondProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProxyDate != null" >
+        #{thirdProxyDate,jdbcType=DATE},
+      </if>
+      <if test="thirdProxyAnnotation != null" >
+        #{thirdProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="forthProxyDate != null" >
+        #{forthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="forthProxyAnnotation != null" >
+        #{forthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="fifthProxyDate != null" >
+        #{fifthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="fifthProxyAnnotation != null" >
+        #{fifthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="sixthProxyDate != null" >
+        #{sixthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="sixthProxyAnnotation != null" >
+        #{sixthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="declaration != null" >
+        #{declaration,jdbcType=VARCHAR},
+      </if>
+      <if test="informationMaintenanceDate != null" >
+        #{informationMaintenanceDate,jdbcType=DATE},
+      </if>
+      <if test="informationMaintenanceName != null" >
+        #{informationMaintenanceName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalStatus != null" >
+        #{approvalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null" >
+        #{reviewDate,jdbcType=DATE},
+      </if>
+      <if test="reviewName != null" >
+        #{reviewName,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="singleStoreAuthorization != null" >
+        #{singleStoreAuthorization,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="descriptionProblem != null" >
+        #{descriptionProblem,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 向供应商基本信息表中插入供应商基本信息中不为空的数据 -->
+  <insert id="insertSelectiveOfSupplyInfo" parameterType="net.shopin.ledger.po.LedgerQualificationSupplyInfo" >
+    insert into ledger_qualification_supply_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="businessLicense != null" >
+        business_license,
+      </if>
+      <if test="nationalTaxRegistration != null" >
+        national_tax_registration,
+      </if>
+      <if test="landTaxRegistration != null" >
+        land_tax_registration,
+      </if>
+      <if test="generalTaxpayer != null" >
+        general_taxpayer,
+      </if>
+      <if test="isblacklist != null" >
+        isblacklist,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierCode != null" >
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="nationalTaxRegistration != null" >
+        #{nationalTaxRegistration,jdbcType=BIT},
+      </if>
+      <if test="landTaxRegistration != null" >
+        #{landTaxRegistration,jdbcType=BIT},
+      </if>
+      <if test="generalTaxpayer != null" >
+        #{generalTaxpayer,jdbcType=VARCHAR},
+      </if>
+      <if test="isblacklist != null" >
+        #{isblacklist,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 向质检报告表中插入质检报告中所有不为空的数据 -->
+  <insert id="insertSelectiveOfInspection" parameterType="net.shopin.ledger.po.LedgerQualificationInspection" >
+    insert into ledger_qualification_inspection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ledgerQualificationId != null" >
+        ledger_qualification_id,
+      </if>
+      <if test="inspectionType != null" >
+        inspection_type,
+      </if>
+      <if test="inspectionDate != null" >
+        inspection_date,
+      </if>
+      <if test="inspectionContent != null" >
+        inspection_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ledgerQualificationId != null" >
+        #{ledgerQualificationId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionType != null" >
+        #{inspectionType,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionDate != null" >
+        #{inspectionDate,jdbcType=DATE},
+      </if>
+      <if test="inspectionContent != null" >
+        #{inspectionContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+
+  
+  <!-- 根据供应商编码查询供应商信息 -->
+  <select id="selectBySupplierCodeOfSupplyInfo" resultMap="BaseResultMapOfSupplyInfo" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List_SupplyInfo" />
+    from ledger_qualification_supply_info
+    where supplier_code = #{supplierCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据供应商编码，更新供应商基本信息 -->
+  <update id="updateBySupplierCodeSelectiveOfSupplyInfo" parameterType="net.shopin.ledger.po.LedgerQualificationSupplyInfo" >
+    update ledger_qualification_supply_info
+    <set >
+      <if test="supplierCode != null" >
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="nationalTaxRegistration != null" >
+        national_tax_registration = #{nationalTaxRegistration,jdbcType=BIT},
+      </if>
+      <if test="landTaxRegistration != null" >
+        land_tax_registration = #{landTaxRegistration,jdbcType=BIT},
+      </if>
+      <if test="generalTaxpayer != null" >
+        general_taxpayer = #{generalTaxpayer,jdbcType=VARCHAR},
+      </if>
+      <if test="isblacklist != null" >
+        isblacklist = #{isblacklist,jdbcType=BIT},
+      </if>
+    </set>
+    where supplier_code = #{supplierCode,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 综合分页查询资质台账 -->
+  <select id="selectLedgerQualificationCustomByPagingAndExample" resultMap="BaseResultMapByPagingAndExample" >
+    select
+    <include refid="Base_Column_List_Paging_Example" />
+    from ledger_qualification inner join  ledger_qualification_supply_info on ledger_qualification.supplier_code = ledger_qualification_supply_info.supplier_code 
+    <if test="_parameter != null" >
+      <if test="example1 != null or example2 != null">
+      <where>
+	      <trim prefix="(" suffix=")" prefixOverrides="and" >
+	      	  <if test="example1 != null">
+		      	<include refid="Example_Where_Clause_LedgerQualification" />
+		      </if>
+		      <if test="example2 != null">
+		      	<include refid="Example_Where_Clause_LedgerQualificationSupplyInfo" />
+		      </if>
+		  </trim>
+      </where>
+      </if>
+    </if>
+    
+    <if test="index != null and pageSize != null">
+   		limit #{index}, #{pageSize}
+    </if>
+    
+  </select>
+  
+  <!-- 综合查询资质台账总数 -->
+  <!-- 这里查询总数是基于资质台账基本信息的，不能关联质检报告表进行查询 ，如果使用质检报告表外连接查询，会导致查询总数是基于质检报告的-->
+  <select id="selectLedgerQualificationCustomCountByPagingAndExample" resultType="int">
+    select count(*)
+    from ledger_qualification inner join  ledger_qualification_supply_info on ledger_qualification.supplier_code = ledger_qualification_supply_info.supplier_code 
+    <if test="_parameter != null" >
+      <if test="example1 != null or example2 != null">
+      <where>
+	      <trim prefix="(" suffix=")" prefixOverrides="and" >
+	      	  <if test="example1 != null">
+		      	<include refid="Example_Where_Clause_LedgerQualification" />
+		      </if>
+		      <if test="example2 != null">
+		      	<include refid="Example_Where_Clause_LedgerQualificationSupplyInfo" />
+		      </if>
+		  </trim>
+      </where>
+      </if>
+    </if>
+  </select>
+
+  <!-- 查询 -->
+  <!-- 根据资质台账基本信息id查询质检报告信息 -->
+  <select id="selectByLedgerQualificationIdOfInspection" resultMap="ResultMapWithBLOBsOfInspection" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List_Inspection" />
+    from ledger_qualification_inspection
+    where ledger_qualification_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!-- 更新 -->
+  <!-- 根据质检报告主键id，更新质检报告 -->
+  <update id="updateByPrimaryKeySelectiveOfInspection" parameterType="net.shopin.ledger.po.LedgerQualificationInspection" >
+    update ledger_qualification_inspection
+    <set >
+      <if test="ledgerQualificationId != null" >
+        ledger_qualification_id = #{ledgerQualificationId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionType != null" >
+        inspection_type = #{inspectionType,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionDate != null" >
+        inspection_date = #{inspectionDate,jdbcType=DATE},
+      </if>
+      <if test="inspectionContent != null" >
+        inspection_content = #{inspectionContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 根据资质台账基本信息主键id，更新资质台账基本信息 -->
+  <update id="updateByPrimaryKeySelectiveOfLedgerQualificationWithBLOBs" parameterType="net.shopin.ledger.po.LedgerQualificationWithBLOBs" >
+    update ledger_qualification
+    <set >
+      <if test="expirationDate != null" >
+        expiration_date = #{expirationDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1 != null" >
+        mobile_phone1 = #{mobilePhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1Name != null" >
+        mobile_phone1_name = #{mobilePhone1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2 != null" >
+        mobile_phone2 = #{mobilePhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2Name != null" >
+        mobile_phone2_name = #{mobilePhone2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephone != null" >
+        fixed_telephone = #{fixedTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephoneName != null" >
+        fixed_telephone_name = #{fixedTelephoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLevel != null" >
+        brand_level = #{brandLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null" >
+        registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedCategory != null" >
+        approved_category = #{approvedCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="applicationDate != null" >
+        application_date = #{applicationDate,jdbcType=DATE},
+      </if>
+      <if test="trademarkHolderName != null" >
+        trademark_holder_name = #{trademarkHolderName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actingLevel != null" >
+        acting_level = #{actingLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="firstProxyDate != null" >
+        first_proxy_date = #{firstProxyDate,jdbcType=DATE},
+      </if>
+      <if test="firstProxyAnnotation != null" >
+        first_proxy_annotation = #{firstProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="secondProxyDate != null" >
+        second_proxy_date = #{secondProxyDate,jdbcType=DATE},
+      </if>
+      <if test="secondProxyAnnotation != null" >
+        second_proxy_annotation = #{secondProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdProxyDate != null" >
+        third_proxy_date = #{thirdProxyDate,jdbcType=DATE},
+      </if>
+      <if test="thirdProxyAnnotation != null" >
+        third_proxy_annotation = #{thirdProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="forthProxyDate != null" >
+        forth_proxy_date = #{forthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="forthProxyAnnotation != null" >
+        forth_proxy_annotation = #{forthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="fifthProxyDate != null" >
+        fifth_proxy_date = #{fifthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="fifthProxyAnnotation != null" >
+        fifth_proxy_annotation = #{fifthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="sixthProxyDate != null" >
+        sixth_proxy_date = #{sixthProxyDate,jdbcType=DATE},
+      </if>
+      <if test="sixthProxyAnnotation != null" >
+        sixth_proxy_annotation = #{sixthProxyAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="declaration != null" >
+        declaration = #{declaration,jdbcType=VARCHAR},
+      </if>
+      <if test="informationMaintenanceDate != null" >
+        information_maintenance_date = #{informationMaintenanceDate,jdbcType=DATE},
+      </if>
+      <if test="informationMaintenanceName != null" >
+        information_maintenance_name = #{informationMaintenanceName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalStatus != null" >
+        approval_status = #{approvalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null" >
+        review_date = #{reviewDate,jdbcType=DATE},
+      </if>
+      <if test="reviewName != null" >
+        review_name = #{reviewName,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="singleStoreAuthorization != null" >
+        single_store_authorization = #{singleStoreAuthorization,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="descriptionProblem != null" >
+        description_problem = #{descriptionProblem,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 删除 -->
+  <!-- 根据资质台账基本信息主键id删除质检报告 -->
+  <delete id="deleteByLedgerQualificationIdOfInspection" parameterType="java.lang.Integer" >
+    delete from ledger_qualification_inspection
+    where ledger_qualification_id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  
+  <!-- 根据资质台账基本信息主键id更新资质台账基本信息中的审核状态、审核人、审核日期 -->
+  <update id="updateLedgerQualificationOfReviewByPrimaryKey" parameterType="net.shopin.ledger.po.Approval">
+  	update ledger_qualification
+  	<set >
+      <if test="approvalStatus != null" >
+        approval_status = #{approvalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null" >
+        review_date = #{reviewDate,jdbcType=DATE},
+      </if>
+      <if test="reviewName != null" >
+        review_name = #{reviewName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!--根据资质台帐注册证号码查询-->
+	<select id="selectLegerQulicationByRegisterNumer" parameterType="net.shopin.ledger.po.LedgerQualificationCustom" resultType="java.lang.Integer">
+  	select count(*)
+  	from ledger_qualification
+		<where>
+			<if test="registrationNumber != null and supplierCode !=null" >
+				registration_number = #{registrationNumber,jdbcType=VARCHAR} and supplier_code = #{supplierCode,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+  
+  <!--代理商级别表导出，按品类查-->
+  <select id="selectLedgerQualificationCustomByActingLevel" parameterType="java.lang.String" resultMap="BaseResultMapOfActingLevelVo">
+  	SELECT
+  	<include refid="Base_Column_List_ActingLevelVo"/>
+	FROM ledger_qualification INNER JOIN ledger_qualification_supply_info
+	WHERE
+	ledger_qualification.supplier_code=ledger_qualification_supply_info.supplier_code
+	AND ledger_qualification.status = '在柜'
+	AND ledger_qualification.category= #{category,jdbcType=VARCHAR}
+  </select>
+  <!--因资质不能结算明细-->
+  <select id="selectLedgerQualificationCustomForQualiError" parameterType="java.util.Date" resultMap="BaseResultMapOfQualiErrorInfoVO">
+  	select
+  	<include refid="Base_Column_List_QualiErrorInfoVO"/>
+  	from ledger_qualification INNER JOIN ledger_qualification_supply_info INNER JOIN ledger_qualification_inspection
+  	where ledger_qualification.supplier_code=ledger_qualification_supply_info.supplier_code and ledger_qualification.id=ledger_qualification_inspection.ledger_qualification_id
+  	<trim prefix="and(" suffix=")">
+  		ledger_qualification.end_date &lt; #{today,jdbcType=DATE} 
+		OR ledger_qualification.expiration_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.first_proxy_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.second_proxy_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.third_proxy_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.forth_proxy_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.fifth_proxy_date &lt; #{today,jdbcType=DATE}
+		OR ledger_qualification.sixth_proxy_date &lt; #{today,jdbcType=DATE}
+		OR (ledger_qualification_inspection.inspection_type='有质检（有期限）' AND ledger_qualification_inspection.inspection_date &lt; #{today,jdbcType=DATE})
+  	</trim>
+  </select>
+  
+</mapper>

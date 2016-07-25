@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.ledger.mapper.LedgerContractMapperCustom" >
+
+	<!-- 供应商基本信息映射 -->
+	<resultMap id="BaseResultMapOfSupplyInfo" type="net.shopin.ledger.po.LedgerContractSupplyInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="legal_representative" property="legalRepresentative" jdbcType="VARCHAR" />
+    <result column="attorney" property="attorney" jdbcType="VARCHAR" />
+    <result column="mobile_phone1" property="mobilePhone1" jdbcType="VARCHAR" />
+    <result column="mobile_phone1_name" property="mobilePhone1Name" jdbcType="VARCHAR" />
+    <result column="mobile_phone2" property="mobilePhone2" jdbcType="VARCHAR" />
+    <result column="mobile_phone2_name" property="mobilePhone2Name" jdbcType="VARCHAR" />
+    <result column="fixed_telephone" property="fixedTelephone" jdbcType="VARCHAR" />
+    <result column="fixed_telephone_name" property="fixedTelephoneName" jdbcType="VARCHAR" />
+    <result column="basic_signing_date" property="basicSigningDate" jdbcType="DATE" />
+  </resultMap>
+
+	<!-- 供应商基本信息查询列 -->
+	<sql id="Base_Column_List_SupplyInfo" >
+    id, supplier_code, supplier_name, legal_representative, attorney, mobile_phone1, 
+    mobile_phone1_name, mobile_phone2, mobile_phone2_name, fixed_telephone, fixed_telephone_name,
+    basic_signing_date
+  </sql>
+  
+  <!--DifferDeductionVo-->
+  <resultMap id="BaseResultMapOfDifferDeductionVo" type="net.shopin.supply.domain.vo.DifferDeductionVo">
+  	<result column="supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+  	<result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+  	<result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="deduction_rate" property="deductionRate" jdbcType="DOUBLE" />
+    <result column="cooperation_way" property="cooperationWay" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--DifferDeductionVo 列-->
+  <sql id="Base_Column_List_DifferDeductionVo">
+  	ledger_contract.supplier_code,
+	ledger_contract_supply_info.supplier_name,
+	category,
+	brand_name,
+	store_name,
+	deduction_rate,
+	cooperation_way
+  </sql>
+  
+  <!-- 协议历程映射 -->
+  <resultMap id="BaseResultMapOfCourse" type="net.shopin.ledger.po.LedgerContractCourse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ledger_contract_id" property="ledgerContractId" jdbcType="INTEGER" />
+    <result column="contract_return_date" property="contractReturnDate" jdbcType="DATE" />
+    <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
+    <result column="contract_begin_date" property="contractBeginDate" jdbcType="DATE" />
+    <result column="contract_end_date" property="contractEndDate" jdbcType="DATE" />
+    <result column="contract_review_status" property="contractReviewStatus" jdbcType="VARCHAR" />
+    <result column="contract_reviewer" property="contractReviewer" jdbcType="VARCHAR" />
+    <result column="contract_review_date" property="contractReviewDate" jdbcType="DATE" />
+  </resultMap>
+  <!-- 协议历程列 -->
+  <sql id="Base_Column_List_Course" >
+    id, ledger_contract_id, contract_return_date, contract_type, contract_begin_date, 
+    contract_end_date, contract_review_status, contract_reviewer, contract_review_date
+  </sql>
+  
+  
+  <!-- 综合分页查询分析
+  	首先，综合查询的查询条件取自合同台账基本信息和供应商基本信息。
+  	然后，分页查询是基于合同台账基本信息和供应商基本信息内链接查询，这个时候就不涉及到历程信息的分页查询，否则会出现分页问题发生。
+   -->
+  <!-- 综合分页查询字段映射 -->
+  <resultMap id="BaseResultMapOfPagingAndExample" type="net.shopin.ledger.po.LedgerContractCustom" >
+  	<!-- 
+  		因为合同台账基本信息表和供应商基本信息表内链接查询，所以会查询到两个id，故需要对此作出区分，
+  		对于每一个id用表明进行重命名。
+  	 -->
+    <id column="ledger_contract_table_id" property="id" jdbcType="INTEGER" />
+    <result column="settlement_status" property="settlementStatus" jdbcType="VARCHAR" />
+    <result column="cabinet_status" property="cabinetStatus" jdbcType="VARCHAR" />
+    <result column="cabinet_date" property="cabinetDate" jdbcType="DATE" />
+    <result column="sign_mark" property="signMark" jdbcType="VARCHAR" />
+    <result column="authorized_start_date" property="authorizedStartDate" jdbcType="DATE" />
+    <result column="authorized_end_date" property="authorizedEndDate" jdbcType="DATE" />
+    <!-- 
+    	与id相同，合同台账基本信息表和供应商基本信息表内链接查询，会查询出两个供应商编码，需要对此作出区分，
+    	这里用表名对其进行重命名。
+     -->
+    <result column="ledger_contract_table_supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_level" property="brandLevel" jdbcType="VARCHAR" />
+    <result column="store_encoding" property="storeEncoding" jdbcType="VARCHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="deduction_rate" property="deductionRate" jdbcType="DOUBLE" />
+    <result column="assessment_indicator" property="assessmentIndicator" jdbcType="VARCHAR" />
+    <result column="signing_date" property="signingDate" jdbcType="DATE" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="contract_deadline" property="contractDeadline" jdbcType="DATE" />
+    <result column="management_fees" property="managementFees" jdbcType="DOUBLE" />
+    <result column="card_fees" property="cardFees" jdbcType="VARCHAR" />
+    <result column="contract_version" property="contractVersion" jdbcType="VARCHAR" />
+    <!--添加字段 by syk-->
+    <result column="clear_type" property="clearType" jdbcType="VARCHAR" />
+    <result column="clear_threshold" property="clearThreshold" jdbcType="VARCHAR" />
+    <result column="clear_deduction" property="clearDeduction" jdbcType="VARCHAR" />
+    <result column="decorate_rules" property="decorateRules" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="biz_contract_version" property="bizContractVersion" jdbcType="VARCHAR" />
+    <result column="cooperation_way" property="cooperationWay" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    
+    <result column="check_tag" property="checkTag" jdbcType="VARCHAR" />
+    <result column="check_name" property="checkName" jdbcType="VARCHAR" />
+    <result column="check_date" property="checkDate" jdbcType="DATE" />
+    <result column="valid" property="valid" jdbcType="BIT" />
+    <result column="mark" property="mark" jdbcType="LONGVARCHAR" />
+    <result column="supplemental" property="supplemental" jdbcType="LONGVARCHAR" />
+    <association property="ledgerContractSupplyInfo" javaType="net.shopin.ledger.po.LedgerContractSupplyInfo">
+	    <!-- 
+	  		因为合同台账基本信息表和供应商基本信息表内链接查询，所以会查询到两个id，故需要对此作出区分，
+	  		对于每一个id用表明进行重命名。
+	  	 -->
+    	<id column="ledger_contract_supply_info_table_id" property="id" jdbcType="INTEGER" />
+    	<!-- 
+	    	与id相同，合同台账基本信息表和供应商基本信息表内链接查询，会查询出两个供应商编码，需要对此作出区分，
+	    	这里用表名对其进行重命名。
+	     -->
+	    <result column="ledger_contract_supply_info_table_supplier_code" property="supplierCode" jdbcType="VARCHAR" />
+	    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+	    <result column="legal_representative" property="legalRepresentative" jdbcType="VARCHAR" />
+	    <result column="attorney" property="attorney" jdbcType="VARCHAR" />
+	    <result column="mobile_phone1" property="mobilePhone1" jdbcType="VARCHAR" />
+	    <result column="mobile_phone1_name" property="mobilePhone1Name" jdbcType="VARCHAR" />
+	    <result column="mobile_phone2" property="mobilePhone2" jdbcType="VARCHAR" />
+	    <result column="mobile_phone2_name" property="mobilePhone2Name" jdbcType="VARCHAR" />
+	    <result column="fixed_telephone" property="fixedTelephone" jdbcType="VARCHAR" />
+	    <result column="fixed_telephone_name" property="fixedTelephoneName" jdbcType="VARCHAR" />
+	    <result column="basic_signing_date" property="basicSigningDate" jdbcType="DATE" />
+    </association>
+  </resultMap>
+  
+  <!-- 综合分页查询查询列表 -->
+  <sql id="Base_Column_List_Paging_Example" >
+    ledger_contract.id ledger_contract_table_id, settlement_status, cabinet_status, cabinet_date, sign_mark, authorized_start_date, authorized_end_date, ledger_contract.supplier_code ledger_contract_table_supplier_code, 
+    category, brand_name,brand_level, store_encoding, store_name, deduction_rate, assessment_indicator, 
+    signing_date, start_date, end_date, contract_deadline, management_fees, card_fees, 
+    contract_version, check_tag, check_name, check_date, valid, mark, supplemental
+    , ledger_contract_supply_info.id ledger_contract_supply_info_table_id, ledger_contract_supply_info.supplier_code ledger_contract_supply_info_table_supplier_code, supplier_name, legal_representative, attorney, mobile_phone1, 
+    mobile_phone1_name, mobile_phone2, mobile_phone2_name, fixed_telephone, fixed_telephone_name,
+    basic_signing_date,clear_type,clear_threshold,clear_deduction,decorate_rules,area,biz_contract_version,cooperation_way,ledger_contract.parent_id
+  </sql>
+
+  <!-- 综合分页查询查询条件 -->
+  <sql id="Example_Where_Clause_LedgerContract" >
+      <foreach collection="example1.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          
+            <foreach collection="criteria.criteria" item="criterion" >
+              	<choose >
+	                <when test="criterion.noValue" >
+	                  and ledger_contract.${criterion.condition}
+	                </when>
+	                <when test="criterion.singleValue" >
+	                  and ledger_contract.${criterion.condition} #{criterion.value}
+	                </when>
+	                <when test="criterion.betweenValue" >
+	                  and ledger_contract.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+	                </when>
+	                <when test="criterion.listValue" >
+	                  and ledger_contract.${criterion.condition}
+	                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+	                    #{listItem}
+	                  </foreach>
+	                </when>
+	              </choose>
+            </foreach>
+
+        </if>
+      </foreach>
+  </sql>
+  <sql id="Example_Where_Clause_LedgerContractSupplyInfo" >
+      <foreach collection="example2.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ledger_contract_supply_info.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ledger_contract_supply_info.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ledger_contract_supply_info.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ledger_contract_supply_info.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+
+        </if>
+      </foreach>
+  </sql>
+  
+  <!-- 综合分页查询合同台账基本信息和供应商基本信息 -->
+  <select id="selectLedgerContractCustomByPaginAndExample" resultMap="BaseResultMapOfPagingAndExample" >
+    select
+    <include refid="Base_Column_List_Paging_Example" />
+    from ledger_contract inner join ledger_contract_supply_info
+    on ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+    <if test="_parameter != null" >
+      <if test="example1 != null or example2 != null">
+      <where>
+      	<trim prefix="(" suffix=")" prefixOverrides="and" >
+	      	<if test="example1 != null">
+	      		<include refid="Example_Where_Clause_LedgerContract" />
+	      	</if>
+	      	<if test="example2 != null">
+	      		<include refid="Example_Where_Clause_LedgerContractSupplyInfo" />
+	      	</if>
+      	</trim>
+      </where>  
+      </if>
+    </if>
+    <if test="index != null and pageSize != null">
+   		limit #{index}, #{pageSize}
+    </if>
+  </select>
+  
+  
+  <!-- 综合查询合同台账基本信息和供应商基本信息 -->
+  <select id="selectLedgerContractCustomCountByPaginAndExample" resultType="java.lang.Integer" >
+    select count(*)
+    from ledger_contract inner join ledger_contract_supply_info
+    on ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+    <if test="_parameter != null" >
+      <if test="example1 != null or example2 != null">
+      <where>
+      	<trim prefix="(" suffix=")" prefixOverrides="and" >
+      	<if test="example1 != null">
+      		<include refid="Example_Where_Clause_LedgerContract" />
+      	</if>
+      	<if test="example2 != null">
+      		<include refid="Example_Where_Clause_LedgerContractSupplyInfo" />
+      	</if>
+      	</trim>
+      </where>
+      </if>
+    </if>
+  </select>
+  
+  
+  
+  
+  <!-- 插入合同台账基本信息中不为空的数据 -->
+  <insert id="insertSelectiveOfLedgerContract" parameterType="net.shopin.ledger.po.LedgerContract" >
+  	<!-- 合同台账采用自增长的方式生成主键，这里我们返回生成的主键id，用于其他信息的插入使用 -->
+  	<selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+  		select LAST_INSERT_ID()
+  	</selectKey>
+    insert into ledger_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="settlementStatus != null" >
+        settlement_status,
+      </if>
+      <if test="cabinetStatus != null" >
+        cabinet_status,
+      </if>
+      <if test="cabinetDate != null" >
+        cabinet_date,
+      </if>
+      <if test="signMark != null" >
+        sign_mark,
+      </if>
+      <if test="authorizedStartDate != null" >
+        authorized_start_date,
+      </if>
+      <if test="authorizedEndDate != null" >
+        authorized_end_date,
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandLevel != null" >
+        brand_level,
+      </if>
+      <if test="storeEncoding != null" >
+        store_encoding,
+      </if>
+      <if test="storeName != null" >
+        store_name,
+      </if>
+      <if test="deductionRate != null" >
+        deduction_rate,
+      </if>
+      <if test="assessmentIndicator != null" >
+        assessment_indicator,
+      </if>
+      <if test="signingDate != null" >
+        signing_date,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="contractDeadline != null" >
+        contract_deadline,
+      </if>
+      <if test="managementFees != null" >
+        management_fees,
+      </if>
+      <if test="cardFees != null" >
+        card_fees,
+      </if>
+      <if test="contractVersion != null" >
+        contract_version,
+      </if>
+      <if test="checkTag != null" >
+        check_tag,
+      </if>
+      <if test="checkName != null" >
+        check_name,
+      </if>
+      <if test="checkDate != null" >
+        check_date,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="supplemental != null" >
+        supplemental,
+      </if>
+      <!--added by syk-->
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="clearType != null" >
+        clear_type,
+      </if>
+      <if test="clearThreshold != null" >
+        clear_threshold,
+      </if>
+      <if test="clearDeduction != null" >
+        clear_Deduction,
+      </if>
+      <if test="decorateRules != null" >
+        decorate_rules,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="cooperationWay != null" >
+        cooperation_way,
+      </if>
+      <if test="bizContractVersion != null" >
+        biz_contract_version,
+      </if>
+      <!--added by syk end-->
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="settlementStatus != null" >
+        #{settlementStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetStatus != null" >
+        #{cabinetStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetDate != null" >
+        #{cabinetDate,jdbcType=DATE},
+      </if>
+      <if test="signMark != null" >
+        #{signMark,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedStartDate != null" >
+        #{authorizedStartDate,jdbcType=DATE},
+      </if>
+      <if test="authorizedEndDate != null" >
+        #{authorizedEndDate,jdbcType=DATE},
+      </if>
+      <if test="supplierCode != null" >
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLevel != null" >
+        #{brandLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="storeEncoding != null" >
+        #{storeEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionRate != null" >
+        #{deductionRate,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentIndicator != null" >
+        #{assessmentIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="signingDate != null" >
+        #{signingDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="contractDeadline != null" >
+        #{contractDeadline,jdbcType=DATE},
+      </if>
+      <if test="managementFees != null" >
+        #{managementFees,jdbcType=DOUBLE},
+      </if>
+      <if test="cardFees != null" >
+        #{cardFees,jdbcType=VARCHAR},
+      </if>
+      <if test="contractVersion != null" >
+        #{contractVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTag != null" >
+        #{checkTag,jdbcType=VARCHAR},
+      </if>
+      <if test="checkName != null" >
+        #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null" >
+        #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="supplemental != null" >
+        #{supplemental,jdbcType=LONGVARCHAR},
+      </if>
+      <!--added by syk-->
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="clearType != null" >
+        #{clearType,jdbcType=VARCHAR},
+      </if>
+      <if test="clearThreshold != null" >
+        #{clearThreshold,jdbcType=VARCHAR},
+      </if>
+      <if test="clearDeduction != null" >
+        #{clearDeduction,jdbcType=VARCHAR},
+      </if>
+      <if test="decorateRules != null" >
+        #{decorateRules,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationWay != null" >
+        #{cooperationWay,jdbcType=VARCHAR},
+      </if>
+      <if test="bizContractVersion != null" >
+        #{bizContractVersion,jdbcType=VARCHAR},
+      </if>
+      <!--added by syk end-->
+    </trim>
+  </insert>
+  <!-- 插入供应商基本信息中不为空的数据 -->
+  <insert id="insertSelectiveOfSupplyInfo" parameterType="net.shopin.ledger.po.LedgerContractSupplyInfo" >
+    insert into ledger_contract_supply_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="legalRepresentative != null" >
+        legal_representative,
+      </if>
+      <if test="attorney != null" >
+        attorney,
+      </if>
+      <if test="mobilePhone1 != null" >
+        mobile_phone1,
+      </if>
+      <if test="mobilePhone1Name != null" >
+        mobile_phone1_name,
+      </if>
+      <if test="mobilePhone2 != null" >
+        mobile_phone2,
+      </if>
+      <if test="mobilePhone2Name != null" >
+        mobile_phone2_name,
+      </if>
+      <if test="fixedTelephone != null" >
+        fixed_telephone,
+      </if>
+      <if test="fixedTelephoneName != null" >
+        fixed_telephone_name,
+      </if>
+      <if test="basicSigningDate != null" >
+        basic_signing_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierCode != null" >
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null" >
+        #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="attorney != null" >
+        #{attorney,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1 != null" >
+        #{mobilePhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1Name != null" >
+        #{mobilePhone1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2 != null" >
+        #{mobilePhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2Name != null" >
+        #{mobilePhone2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephone != null" >
+        #{fixedTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephoneName != null" >
+        #{fixedTelephoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="basicSigningDate != null" >
+        #{basicSigningDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!-- 插入协议历程信息中不为空的数据 -->
+  <insert id="insertSelectiveOfCourse" parameterType="net.shopin.ledger.po.LedgerContractCourse" >
+    insert into ledger_contract_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ledgerContractId != null" >
+        ledger_contract_id,
+      </if>
+      <if test="contractReturnDate != null" >
+        contract_return_date,
+      </if>
+      <if test="contractType != null" >
+        contract_type,
+      </if>
+      <if test="contractBeginDate != null" >
+        contract_begin_date,
+      </if>
+      <if test="contractEndDate != null" >
+        contract_end_date,
+      </if>
+      <if test="contractReviewStatus != null" >
+        contract_review_status,
+      </if>
+      <if test="contractReviewer != null" >
+        contract_reviewer,
+      </if>
+      <if test="contractReviewDate != null" >
+        contract_review_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ledgerContractId != null" >
+        #{ledgerContractId,jdbcType=INTEGER},
+      </if>
+      <if test="contractReturnDate != null" >
+        #{contractReturnDate,jdbcType=DATE},
+      </if>
+      <if test="contractType != null" >
+        #{contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="contractBeginDate != null" >
+        #{contractBeginDate,jdbcType=DATE},
+      </if>
+      <if test="contractEndDate != null" >
+        #{contractEndDate,jdbcType=DATE},
+      </if>
+      <if test="contractReviewStatus != null" >
+        #{contractReviewStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="contractReviewer != null" >
+        #{contractReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="contractReviewDate != null" >
+        #{contractReviewDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  
+
+  
+  <!-- 根据供应商编码，查询该供应商信息 -->
+  <select id="selectBySupplierCodeOfSupplyInfo" resultMap="BaseResultMapOfSupplyInfo" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List_SupplyInfo" />
+    from ledger_contract_supply_info
+    where supplier_code = #{supplierCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据供应商编码更新供应商基本信息 -->
+  <update id="updateBySupplierCodeSelectiveOfSupplyInfo" parameterType="net.shopin.ledger.po.LedgerContractSupplyInfo" >
+    update ledger_contract_supply_info
+    <set >
+      <if test="supplierCode != null" >
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null" >
+        legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="attorney != null" >
+        attorney = #{attorney,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1 != null" >
+        mobile_phone1 = #{mobilePhone1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone1Name != null" >
+        mobile_phone1_name = #{mobilePhone1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2 != null" >
+        mobile_phone2 = #{mobilePhone2,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone2Name != null" >
+        mobile_phone2_name = #{mobilePhone2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephone != null" >
+        fixed_telephone = #{fixedTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedTelephoneName != null" >
+        fixed_telephone_name = #{fixedTelephoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="basicSigningDate != null" >
+        basic_signing_date = #{basicSigningDate,jdbcType=DATE},
+      </if>
+    </set>
+    where supplier_code = #{supplierCode,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据合同台账主键id更新合同台账基本信息 -->
+  <update id="updateByPrimaryKeySelectiveOfLedgerContract" parameterType="net.shopin.ledger.po.LedgerContract" >
+    update ledger_contract
+    <set >
+      <if test="settlementStatus != null" >
+        settlement_status = #{settlementStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetStatus != null" >
+        cabinet_status = #{cabinetStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetDate != null" >
+        cabinet_date = #{cabinetDate,jdbcType=DATE},
+      </if>
+      <if test="signMark != null" >
+        sign_mark = #{signMark,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedStartDate != null" >
+        authorized_start_date = #{authorizedStartDate,jdbcType=DATE},
+      </if>
+      <if test="authorizedEndDate != null" >
+        authorized_end_date = #{authorizedEndDate,jdbcType=DATE},
+      </if>
+      <if test="supplierCode != null" >
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandLevel != null" >
+        brand_level = #{brandLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="storeEncoding != null" >
+        store_encoding = #{storeEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="deductionRate != null" >
+        deduction_rate = #{deductionRate,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentIndicator != null" >
+        assessment_indicator = #{assessmentIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="signingDate != null" >
+        signing_date = #{signingDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="contractDeadline != null" >
+        contract_deadline = #{contractDeadline,jdbcType=DATE},
+      </if>
+      <if test="managementFees != null" >
+        management_fees = #{managementFees,jdbcType=DOUBLE},
+      </if>
+      <if test="cardFees != null" >
+        card_fees = #{cardFees,jdbcType=VARCHAR},
+      </if>
+      <if test="contractVersion != null" >
+        contract_version = #{contractVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTag != null" >
+        check_tag = #{checkTag,jdbcType=VARCHAR},
+      </if>
+      <if test="checkName != null" >
+        check_name = #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null" >
+        check_date = #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="supplemental != null" >
+        supplemental = #{supplemental,jdbcType=LONGVARCHAR},
+      </if>
+        <!--added by syk-->
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="clearType != null" >
+        clear_type = #{clearType,jdbcType=VARCHAR},
+      </if>
+      <if test="clearThreshold != null" >
+        clear_threshold = #{clearThreshold,jdbcType=VARCHAR},
+      </if>
+      <if test="clearDeduction != null" >
+        clear_deduction = #{clearDeduction,jdbcType=VARCHAR},
+      </if>
+      <if test="decorateRules != null" >
+        decorate_rules = #{decorateRules,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationWay != null" >
+        cooperation_way = #{cooperationWay,jdbcType=VARCHAR},
+      </if>
+      <if test="bizContractVersion != null" >
+        biz_contract_version = #{bizContractVersion,jdbcType=VARCHAR},
+      </if>
+      <!--added by syk end-->
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据合同台账基本信息主键id获取协议历程信息 -->
+  <select id="selectByLedgerContractIdOfCourse" resultMap="BaseResultMapOfCourse" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List_Course" />
+    from ledger_contract_course
+    where ledger_contract_id = #{ledgerContractId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据合同台账主键id删除协议历程 -->
+  <delete id="deleteByLedgerContractIdOfCourse"  parameterType="java.lang.Integer" >
+    delete from ledger_contract_course
+    where ledger_contract_id = #{ledgerContractId,jdbcType=INTEGER}
+  </delete>
+  <!--差异性扣率导出（同一供应商同品牌不同门店）,得到查询条件-->
+  <select id="selectByDifferDeductionGetCriteria" resultMap="BaseResultMapOfDifferDeductionVo">
+  	SELECT l.supplier_code,l.brand_name,COUNT(l.store_name) storecount
+	FROM ledger_contract l
+	GROUP BY l.supplier_code,l.brand_name
+	HAVING storecount > 1
+	ORDER BY l.supplier_code
+  </select>
+  <!--差异性扣率导出（同一供应商同品牌不同门店）,按上面查询条件得到结果-->
+  <select id="selectByDifferDeductionGetResultByCriteria" parameterType="net.shopin.supply.domain.vo.DifferDeductionVo" resultMap="BaseResultMapOfDifferDeductionVo">
+  	SELECT
+	<include refid="Base_Column_List_DifferDeductionVo" />
+	FROM
+	ledger_contract INNER JOIN
+	ledger_contract_supply_info
+	WHERE
+	ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+	AND ledger_contract.supplier_code = #{supplierCode,jdbcType=VARCHAR} AND ledger_contract.brand_name = #{brandName,jdbcType=VARCHAR}
+  </select>
+  
+  <!--差异性扣率统计表（同品牌不同供应商）,得到查询条件-->
+  <select id="selectDifferDeductionByDifferSupplyGetCriteria" resultMap="BaseResultMapOfDifferDeductionVo">
+  	SELECT l.brand_name,COUNT(DISTINCT l.supplier_code) supplycount
+	FROM ledger_contract l
+	GROUP BY l.brand_name
+	HAVING supplycount > 1
+  </select>
+  <!--差异性扣率统计表（同品牌不同供应商），按上面查询条件得到结果-->
+  <select id="selectDifferDeductionSupplyGetResultByDifferSupplyCriteria" parameterType="net.shopin.supply.domain.vo.DifferDeductionVo" resultMap="BaseResultMapOfDifferDeductionVo">
+  	SELECT
+	<include refid="Base_Column_List_DifferDeductionVo"/>
+	FROM
+	ledger_contract INNER JOIN ledger_contract_supply_info
+	WHERE
+	ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+	AND ledger_contract.brand_name = #{brandName,jdbcType=VARCHAR}
+  </select>
+  
+  <!--品牌扣率导出（在某一范围内的品牌扣率）-->
+  <select id="selectDeductionByRange" parameterType="java.util.Map" resultMap="BaseResultMapOfDifferDeductionVo">
+  	SELECT
+	<include refid="Base_Column_List_DifferDeductionVo" />
+	FROM
+	ledger_contract INNER JOIN
+	ledger_contract_supply_info
+	WHERE
+	ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+	<choose>
+		<when test="rangeStart!=null and rangeEnd!=null">
+			AND ledger_contract.deduction_rate BETWEEN #{rangeStart,jdbcType=INTEGER} AND #{rangeEnd,jdbcType=INTEGER}
+		</when>
+		<when test="rangeStart!=null and rangeEnd==null">
+			AND ledger_contract.deduction_rate &gt;= #{rangeStart,jdbcType=INTEGER}
+		</when>
+		<when test="rangeStart==null and rangeEnd!=null">
+			AND ledger_contract.deduction_rate &lt;= #{rangeEnd,jdbcType=INTEGER}
+		</when>
+	</choose>
+  </select>
+  <!--按parentId查询-->
+  <select id="selectLedgerContractCustomListByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMapOfPagingAndExample">
+  	select
+    <include refid="Base_Column_List_Paging_Example"/>
+    from ledger_contract inner join ledger_contract_supply_info
+    on ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+    where ledger_contract.parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+   <!--按Id查询-->
+  <select id="selectLedgerContractCustomListById" parameterType="java.lang.Integer" resultMap="BaseResultMapOfPagingAndExample">
+  	select
+    <include refid="Base_Column_List_Paging_Example"/>
+    from ledger_contract inner join ledger_contract_supply_info
+    on ledger_contract.supplier_code = ledger_contract_supply_info.supplier_code
+    where ledger_contract.id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--判断条目唯一-->
+  <select id="selectLegerContractByCriteria" parameterType="net.shopin.ledger.po.LedgerContractCustom" resultType="java.lang.Integer">
+  	select
+  	count(*)
+  	from ledger_contract
+    <where>
+      <if test="supplierCode != null" >
+        supplier_code = #{supplierCode,jdbcType=VARCHAR}
+      </if>
+      <if test="category != null" >
+        and category = #{category,jdbcType=VARCHAR}
+      </if>
+      <if test="brandName != null" >
+        and brand_name = #{brandName,jdbcType=VARCHAR}
+      </if>
+      <if test="storeEncoding != null" >
+        and store_encoding = #{storeEncoding,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null" >
+        and start_date = #{startDate,jdbcType=DATE}
+      </if>
+      <if test="endDate != null" >
+        and end_date = #{endDate,jdbcType=DATE}
+      </if>
+      <if test="contractDeadline != null" >
+        and contract_deadline = #{contractDeadline,jdbcType=DATE}
+      </if>
+    </where>
+  </select>
+  
+</mapper>
