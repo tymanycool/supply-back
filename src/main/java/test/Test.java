@@ -19,6 +19,9 @@ public class Test {
 	@org.junit.Test
 	public void testSelectGuideList(){
 		
+		
+		
+		
 		Map<String,String> map=new HashMap<String,String>();
 		map.put("shopId", "1001");
 		map.put("supplyId", "100791");
