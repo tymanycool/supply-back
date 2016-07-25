@@ -18,7 +18,7 @@ public class Test {
 	
 	@org.junit.Test
 	public void testSelectGuideList(){
-		
+		System.out.println("在测试一下。");
 		
 		
 		
