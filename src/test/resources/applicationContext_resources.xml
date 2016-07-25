@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" 
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                http://www.springframework.org/schema/data/mongo
+				http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+
+	<description>Spring公共配置文件</description>
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+				<!--<value>classpath:/application.properties</value> -->
+				<!-- 本地开发环境配置 -->
+				<value>classpath:/application.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<context:annotation-config />
+	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+	<context:component-scan base-package="net.shopin.supply,net.shopin.ledger,net.shopin.expense" />
+	
+	<bean id="appUtil" class="com.shopin.core.util.AppUtil"/>
+    
+    <!-- 配置mysql数据源 -->
+	
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="3" />
+		<property name="maxActive" value="20" />
+		<property name="removeAbandoned" value="true" /> <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandonedTimeout" value="1800" /> <!-- 1800秒，也就是30分钟 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="true" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 设置在事务接口中，遇到非事务方法时，将非事务接口的资源隔离出当前事务的ThreadLocal，将事务接口与非事务接口彻底隔离开 -->
+		<property name="transactionSynchronization" value="1" />
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+    	<property name="basePackage" value="net.shopin.supply.persistence,net.shopin.ledger.mapper,net.shopin.expense.mapper" /> 
+    	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/> 
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 声明事务规则 -->
+        <tx:attributes>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="select*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" />
+            <!-- add by liuchunlong in 2015.9.26 start -->
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
+            <!-- add by liuchunlong in 2015.9.26 end -->
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception" />   
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="cancle*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="cancel*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="merge*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception" /> 
+            <tx:method name="overtime*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="manualCancle*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="des*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="reg*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="confirm*" propagation="REQUIRED" rollback-for="Exception" />
+            <tx:method name="*" propagation="SUPPORTS" read-only="false" />
+        </tx:attributes>
+    </tx:advice>
+
+	<aop:config>
+        <!-- 定义切面 -->
+        <aop:pointcut id="oaServiceMethods"
+            expression="execution(* net.shopin.supply.service.impl.*.*(..))" />
+        <!-- 将事务通知和切面组合 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="oaServiceMethods" />
+    </aop:config>
+    
+    <aop:config>
+        <!-- 定义切面 -->
+        <aop:pointcut id="ledgerServiceMethods"
+            expression="execution(* net.shopin.ledger.service.impl.*.*(..))" />
+        <!-- 将事务通知和切面组合 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="ledgerServiceMethods" />
+    </aop:config>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+			</props>
+		</property>
+		<property name="username" value="${email.username}"></property>
+		<property name="password" value="${email.password}"></property>
+	</bean>
+	
+</beans>

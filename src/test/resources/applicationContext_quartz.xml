@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> 
+<beans> 
+		
+		<!-- 要调用的工作类 --> 
+       <bean id="sendEmailForGuideAuthorizeJob" class="net.shopin.supply.job.AuthorizeGuideJob" />
+       <bean id="insertExpenseSupplyAreaTableJob" class="net.shopin.expense.controller.SapInterfaceController" />
+       
+        <bean id="sendEmailForGuideAuthorizeTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        	<!-- 调用的类 --> 
+        	<property name="targetObject">
+        		<ref bean="sendEmailForGuideAuthorizeJob"/>
+        	</property>
+        	<!-- 调用类中的方法 --> 
+        	<property name="targetMethod">
+        		<value>work</value>
+        	</property>
+        </bean>
+        
+        <bean id="insertExpenseSupplyAreaTableTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        	<!-- 调用的类 --> 
+        	<property name="targetObject">
+        		<ref bean="insertExpenseSupplyAreaTableJob"/>
+        	</property>
+        	<!-- 调用类中的方法 --> 
+        	<property name="targetMethod">
+        		<value>syncAreaInfo</value>
+        	</property>
+        </bean>
+        
+        <bean id="sendEmailForAuthorizeGuide" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        	<property name="jobDetail">
+        		<ref bean="sendEmailForGuideAuthorizeTask"/>
+        	</property>
+        	<!-- cron表达式 --> 
+        	<property name="cronExpression">
+        		<value>0 31 6 * * ?</value><!--分别对应 秒 分 小时 日 月 年  -->
+        		<!--<value>40 * * * * ?</value>    每两分钟发一次-->
+        		<!--<value>0 0/2 * * * ?</value>   两分钟一次-->
+        	</property>
+        </bean>
+
+               <!-- 杭州手动变价权限 -->
+        <bean id="sendEmailForAuthorizeGuideHz" class="org.springframework.scheduling.quartz.CronTriggerBean">
+            <property name="jobDetail">
+                <ref bean="sendEmailForGuideAuthorizeTask"/>
+            </property>
+            <!-- cron表达式 --> 
+            <property name="cronExpression">
+                <value>0 01 7 * * ?</value><!--分别对应 秒 分 小时 日 月 年  -->
+                <!--<value>40 * * * * ?</value>    每两分钟发一次-->
+                <!--<value>0 0/2 * * * ?</value>   两分钟一次-->
+            </property>
+        </bean> 
+        
+        <bean id="insertExpenseSupplyAreaTable" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        	<property name="jobDetail">
+        		<ref bean="insertExpenseSupplyAreaTableTask"/>
+        	</property>
+        	<!-- cron表达式 --> 
+        	<property name="cronExpression">
+        		<value>0 0 23 * * ?</value><!--分别对应 秒 分 小时 日 月 年  -->
+        	</property>
+        </bean>
+        
+        <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  --> 
+        <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+            <property name="triggers"> 
+                <list> 
+                	 <ref bean="sendEmailForAuthorizeGuide"/> 
+                     <ref bean="sendEmailForAuthorizeGuideHz"/> 
+                	 <ref bean="insertExpenseSupplyAreaTable"/> 
+                </list> 
+            </property> 
+            
+        </bean> 
+
+</beans>
