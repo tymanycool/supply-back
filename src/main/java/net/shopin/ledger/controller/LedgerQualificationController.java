@@ -301,12 +301,12 @@ public class LedgerQualificationController extends BaseController {
 		logger.info("--------------------资质台帐明细导出开始-------------------------");
 		String[] tableHeader = { "工作联系单截止日期", "状态", "联系电话", "品牌级别", "供应商编码", "供应商名称", "营业执照", "国税登记证", "地税登记证", "一般纳税人",
 				"品类", "品牌名称", "注册证号码", "核定类别", "结束日期", "申请日期", "个人商标持有人姓名", "持有人身份证", "单店授权", "代理级别", "一级代理日期",
-				"一级代理日期批注", "二级代理日期", "一级代理批注", "三级代理日期", "三级代理批注", "四级代理日期", "四级代理批注", "五级代理日期", "五级代理批注", "六级代理日期",
+				"一级代理日期批注", "二级代理日期", "二级代理批注", "三级代理日期", "三级代理批注", "四级代理日期", "四级代理批注", "五级代理日期", "五级代理批注", "六级代理日期",
 				"六级代理批注", "质检类型", "质检有效期", "报关单", "问题汇总描述", "初审日期", "初审人", "信息维护日期", "信息维护人", "复审日期", "复审人", "备注",
 				"是否有效"};//TODO
 		JSONArray array = new JSONArray();
 		JSONObject obj = new JSONObject();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		for (int i = 0; i < lists.size(); i++) {
 			LedgerQualificationCustom tmpQuali = lists.get(i);
 			if (tmpQuali.getExpirationDate() != null) {

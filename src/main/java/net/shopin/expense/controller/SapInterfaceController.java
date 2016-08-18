@@ -61,6 +61,8 @@ public class SapInterfaceController {
 		    String days=cal.getActualMaximum(Calendar.DATE) + "";
 	    	fun.getImportParameterList().setValue("ZSTR_DATE", year + month + "01");
 			fun.getImportParameterList().setValue("ZEND_DATE", year + month + days);
+//	    	fun.getImportParameterList().setValue("ZSTR_DATE", "20160701");
+//			fun.getImportParameterList().setValue("ZEND_DATE", "20160731");
 			fun.execute(destination);
 			JCoTable tb = fun.getTableParameterList().getTable("ZOUT_TAB");//返回数据表
 			JCoTable tb1 = fun.getTableParameterList().getTable("EX_RETURN");//返回状态表
