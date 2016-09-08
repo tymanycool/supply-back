@@ -61,8 +61,17 @@ public class GuideinfoVO {
      private String operatoeName;
      private Date operatTime;
      private Integer flag;
+     
+     //客服退货支付权限
+     private Integer customerFlag;
 	 
      
+	public Integer getCustomerFlag() {
+		return customerFlag;
+	}
+	public void setCustomerFlag(Integer customerFlag) {
+		this.customerFlag = customerFlag;
+	}
 	public Date getStartTime() {
 		return startTime;
 	}

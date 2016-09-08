@@ -89,7 +89,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 					"sid","guideNo","chestNum","name","age","stature","address","presentAddress","education","educationCartNum","kitasNum",
 					"kitasEndtime","healthCartNum","healthCartEndtime","spell","sex","mobile","email","guideCard","guideBit","chestBit",
 					"depositBit","depositNum","entrytime","leavetime","validBit","operator","createtime","guideStatus","chestcardNumber",
-					"supplyId","supplyName","categroys","brand","shopName","flag","endTime"
+					"supplyId","supplyName","categroys","brand","shopName","flag","endTime","customerFlag"
 					],
  			proxy: {
 					type: "ajax",
@@ -191,6 +191,16 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 					{header:'是否开通手动变价权限',dataIndex:'flag',width:140,sortable:true,
 						renderer:function(value){
 							if(value == 0) {
+								return '否';
+							}
+							if(value == 1) {
+								return '是';
+							}
+						}
+					},
+					{header:'是否开通导购退货支付权限',dataIndex:'customerFlag',width:140,sortable:true,
+						renderer:function(value){
+							if(value == 0||value==null) {
 								return '否';
 							}
 							if(value == 1) {
@@ -455,8 +465,9 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 //							icon:_appctx+'/images/authorize.png',
 							handler:function(){
 								var str = roleUser;
+								var s = str.split(",")[0];
 								//卖场主管角色id为32
-								if(roleUser.indexOf("91") == -1 )
+								if(roleUser.indexOf("91") == -1 && roleUser.indexOf("32") == -1 && s != 1 )
 								{
 								    Ext.Msg.alert("错误","没有此权限！");
 								    return;
@@ -611,7 +622,147 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 								Ext.getCmp(me.id).add(win);
 								win.show();
 								}
-							}
+							},{
+								text : '客服退货支付权限',
+								xtype : 'button',
+								pressed: true,
+							    ctCls: 'x-btn-over',
+							    margin : '0 10 0 10',
+								handler:function(){
+									var str = roleUser;
+									var s = str.split(",")[0];
+									//卖场主管角色id测试为32,正式为91
+									if(roleUser.indexOf("91") == -1 && roleUser.indexOf("32") == -1 && s != 1 )
+									{
+									    Ext.Msg.alert("错误","没有此权限！");
+									    return;
+									}
+									
+									//获取所有选中行
+									 var record = Ext.getCmp('guideInfoGridPanel').getSelectionModel().getSelection();   
+		                                if(record.length==0){  
+		                                     Ext.MessageBox.show({   
+		                                        title:"提示",   
+		                                        msg:"请先选择导购!"   
+		                                     })  
+		                                    return;  
+		                                }else{  
+		                                    var guideNos = "";   
+		                                    var ifValid = false;
+		                                    var validNames = "";
+		                                    for(var i = 0; i < record.length; i++){   
+		                                    	var validBit = record[i].get("validBit");
+		                                    	if(0 == validBit){
+		                                    		ifValid = true;
+		                                    		validNames = validNames + record[i].get("name") + ",";
+		                                    	}
+		                                        guideNos += record[i].get("guideNo");   
+		                                        if(i<record.length-1){   
+		                                            guideNos = guideNos + ",";   
+		                                        }   
+		                                    }
+		                                    //无效状态的导购提示
+		                                    if(ifValid){
+			                                    	Ext.MessageBox.show({   
+			                                            title:"提示",   
+			                                            msg:validNames+"导购已是无效状态!"   
+			                                        }  
+			                                    )
+			                                    return;
+		                                    }
+		                                } 
+									
+									var win = null;
+									var form = Ext.create('Ext.form.Panel', {
+										height : 310,
+										width  : 420,
+										layout : 'anchor',
+										bodyPadding: '15 15 15 15',
+										defaults : {
+											anchor : '100%',
+											labelAlign : 'right'
+										},
+										items: [ 
+												{
+												    xtype: 'container',
+												    layout: 'hbox',
+												    items: [
+														{
+								                    		fieldLabel:"权限",
+															xtype:"radiogroup",
+															width : 300,
+															id:'kfuflag',
+															items: [
+											                        { boxLabel: "开启", name: "flag", inputValue: "1" },
+											                        { boxLabel: "关闭", name: "flag", inputValue: "0" }
+											                    ],
+															name:'flag',
+															mode:'local'
+														}]
+												},
+												{
+								                	xtype: 'container',
+								                    layout: 'hbox',
+								                    height:5
+								                }
+						                ]
+									});
+									win = Ext.create('Ext.window.Window', {
+										title:"客服退货支付权限",
+										height : 310,
+										width  : 420,
+										id:'kfuWindowId',
+										plain : true,
+										resizable :true,
+										items : [ form ],
+										buttons : [ {
+											text : '重置',
+											handler : function() {
+											form.getForm().reset();
+											}
+										}, {
+											text : '确定',
+											handler : function() {
+											
+												var flag = Ext.getCmp("kfuflag").getValue(); 
+												var flagInput = Ext.getCmp("kfuflag").getChecked().inputValue;
+												Ext.Ajax.request({
+													url: _appctx + '/permission/savePermission',
+													method:'POST',
+													params: { 
+														guideNos : guideNos,
+														type : 2,             //操作类型,type=2为客服退货支付权限操作
+														flag: flag,
+														userSid : userSid,
+														username : username
+													},
+													success: function(response){
+														var result = Ext.decode(response.responseText);
+														if(result.success=="true"){
+															me.guideInfoStore.reload();
+															Ext.Msg.alert('提示',result.obj);
+															me.guideInfoStore.reload();
+														}else{
+															Ext.Msg.alert('错误',result.memo);
+														}
+													},
+													failure: function(){
+														Ext.Msg.alert("错误","访问失败！")
+													}
+												})
+											   Ext.getCmp('kfuWindowId').close();
+											}
+										}, {
+											text : '取消',
+											handler : function() {
+												win.close();
+											}
+										} ]
+									});
+									Ext.getCmp(me.id).add(win);
+									win.show();
+									}
+								}
 				]
 			}],
 			sortableColumns : false
