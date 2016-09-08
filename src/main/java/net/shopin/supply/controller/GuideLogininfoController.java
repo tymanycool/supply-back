@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shopin.core.util.ResultUtil;
+import com.shopin.core.util.json.JsonUtil;
 
 /**
  * 导购登录信息
@@ -163,6 +164,8 @@ public class GuideLogininfoController {
 				userParam.setUserCode(username);
 				SystemUser sysUser = this.systemUserService.selectByUserCode(userParam);
 				
+				logger.info("用户名"+username+"查询的用户信息为"+JsonUtil.Object2JsonFilterNull(sysUser));
+				
 				if(!passwordMd5.equals(sysUser.getUserPssword())){
 					return ResultUtil.createFailureResult("10000", "用户名不存在或密码输入错误!");
 				}else{
@@ -202,6 +205,8 @@ public class GuideLogininfoController {
 			
 			//导购+主管
 			GuideLogininfo guideLogininfo = this.guideLogininfoService.selectGuideLoginByUsername(map);
+			logger.info("用户名"+username+"查询的用户信息为"+JsonUtil.Object2JsonFilterNull(guideLogininfo));
+			
 			if(null == guideLogininfo){
 				return ResultUtil.createFailureResult("10000", "用户名不存在或密码输入错误！");
 			}
