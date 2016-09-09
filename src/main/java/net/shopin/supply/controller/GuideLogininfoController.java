@@ -333,6 +333,7 @@ public class GuideLogininfoController {
 					resultMap.put("userPassword", guideLogininfo.getLoginPassword());
 					resultMap.put("userPhone", guideinfo.getMobile());
 					resultMap.put("authorize", guideinfo.getFlag());
+					resultMap.put("customerFlag", guideinfo.getCustomerFlag());
 					resultMap.put("endtime", guideinfo.getEndTime());
 					
 					List<PadSupply> padSupplyList = this.padSupplyService.selectListByParam(map);
@@ -380,6 +381,7 @@ public class GuideLogininfoController {
 					resultMap.put("realName", guideinfo.getName());
 					resultMap.put("sid", guideinfo.getSid());
 					resultMap.put("authorize", guideinfo.getFlag());
+					resultMap.put("customerFlag", guideinfo.getCustomerFlag());
 					resultMap.put("endtime", guideinfo.getEndTime());
 					resultMap.put("spell", guideinfo.getSpell());
 					resultMap.put("userName", guideLogininfo.getLoginUsername());
@@ -414,6 +416,8 @@ public class GuideLogininfoController {
 						}
 					}else if(guideinfo.getGuideBit() == 0){//主管
 						resultMap.put("roleID", 4);
+					}else if(guideinfo.getGuideBit()==2){//客服
+						resultMap.put("roleID", 6);
 					}
 					
 					resultMap.put("lstSupply", list);

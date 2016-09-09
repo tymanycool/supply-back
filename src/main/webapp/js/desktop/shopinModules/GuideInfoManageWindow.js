@@ -156,7 +156,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 					{header:'身份证号',dataIndex:'guideCard',width:150,sortable:true},
 					{header:'是否是导购',dataIndex:'guideBit',width:70,sortable:true,
 						renderer:function(value){
-							if(value == 0) {
+							if(value == 0||value ==2) {
 								return '不是';
 							}
 							if(value == 1) {

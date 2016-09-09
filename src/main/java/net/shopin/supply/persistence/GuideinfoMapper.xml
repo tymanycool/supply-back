@@ -656,7 +656,7 @@
   </update>
   <select id="selectByGuideNo" resultMap="NewBaseResultMap" parameterType="java.lang.Integer" >
     select 
-    	s.*,p.flag,p.end_time
+    	s.*,p.flag,p.end_time,p.customer_flag
     from 
     	supply_guideinfo s 
     	left join 
