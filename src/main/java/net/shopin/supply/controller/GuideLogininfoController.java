@@ -325,7 +325,10 @@ public class GuideLogininfoController {
 						resultMap.put("roleID", 3);
 					}else if(guideinfo.getGuideBit() == 0){//主管
 						resultMap.put("roleID", 4);
+					}else if(guideinfo.getGuideBit()==2){//客服
+						resultMap.put("roleID", 6);
 					}
+					
 					
 					resultMap.put("sid", guideinfo.getSid());//导购在供应商平台里的sid
 					resultMap.put("spell", guideinfo.getSpell());
