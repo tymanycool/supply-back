@@ -375,22 +375,25 @@ public class GuideLogininfoController {
 				//mac地址为空，返回导购下绑定的所有供应商
 				map.put("guideNo", guideNo);
 				List<GuideSupply> guideSupplyList = this.guideSupplyService.selectListByParam(map);
-				if(null != guideSupplyList&&guideSupplyList.size()>0){
-					resultMap.put("optRealName", guideinfo.getOperator());
-					resultMap.put("optUserSid", "");
-					resultMap.put("realName", guideinfo.getName());
-					resultMap.put("sid", guideinfo.getSid());
-					resultMap.put("authorize", guideinfo.getFlag());
-					resultMap.put("customerFlag", guideinfo.getCustomerFlag());
-					resultMap.put("endtime", guideinfo.getEndTime());
-					resultMap.put("spell", guideinfo.getSpell());
-					resultMap.put("userName", guideLogininfo.getLoginUsername());
-					resultMap.put("userPassword", guideLogininfo.getLoginPassword());
-					resultMap.put("userPhone", guideinfo.getMobile());
-					resultMap.put("shopName", guideSupplyList.get(0).getShopName());
-					resultMap.put("shopSid", guideSupplyList.get(0).getShopId());
+				
+				resultMap.put("optRealName", guideinfo.getOperator());
+				resultMap.put("optUserSid", "");
+				resultMap.put("realName", guideinfo.getName());
+				resultMap.put("sid", guideinfo.getSid());
+				resultMap.put("authorize", guideinfo.getFlag());
+				resultMap.put("customerFlag", guideinfo.getCustomerFlag());
+				resultMap.put("endtime", guideinfo.getEndTime());
+				resultMap.put("spell", guideinfo.getSpell());
+				resultMap.put("userName", guideLogininfo.getLoginUsername());
+				resultMap.put("userPassword", guideLogininfo.getLoginPassword());
+				resultMap.put("userPhone", guideinfo.getMobile());
+				
+//				if(null != guideSupplyList&&guideSupplyList.size()>0){
 					
-					UploadResource uploadResource = this.uploadResourceService.getResourcesByParam(guideSupplyList.get(0).getShopId());
+					resultMap.put("shopName", guideLogininfo.getShopName());
+					resultMap.put("shopSid", guideLogininfo.getShopId());
+					
+					UploadResource uploadResource = this.uploadResourceService.getResourcesByParam(guideLogininfo.getShopId());
 					Map<String,Object> resourceMap = new HashMap<String, Object>();
 					resourceMap.put("sid", uploadResource.getSid());
 					resourceMap.put("type", uploadResource.getType());
@@ -423,13 +426,7 @@ public class GuideLogininfoController {
 					resultMap.put("lstSupply", list);
 					logger.info("********************99999999999999*****************");
 					return ResultUtil.createSuccessResult(resultMap);
-				}
-				
-				if(guideinfo.getGuideBit()==2){//客服
-					resultMap.put("roleID", 6);
-					return ResultUtil.createSuccessResult(resultMap);
-				}
-				
+//				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
