@@ -375,7 +375,7 @@ public class GuideLogininfoController {
 				//mac地址为空，返回导购下绑定的所有供应商
 				map.put("guideNo", guideNo);
 				List<GuideSupply> guideSupplyList = this.guideSupplyService.selectListByParam(map);
-				if(null != guideSupplyList){
+				if(null != guideSupplyList&&guideSupplyList.size()>0){
 					resultMap.put("optRealName", guideinfo.getOperator());
 					resultMap.put("optUserSid", "");
 					resultMap.put("realName", guideinfo.getName());
