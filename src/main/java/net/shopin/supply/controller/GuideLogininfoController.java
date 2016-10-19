@@ -424,6 +424,12 @@ public class GuideLogininfoController {
 					logger.info("********************99999999999999*****************");
 					return ResultUtil.createSuccessResult(resultMap);
 				}
+				
+				if(guideinfo.getGuideBit()==2){//客服
+					resultMap.put("roleID", 6);
+					return ResultUtil.createSuccessResult(resultMap);
+				}
+				
 			}
 		}catch(Exception e){
 			e.printStackTrace();
