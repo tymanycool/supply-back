@@ -242,6 +242,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							handler:function(grid, rowIndex, colIndex){
 								
 								console.log('登陆角色id为:'+roleUser);
+								alert('登陆角色id为:'+roleUser);
 								if(roleUser.indexOf("91") > -1 )
 								{
 								    Ext.Msg.alert("错误","没有此权限！");
