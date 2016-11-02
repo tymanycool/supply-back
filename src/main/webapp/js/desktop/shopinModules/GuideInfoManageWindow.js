@@ -224,11 +224,11 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							icon:_appctx+'/images/edit.gif',
 							handler:function(grid, rowIndex, colIndex){
 								
-								if(roleUser.indexOf("91") > -1 )
+							/*	if(roleUser.indexOf("91") > -1 )
 								{
 								    Ext.Msg.alert("提示","没有此权限！");
 								    return;
-								}
+								}*/
 								
 								var record = grid.getStore().getAt(rowIndex); 
 								
@@ -251,11 +251,11 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							icon:_appctx+'/js/desktop/images/contact_blue_new.png',
 							handler:function(grid, rowIndex, colIndex){
 								
-								if(roleUser.indexOf("91") > -1 )
+						/*		if(roleUser.indexOf("91") > -1 )
 								{
 								    Ext.Msg.alert("错误","没有此权限！");
 								    return;
-								}
+								}*/
 								
 								var record = grid.getStore().getAt(rowIndex);  
 				  				guideNo = record.data.guideNo;
@@ -279,11 +279,11 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							icon:_appctx+'/images/review.png',
 							handler:function(grid, rowIndex, colIndex){
 								
-								if(roleUser.indexOf("91") > -1 )
+							/*	if(roleUser.indexOf("91") > -1 )
 								{
 								    Ext.Msg.alert("错误","没有此权限！");
 								    return;
-								}
+								}*/
 								
 								var record = grid.getStore().getAt(rowIndex);  
 				  				guideNo = record.data.guideNo;
@@ -308,12 +308,12 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							handler:function(grid, rowIndex, colIndex){
 								
 								
-								if(roleUser.indexOf("91") > -1 )
+								/*if(roleUser.indexOf("91") > -1 )
 								{
 									
 								    Ext.Msg.alert("错误","没有此权限！");
 								    return;
-								}
+								}*/
 								
 								var record = grid.getStore().getAt(rowIndex);  
 								
@@ -465,13 +465,13 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 //							icon:_appctx+'/images/authorize.png',
 							handler:function(){
 								var str = roleUser;
-								var s = str.split(",")[0];
+							/*	var s = str.split(",")[0];
 								//卖场主管角色id为32
 								if(roleUser.indexOf("91") == -1 && roleUser.indexOf("32") == -1 && s != 1 )
 								{
 								    Ext.Msg.alert("错误","没有此权限！");
 								    return;
-								}
+								}*/
 								
 								//获取所有选中行
 								 var record = Ext.getCmp('guideInfoGridPanel').getSelectionModel().getSelection();   
@@ -630,13 +630,13 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							    margin : '0 10 0 10',
 								handler:function(){
 									var str = roleUser;
-									var s = str.split(",")[0];
+									/*var s = str.split(",")[0];
 									//卖场主管角色id测试为32,正式为91
 									if(roleUser.indexOf("91") == -1 && roleUser.indexOf("32") == -1 && s != 1 )
 									{
 									    Ext.Msg.alert("错误","没有此权限！");
 									    return;
-									}
+									}*/
 									
 									//获取所有选中行
 									 var record = Ext.getCmp('guideInfoGridPanel').getSelectionModel().getSelection();   
