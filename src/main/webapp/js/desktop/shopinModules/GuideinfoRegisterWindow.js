@@ -353,7 +353,7 @@ Ext.define('ShopinDesktop.GuideinfoRegisterWindow', {
 				layout : 'anchor',
 				autoscroll: true,
 				bodyStyle : 'overflow-x:hidden; overflow-y:scroll',
-				height : 550,
+				height : 600,
 //				width : 690,
 				bodyPadding: "15 15 15 15",
 				items: [ {
@@ -532,17 +532,34 @@ Ext.define('ShopinDesktop.GuideinfoRegisterWindow', {
 										triggerAction : 'all',
 										name:'education',
 										mode:'local'
-									}
-//			                    ,{
-//		                    			xtype: 'textfield',
-//										name : 'education',
-//										labelWidth:100,
-//								  		labelAlign:"right",
-//										width : 300,
-//										fieldLabel : '学历',
-//										allowBlank : false
-//									}
-									]
+									}]
+			                },{
+			                	xtype: 'container',
+			                    layout: 'hbox',
+			                    height:5
+			                },{
+			                    xtype: 'container',
+			                    layout: 'hbox',
+			                    items: [{
+										fieldLabel:"身份",
+										afterLabelTextTpl: required,
+										xtype:"combo",
+										width : 300,
+										editable:false,
+										store:new Ext.data.ArrayStore({
+											fields: ['identityCode','value'],
+											data : [
+											['0',"主管"],['1',"导购"],['2',"客服"]
+											]
+										}),
+										valueField: 'identityCode',
+										displayField:'value',
+										hiddenName:'value',
+										triggerAction : 'all',
+										name:'guideBit',
+										mode:'local',
+										allowBlank : false
+									}]
 			                }]
 			            },
 			            {

@@ -30,8 +30,8 @@ public class TestGuideLogininfoControll {
 //		map.put("username", "S131156");
 //		map.put("password", "1156");
 //		map.put("macAddress", "");
-		map.put("username", "s021070448");
-		map.put("password", "0448");
+		map.put("username", "S10455");
+		map.put("password", "0455");
 		map.put("macAddress", "");
 		
 		//主管
@@ -42,9 +42,9 @@ public class TestGuideLogininfoControll {
 //		map.put("password", "111111");
 //		map.put("macAddress", "");
 //		http://192.168.200.118:8082/supply/guideLogininfo/loginToPad.json
-		String url = "http://172.16.200.68:8082/supply/";
+//		String url = "http://172.16.200.68:8082/supply/";
 //		String url = "http://192.168.200.118:8082/supply/";
-//		String url = "http://localhost/supply_core/";
+		String url = "http://localhost/supplyback/";
 		String result = HttpUtil.HttpPost(url, "guideLogininfo/loginToPad", map);
 		System.out.println(result);
 //		logger.info(result);

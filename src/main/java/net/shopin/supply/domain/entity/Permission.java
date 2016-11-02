@@ -25,6 +25,16 @@ public class Permission {
     
     private Integer flag;
     
+    private Integer customerFlag; 
+    
+	public Integer getCustomerFlag() {
+		return customerFlag;
+	}
+
+	public void setCustomerFlag(Integer customerFlag) {
+		this.customerFlag = customerFlag;
+	}
+
 	public Integer getFlag() {
 		return flag;
 	}

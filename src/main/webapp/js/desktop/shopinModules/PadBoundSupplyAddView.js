@@ -47,7 +47,7 @@ Ext.define('ShopinDesktop.PadBoundSupplyAddView', {
 			autoLoad:true,
 			  id:'useTypeOfPBSAV',
 			  fields:['value','text'],
-			  data:[['0',"导购"],['1',"主管"],['2',"内衣功能区"],['3',"大场"]],
+			  data:[['0',"导购"],['1',"主管"],['2',"内衣功能区"],['3',"大场"],['4',"客服"]],
 		  });
 		
 		  

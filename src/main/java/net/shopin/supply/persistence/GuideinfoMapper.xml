@@ -85,6 +85,7 @@
     <result column="operatoe_name" property="operatoeName" jdbcType="VARCHAR" />
     <result column="operat_time" property="operatTime" jdbcType="TIMESTAMP" />
     <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="customer_flag" property="customerFlag" jdbcType="INTEGER" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -120,7 +121,8 @@
 			p.start_time,
 			p.end_time,
 			p.operatoe_name,
-			p.operat_time
+			p.operat_time,
+			p.customer_flag
 		FROM
 			(((
 				SELECT
@@ -654,7 +656,7 @@
   </update>
   <select id="selectByGuideNo" resultMap="NewBaseResultMap" parameterType="java.lang.Integer" >
     select 
-    	s.*,p.flag,p.end_time
+    	s.*,p.flag,p.end_time,p.customer_flag
     from 
     	supply_guideinfo s 
     	left join 

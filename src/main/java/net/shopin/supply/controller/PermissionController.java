@@ -53,8 +53,10 @@ public class PermissionController {
 //		if(startTime.indexOf("T") != -1){
 //			startTime = startTime.replaceAll("T"," ");
 //		}
-		if(endtime.indexOf("T") != -1){
-			endtime = endtime.replaceAll("T"," ");
+		if(endtime!=null&&!"".equals(endtime)){
+			if(endtime.indexOf("T") != -1){
+				endtime = endtime.replaceAll("T"," ");
+			}
 		}
 		if(guideNos == null || guideNos.isEmpty()){
 			return ResultUtil.createFailureResult("00000", "guideNo is null");
@@ -75,13 +77,20 @@ public class PermissionController {
 				}
 				permission.setGuideNo(Integer.parseInt(guideNo));
 				permission.setType(Integer.parseInt(type));
-				permission.setFlag(Integer.parseInt(flag));
 				permission.setStartTime(new Date());
 				permission.setEndTime((endtime==null || endtime.equals(""))?null:df.parse(DateUtils.addDays(endtime, 1)));
 				permission.setOperatorId(userSid);
 				permission.setOperatoeName(username);
-				permission.setTypeDesc("手动变价权限");
 				permission.setOperatTime(new Date());
+				
+				if("2".equals(type)){
+					permission.setTypeDesc("客服退货支付权限");
+					permission.setCustomerFlag(Integer.parseInt(flag));
+				}else{
+					permission.setFlag(Integer.parseInt(flag));
+					permission.setTypeDesc("手动变价权限");
+				}
+				
 				
 				int result = this.permissionService.save(permission);
 				if(result != 1){

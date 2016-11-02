@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shopin.core.util.DateUtils;
+
 @Service
 public class PermissionServiceImpl implements IPermissionService {
 
@@ -39,15 +41,20 @@ public class PermissionServiceImpl implements IPermissionService {
 		guideLog.setOperator(permission.getOperatoeName());
 		guideLog.setOperatorId(permission.getOperatorId());
 		guideLog.setOperatTime(new Date());
-		guideLog.setType(1);
-		guideLog.setTypeDesc("修改导购手动变价权限");
+		
+		if(permission.getType()==1){
+			guideLog.setTypeDesc("修改导购手动变价权限");
+		}else{
+			guideLog.setTypeDesc("修改客服退货支付权限");
+		}
+		guideLog.setType(permission.getType());
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		JSONObject json = new JSONObject();
 		json.put("memo", "导购权限部分修改信息");
 		json.put("ifopen", permission.getFlag());//是否开通
 		json.put("startTime", sdf.format(permission.getStartTime()));//权限开始时间
-		json.put("endTime", sdf.format(permission.getEndTime()));//权限结束时间
+		json.put("endTime", (permission.getEndTime()==null || "".equals(permission.getEndTime()))?null:sdf.format(permission.getEndTime()));//权限结束时间
 		guideLog.setDescription(json.toString());
 //		guideLog.setDescription("系统时间："+df.format(new Date())+" 系统用户'"+guideinfo.getOperator()+"'修改编号为'"+
 //				guide.getGuideNo()+"'的导购基本信息");
