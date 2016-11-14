@@ -34,7 +34,8 @@ Ext.define('MyDesktop.App', {
 		'ShopinDesktop.PersonalCenterWindow',
 		'ShopinDesktop.LedgerManagementWindow',
 		'ShopinDesktop.ExpenseReportsWindow',
-		'ShopinDesktop.PadInfoManageWindow'
+		'ShopinDesktop.PadInfoManageWindow',
+		'ShopinDesktop.CashierReportsWindow'
 	],
 
 	init: function() {
@@ -58,7 +59,8 @@ Ext.define('MyDesktop.App', {
 			new ShopinDesktop.PersonalCenterWindow(),
 			new ShopinDesktop.LedgerManagementWindow(),
 			new ShopinDesktop.ExpenseReportsWindow(),
-			new ShopinDesktop.PadInfoManageWindow()
+			new ShopinDesktop.PadInfoManageWindow(),
+			new ShopinDesktop.CashierReportsWindow()
 		];
 	},
 
@@ -81,6 +83,7 @@ Ext.define('MyDesktop.App', {
 					{ name: '导购统计查询', iconCls: 'msg-shortcut', module: 'statisticalQueryViewWindow'},
 					{ name: '个人中心', iconCls: 'msg-shortcut', module: 'personalCenterWindow'},
 					{ name: '费用报表', iconCls: 'msg-shortcut', module: 'expenseReportsWindow'},
+					{ name: '收银员流水查询', iconCls: 'msg-shortcut', module: 'cashierReportsWindow'},
 					{ name: '台账管理', iconCls: 'msg-shortcut', module: 'ledgerManagementWindow'},
 					//pad系统新需求，之前的pad管理系统会称为改系统的子功能
 					{ name: 'PAD管理', iconCls: 'msg-shortcut', module: 'padInfoManageWindow'}
@@ -98,6 +101,8 @@ Ext.define('MyDesktop.App', {
 		for(var i =0 ;i<arr.length;i++){
 			dataStore.each(function(record){
 				if(arr[i]==record.data.module){
+					console.log("arr["+i+"]="+arr[i]);
+					console.log(record.data.module);
 					var number = dataStore.find("module",record.data.module);
 					var newRecord = dataStore.getAt(number);
 					resourceStore.addSorted(newRecord);

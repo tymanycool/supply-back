@@ -20,6 +20,7 @@
 
    <import resource="applicationContext_resources.xml"/>
    <import resource="applicationContext_quartz.xml" />
+   <import resource="applicationContext_ogg_resources.xml" />
 
    <!-- import resource="applicationContext-cfx.xml"/ -->
 

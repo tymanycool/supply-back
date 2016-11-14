@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.shopin.supply.ogg.persistence.OmsMapper" >
+  
+  <resultMap id="BaseResultMap" type="net.shopin.supply.domain.vo.OmsInfoVo" >
+    <result column="shop_sid" property="shopSid" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="supply_info_sid" property="supplySid" jdbcType="BIGINT" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_sid" property="brandSid" jdbcType="VARCHAR" />
+    <result column="payment_type_sid" property="paymentTypeSid" jdbcType="BIGINT" />
+    <result column="cashier_number" property="cashierNumber" jdbcType="VARCHAR" />
+    <result column="sale_sum" property="saleSum" jdbcType="INTEGER" />
+    <result column="device_en" property="deviceEn" jdbcType="VARCHAR" />
+    <result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+    <result column="ref_no" property="refNo" jdbcType="VARCHAR" />
+    <result column="terminal_no" property="terminalNo" jdbcType="VARCHAR" />
+    <result column="cashier_no" property="cashierNo" jdbcType="VARCHAR" />
+    <result column="sale_all_price" property="saleAllPrice" jdbcType="VARCHAR" />
+    <result column="opt_user_name" property="guideNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    shop_sid,shop_name,pay_time,supply_info_sid,brand_name,brand_sid,payment_type_sid,cashier_number,
+    sale_sum,device_en,bank_no,ref_no,terminal_no,cashier_no,sale_all_price
+  </sql>
+ 
+
+	
+	<select id="selectCashierList" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	
+  	SELECT
+	oodn.shop_sid,
+	oodn.shop_name,
+	oon.pay_time,
+    oodn.supply_info_sid,
+	oodn.brand_name,
+	oodn.brand_sid,
+    oon.payment_type_sid,
+    oodn.cashier_number,
+	oodn.sale_sum,
+	(oodn.sale_sum * oodn.sale_price) sale_all_price,
+	ooi.device_en,
+	ooi.bank_no,
+	ooi.ref_no,
+	ooi.terminal_no,
+	oodn.opt_user_name 
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+  		and oon.payment_type_sid = 44
+  		<if test="supplySid != null and supplySid !='' ">
+		    and  oodn.supply_info_sid = #{supplySid}
+		</if>
+  		<if test="paymentTypeSid != null and paymentTypeSid !='' ">
+  			and  oon.payment_type_sid = #{paymentTypeSid}
+  		</if>
+  		<if test="shopSid != null and shopSid !='' ">
+  			and  oodn.shop_sid = #{shopSid}
+  		</if>
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="cashierNumber != null and cashierNumber !='' ">
+  			and  oodn.cashier_number = #{cashierNumber}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+    LIMIT  #{start},#{limit}
+  </select>
+  
+  
+  	<select id="selectLongShortList" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	
+  	SELECT
+	
+	sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
+	ooi.terminal_no,
+	ooi.cashier_no,
+	oodn.opt_user_name
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+		and oon.payment_type_sid = 44
+  	
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  	 group by oodn.opt_user_name 
+    LIMIT  #{start},#{limit}
+  </select>
+  
+  <select id="selectLongShortListForExcel" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	
+  	SELECT
+	
+	sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
+	ooi.terminal_no,
+	ooi.cashier_no,
+	oodn.opt_user_name 
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+	
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+		and oon.payment_type_sid = 44
+  	
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  	 group by oodn.opt_user_name 
+  </select>
+  
+  
+  <select id="selectLongShortListCount" parameterType="java.util.Map" resultType="int">
+  select count(*) from	
+  	(
+  	SELECT
+	sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
+	ooi.terminal_no,
+	oodn.opt_user_name  
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+		and oon.payment_type_sid = 44
+  	
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  	 group by oodn.opt_user_name ) as v
+  </select>
+  
+  
+  <select id="selectCashierListForExcel" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	
+  	SELECT
+	oodn.shop_sid,
+	oodn.shop_name,
+	oon.pay_time,
+    oodn.supply_info_sid,
+	oodn.brand_name,
+	oodn.brand_sid,
+    oon.payment_type_sid,
+    oodn.cashier_number,
+	oodn.sale_sum,
+	(oodn.sale_sum * oodn.sale_price) sale_all_price,
+	ooi.device_en,
+	ooi.bank_no,
+	ooi.ref_no,
+	ooi.terminal_no,
+	oodn.opt_user_name 
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+	
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+		and oon.payment_type_sid = 44
+  	
+  		<if test="supplySid != null and supplySid !='' ">
+		    and  oodn.supply_info_sid = #{supplySid}
+		</if>
+  		<if test="paymentTypeSid != null and paymentTypeSid !='' ">
+  			and  oon.payment_type_sid = #{paymentTypeSid}
+  		</if>
+  		<if test="shopSid != null and shopSid !='' ">
+  			and  oodn.shop_sid = #{shopSid}
+  		</if>
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="cashierNumber != null and cashierNumber !='' ">
+  			and  oodn.cashier_number = #{cashierNumber}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  </select>
+  
+  
+  <select id="supplyCashierListCount" resultType="int" parameterType="java.util.Map">
+		SELECT
+			count(*)
+		FROM
+		oms_order_new oon,
+		oms_order_info ooi,
+		oms_order_detail_new oodn
+	  	
+	  	<where>
+	  		oon.order_no = ooi.order_no
+			AND oon.order_no = oodn.order_no
+			and oon.order_status &gt;=2
+			and oon.payment_type_sid = 44
+	  	
+	  		<if test="supplySid != null and supplySid !='' ">
+			    and  oodn.supply_info_sid = #{supplySid}
+			</if>
+	  		<if test="paymentTypeSid != null and paymentTypeSid !='' ">
+	  			and  oon.payment_type_sid = #{paymentTypeSid}
+	  		</if>
+	  		<if test="shopSid != null and shopSid !='' ">
+	  			and  oodn.shop_sid = #{shopSid}
+	  		</if>
+	  		<if test="terminalNo != null and terminalNo !='' ">
+	  			and  ooi.terminal_no = #{terminalNo}
+	  		</if>
+	  		<if test="cashierNumber != null and cashierNumber !='' ">
+	  			and  oodn.cashier_number = #{cashierNumber}
+	  		</if>
+	  		<if test="guideNo != null and guideNo !='' ">
+	  			and  oodn.opt_user_name = #{guideNo}
+	  		</if>
+	  		<if test="startTime != null and startTime !='' ">
+	  			and  oon.pay_time &gt;= #{startTime}
+	  		</if>
+	  		<if test="endTime != null and endTime !='' ">
+	  			and  oon.pay_time &lt;= #{endTime}
+	  		</if>
+	  	</where>
+	</select>
+
+</mapper>
