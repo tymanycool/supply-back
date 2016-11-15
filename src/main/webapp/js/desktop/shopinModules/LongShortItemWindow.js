@@ -100,10 +100,10 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 					hidden : true,
 					hideable : false
 				}, 
-				{header:'金额',dataIndex:'saleAllPrice',align:'center',width:60,sortable:true},
 				{header:'设备EN号',dataIndex:'deviceEn',align:'center',width:140,sortable:true},
 				{header:'银行终端号',dataIndex:'terminalNo',align:'center',width:140,sortable:true},
-				{header:'收银员登陆号',dataIndex:'guideNo',align:'center',width:140,sortable:true}
+				{header:'收银员登陆号',dataIndex:'guideNo',align:'center',width:140,sortable:true},
+				{header:'金额',dataIndex:'saleAllPrice',align:'center',width:60,sortable:true}
 				
 		]
 		
