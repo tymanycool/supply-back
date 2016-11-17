@@ -163,6 +163,11 @@ public class OmsController {
 			paramsMap.put("start", start);
 			paramsMap.put("limit", limit);
 			
+			String endTime = (String)paramsMap.get("endTime");
+			if(endTime!=null){
+				paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
+			}
+			
 	
 			List list = this.omsService.selectLongShortList(paramsMap);
 			int total = this.omsService.SupplyLongShortListCount(paramsMap);
@@ -203,7 +208,7 @@ public class OmsController {
 			map.put("startTime", startTime);
 		}
 		if(null != endTime && !endTime.equals("")){
-			map.put("endTime", endTime);
+			map.put("endTime", DateUtils.addDays2(endTime, 1));
 		}
 		if(null != terminalNo && !terminalNo.equals("")){
 			map.put("terminalNo", terminalNo);
