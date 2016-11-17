@@ -110,7 +110,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="supplySid != null and supplySid !='' ">
 		    AND ordn.supply_info_sid = #{supplySid}
@@ -148,9 +148,9 @@
   from(
     SELECT
   sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
-  ooi.terminal_no,
-  ooi.cashier_no,
-  oodn.opt_user_name
+  ooi.terminal_no terminal_no,
+  ooi.cashier_no cashier_no,
+  oodn.opt_user_name opt_user_name
   
   FROM
   oms_order_new oon,
@@ -176,17 +176,15 @@
         and  oon.pay_time &lt;= #{endTime}
       </if>
     </where>
-     group by oodn.opt_user_name 
+     group by ooi.terminal_no 
   	
   	UNION ALL
   	
   	
 	SELECT
-	ordn.cashier_number cashier_number,
-	sum(
-		(-1)*ordn.refund_price * ordn.refund_sum
-	) sale_all_price,
+	sum( (-1)*ordn.refund_price * ordn.refund_sum ) sale_all_price,
 	ori.terminal_no terminal_no,
+	ordn.cashier_number cashier_no,
 	ordn.opt_user_name opt_user_name
 	
 	FROM
@@ -197,7 +195,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="terminalNo != null and terminalNo !='' ">
   			AND ori.terminal_no = #{terminalNo}
@@ -212,7 +210,7 @@
   			and  orn.cash_return_time &lt;= #{endTime}
   		</if>
   	</where>
-     group by ordn.opt_user_name 
+     group by ori.terminal_no
      
   	) as bb
   	
@@ -226,9 +224,9 @@
   from(
     SELECT
   sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
-  ooi.terminal_no,
-  ooi.cashier_no,
-  oodn.opt_user_name
+  ooi.terminal_no terminal_no,
+  ooi.cashier_no cashier_no,
+  oodn.opt_user_name opt_user_name
   
   FROM
   oms_order_new oon,
@@ -254,13 +252,13 @@
         and  oon.pay_time &lt;= #{endTime}
       </if>
     </where>
-     group by oodn.opt_user_name 
+     group by ooi.terminal_no
   	
   	UNION ALL
   	
   	
 	SELECT
-	ordn.cashier_number cashier_number,
+	ordn.cashier_number cashier_no,
 	sum(
 		(-1)*ordn.refund_price * ordn.refund_sum
 	) sale_all_price,
@@ -275,7 +273,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="terminalNo != null and terminalNo !='' ">
   			AND ori.terminal_no = #{terminalNo}
@@ -290,7 +288,7 @@
   			and  orn.cash_return_time &lt;= #{endTime}
   		</if>
   	</where>
-     group by ordn.opt_user_name 
+     group by ori.terminal_no
      
   	) as bb
   </select>
@@ -303,9 +301,9 @@
   from(
     SELECT
   sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
-  ooi.terminal_no,
-  ooi.cashier_no,
-  oodn.opt_user_name
+  ooi.terminal_no terminal_no,
+  ooi.cashier_no cashier_no,
+  oodn.opt_user_name opt_user_name
   
   FROM
   oms_order_new oon,
@@ -331,13 +329,13 @@
         and  oon.pay_time &lt;= #{endTime}
       </if>
     </where>
-     group by oodn.opt_user_name 
+     group by ooi.terminal_no
   	
   	UNION ALL
   	
   	
 	SELECT
-	ordn.cashier_number cashier_number,
+	ordn.cashier_number cashier_no,
 	sum(
 		(-1)*ordn.refund_price * ordn.refund_sum
 	) sale_all_price,
@@ -352,7 +350,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="terminalNo != null and terminalNo !='' ">
   			AND ori.terminal_no = #{terminalNo}
@@ -367,7 +365,7 @@
   			and  orn.cash_return_time &lt;= #{endTime}
   		</if>
   	</where>
-     group by ordn.opt_user_name 
+     group by ori.terminal_no 
      
   	) as bb
   	  
@@ -458,7 +456,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="supplySid != null and supplySid !='' ">
 		    AND ordn.supply_info_sid = #{supplySid}
@@ -571,7 +569,7 @@
   	<where>
   		orn.refund_no = ori.refund_no
 			AND orn.refund_no = ordn.refund_no
-			AND orn.refund_status >= 3
+			AND orn.refund_status &gt;= 3
 			AND orn.payment_type_sid = 44
   		<if test="supplySid != null and supplySid !='' ">
 		    AND ordn.supply_info_sid = #{supplySid}

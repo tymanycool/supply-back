@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enterprisedt.net.ftp.FileTransferClient;
 import com.google.gson.Gson;
+import com.shopin.core.util.DateUtils;
 
 
 /**
@@ -73,6 +74,11 @@ public class OmsController {
 			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
 			paramsMap.put("start", start);
 			paramsMap.put("limit", limit);
+			
+			String endTime = (String)paramsMap.get("endTime");
+			if(endTime!=null){
+				paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
+			}
 			
 	
 			int total = this.omsService.SupplyCashierListCount(paramsMap);
@@ -118,7 +124,7 @@ public class OmsController {
 			map.put("startTime", startTime);
 		}
 		if(null != endTime && !endTime.equals("")){
-			map.put("endTime", endTime);
+			map.put("endTime", DateUtils.addDays2(endTime, 1));
 		}
 		if(null != supplySid && !supplySid.equals("")){
 			map.put("supplySid", supplySid);

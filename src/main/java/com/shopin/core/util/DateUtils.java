@@ -752,5 +752,19 @@ public class DateUtils {
 			return e.toString();
 		}
 	}  
+	
+	public static String addDays2(String supplyTime,int i ){
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date dd;
+		try {
+			dd = df.parse(supplyTime);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dd);
+			calendar.add(Calendar.DAY_OF_MONTH,i);
+			return df.format(calendar.getTime());
+		} catch (ParseException e) {
+			return e.toString();
+		}
+	}
 	  
 }
