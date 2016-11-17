@@ -21,6 +21,8 @@ public interface IOmsService {
 	public List selectCashierList(Map paramMap);
 	
 	public List selectCashierListForExcel(Map paramMap);
+	
+	public List selectLongShortListForExcel(Map paramMap);
 	/**
 	 * 
 	 * 按条件

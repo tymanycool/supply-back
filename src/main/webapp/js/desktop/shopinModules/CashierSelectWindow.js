@@ -121,8 +121,8 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
 					hidden : true,
 					hideable : false
 				}, 
-				{header:'门店号',dataIndex:'shopSid',align:'center',hidden : true,hideable : false},
-				{header:'门店名称',dataIndex:'shopName',align:'center',width:80,sortable:true},
+				{header:'门店号',dataIndex:'shopSid',align:'center',hidden : false,hideable : false},
+//				{header:'门店名称',dataIndex:'shopName',align:'center',width:80,sortable:true},
 				{header:'日期',dataIndex:'payTime',width:160,align:'center',sortable:true},
 				{header:'供应商码',dataIndex:'supplySid',align:'center',width:80,sortable:true,editor:new Ext.form.TextField()},
 				{header:'品牌名称',dataIndex:'brandName',align:'center',width:110,sortable:true},

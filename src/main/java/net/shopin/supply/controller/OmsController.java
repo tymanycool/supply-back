@@ -203,7 +203,7 @@ public class OmsController {
 			map.put("terminalNo", terminalNo);
 		}
 		
-		List<OmsInfoVo> guideinfoList = this.omsService.selectCashierListForExcel(map);
+		List<OmsInfoVo> guideinfoList = this.omsService.selectLongShortListForExcel(map);
 		if(null != guideinfoList){
 			String result = this.omsService.longShortSelectsToExcel(response, guideinfoList,type);
 			json = ResultUtil.createSuccessResult(result);
