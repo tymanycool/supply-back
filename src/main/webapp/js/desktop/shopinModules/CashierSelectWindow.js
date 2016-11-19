@@ -175,7 +175,26 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
 			bbar : {
 				xtype : 'pagingtoolbar',
 				store : this.seleteCashierRepStore,
-				displayInfo : true
+				displayInfo : true,
+				items: ['-', {
+					xtype:'textfield',
+					id:"cTotalId",
+					readonly:true,
+					fieldLabel:"当前页总计:",
+					width : 140,
+					labelWidth: 70,
+					iconCls: 'button_add',
+					readOnly:true
+				},'-',{
+					xtype:'textfield',
+					id:"tTotalId",
+					readonly:true,
+					fieldLabel:"所有页总计:",
+					width : 180,
+					labelWidth: 70,
+					iconCls: 'button_add',
+					readOnly:true
+				}]
 			},
 			columns :this.guideinfocolumns,
 			columnLines:true,
@@ -279,7 +298,37 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
 									supplySid : Ext.getCmp('supplySidId').getValue(),
 									cashierNumber : Ext.getCmp('cashierNumberId').getValue(),
 									terminalNo : Ext.getCmp('terminalId').getValue()
-								}
+								},callback : function(record, options, success) { 
+							          if(success==true){
+							        	  var totalMoney = 0;
+							        	  Ext.Array.forEach(record,function(item){
+							        		  totalMoney += Number(item.get("saleAllPrice"));
+							        		})
+							          }
+							          Ext.getCmp('cTotalId').setValue(totalMoney);
+							          
+							          if(success==true){
+								          Ext.Ajax.request({ 
+												url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
+												method : 'post', 
+												params : { 
+													shopSid : Ext.getCmp('shopStatisticsSid').getValue(),
+													guideNo : Ext.getCmp('guideNoId').getValue(),
+													startTime :  Ext.util.Format.date(Ext.getCmp('startTime').getValue(),'Y-m-d'),
+													endTime : Ext.util.Format.date(Ext.getCmp('endTime').getValue(),'Y-m-d'),
+													supplySid : Ext.getCmp('supplySidId').getValue(),
+													cashierNumber : Ext.getCmp('cashierNumberId').getValue(),
+													terminalNo : Ext.getCmp('terminalId').getValue()
+												}, 
+												success : function(response, options) { 
+													var o = Ext.JSON.decode(response.responseText); 
+													Ext.getCmp('tTotalId').setValue(o.obj);
+												}, 
+												failure : function() { 
+													} 
+												});
+							          }
+						        }
 							});
 						}
 					},

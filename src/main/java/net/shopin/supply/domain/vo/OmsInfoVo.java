@@ -22,9 +22,16 @@ public class OmsInfoVo {
 	private String endTime;
 	private String saleAllPrice;//总金额
 	private String guideNo; //导购登陆号
+	private Long count;//总条数
 	
 	
 	
+	public Long getCount() {
+		return count;
+	}
+	public void setCount(Long count) {
+		this.count = count;
+	}
 	public String getGuideNo() {
 		return guideNo;
 	}

@@ -371,6 +371,83 @@
   	  
   </select>
   
+  <select id="selectLongShortListTotalMoney" parameterType="java.util.Map" resultType="string">
+  
+  select sum(bb.sale_all_price)
+
+  from(
+    SELECT
+  sum(oodn.sale_sum * oodn.sale_price)  sale_all_price,
+  ooi.terminal_no terminal_no,
+  ooi.cashier_no cashier_no,
+  oodn.opt_user_name opt_user_name
+  
+  FROM
+  oms_order_new oon,
+  oms_order_info ooi,
+  oms_order_detail_new oodn
+    
+    <where>
+      oon.order_no = ooi.order_no
+      and oon.order_no = oodn.order_no
+      and oon.order_status &gt;=2
+      and oon.payment_type_sid = 44
+    
+      <if test="terminalNo != null and terminalNo !='' ">
+        and  ooi.terminal_no = #{terminalNo}
+      </if>
+      <if test="guideNo != null and guideNo !='' ">
+        and  oodn.opt_user_name = #{guideNo}
+      </if>
+      <if test="startTime != null and startTime !='' ">
+        and  oon.pay_time &gt;= #{startTime}
+      </if>
+      <if test="endTime != null and endTime !='' ">
+        and  oon.pay_time &lt;= #{endTime}
+      </if>
+    </where>
+     group by ooi.terminal_no
+  	
+  	UNION ALL
+  	
+  	
+	SELECT
+	ordn.cashier_number cashier_no,
+	sum(
+		(-1)*ordn.refund_price * ordn.refund_sum
+	) sale_all_price,
+	ori.terminal_no terminal_no,
+	ordn.opt_user_name opt_user_name
+	
+	FROM
+	oms_refund_new orn,
+	oms_refund_info ori,
+	oms_refund_detail_new ordn
+  	
+  	<where>
+  		orn.refund_no = ori.refund_no
+			AND orn.refund_no = ordn.refund_no
+			AND orn.refund_status &gt;= 3
+			AND orn.payment_type_sid = 44
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			AND ori.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			AND ordn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  orn.cash_return_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  orn.cash_return_time &lt;= #{endTime}
+  		</if>
+  	</where>
+     group by ori.terminal_no 
+     
+  	) as bb
+  	  
+  </select>
+  
   
   <select id="selectCashierListForExcel" parameterType="java.util.Map" resultMap="BaseResultMap">
   	
@@ -597,5 +674,119 @@
   	
   	order by pay_time desc
 	</select>
+	
+	
+  <select id="selectCashierListTotalMoney" resultType="string" parameterType="java.util.Map">
+	select sum(sale_all_price) from
+  	(SELECT
+	oodn.shop_sid  shop_sid,
+	oon.pay_time   pay_time,
+    oodn.supply_info_sid   supply_info_sid,
+	oodn.brand_name brand_name,
+	oodn.brand_sid  brand_sid,
+    oon.payment_type_sid  payment_type_sid,
+    oodn.cashier_number  cashier_number,
+	oodn.sale_sum   sale_sum,
+	(oodn.sale_sum * oodn.sale_price) sale_all_price,
+	ooi.device_en device_en,
+	ooi.bank_no bank_no,
+	ooi.ref_no ref_no,
+	ooi.terminal_no terminal_no,
+	oodn.opt_user_name  opt_user_name
+	
+	FROM
+	oms_order_new oon,
+	oms_order_info ooi,
+	oms_order_detail_new oodn
+  	
+  	<where>
+  		oon.order_no = ooi.order_no
+		AND oon.order_no = oodn.order_no
+		and oon.order_status &gt;=2
+  		and oon.payment_type_sid = 44
+  		<if test="supplySid != null and supplySid !='' ">
+		    and  oodn.supply_info_sid = #{supplySid}
+		</if>
+  		<if test="paymentTypeSid != null and paymentTypeSid !='' ">
+  			and  oon.payment_type_sid = #{paymentTypeSid}
+  		</if>
+  		<if test="shopSid != null and shopSid !='' ">
+  			and  oodn.shop_sid = #{shopSid}
+  		</if>
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			and  ooi.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="cashierNumber != null and cashierNumber !='' ">
+  			and  oodn.cashier_number = #{cashierNumber}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			and  oodn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  oon.pay_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  oon.pay_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  	
+  	UNION ALL
+  	
+  	
+	SELECT
+	ordn.shop_sid shop_sid,
+	orn.cash_return_time pay_time,
+	ordn.supply_info_sid supply_info_sid,
+	ordn.brand_name brand_name,
+	ordn.brand_sid brand_sid,
+	orn.payment_type_sid payment_type_sid,
+	ordn.cashier_number cashier_number,
+	ordn.refund_sum sale_sum,
+	(
+		(-1)*ordn.refund_price * ordn.refund_sum
+	) sale_all_price,
+	ori.device_en device_en,
+	ori.bank_no bank_no,
+	ori.ref_no ref_no,
+	ori.terminal_no terminal_no,
+	ordn.opt_user_name opt_user_name
+	
+	FROM
+	oms_refund_new orn,
+	oms_refund_info ori,
+	oms_refund_detail_new ordn
+  	
+  	<where>
+  		orn.refund_no = ori.refund_no
+			AND orn.refund_no = ordn.refund_no
+			AND orn.refund_status &gt;= 3
+			AND orn.payment_type_sid = 44
+  		<if test="supplySid != null and supplySid !='' ">
+		    AND ordn.supply_info_sid = #{supplySid}
+		</if>
+  		<if test="shopSid != null and shopSid !='' ">
+  			AND ordn.shop_sid = #{shopSid}
+  		</if>
+  		<if test="terminalNo != null and terminalNo !='' ">
+  			AND ori.terminal_no = #{terminalNo}
+  		</if>
+  		<if test="cashierNumber != null and cashierNumber !='' ">
+  			AND ordn.cashier_number = #{cashierNumber}
+  		</if>
+  		<if test="guideNo != null and guideNo !='' ">
+  			AND ordn.opt_user_name = #{guideNo}
+  		</if>
+  		<if test="startTime != null and startTime !='' ">
+  			and  orn.cash_return_time &gt;= #{startTime}
+  		</if>
+  		<if test="endTime != null and endTime !='' ">
+  			and  orn.cash_return_time &lt;= #{endTime}
+  		</if>
+  	</where>
+  	) as bb
+  	
+  	order by pay_time desc
+	</select>
+	
 
 </mapper>

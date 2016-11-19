@@ -92,6 +92,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 				}
 			}
 		});
+		
 
 		this.guideinfocolumns = [
 				new Ext.grid.RowNumberer(),
@@ -100,16 +101,22 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 					hidden : true,
 					hideable : false
 				}, 
-				{header:'银行终端号',dataIndex:'terminalNo',align:'center',width:140,sortable:true},
+				{header:'银行终端号',dataIndex:'terminalNo',align:'center',width:140,sortable:true,editor:new Ext.form.TextField()},
 //				{header:'收银员登陆号',dataIndex:'guideNo',align:'center',width:140,sortable:true},
 				{header:'金额',dataIndex:'saleAllPrice',align:'center',width:60,sortable:true},
 				{header:'设备EN号',dataIndex:'deviceEn',align:'center',width:140,sortable:true}
+				
 				
 		]
 		
 		var  infoStroe= this.seleteLongShortRepStore;
 
 		this.gridPanel = Ext.create('Ext.grid.Panel', {
+			plugins:[
+	                 Ext.create('Ext.grid.plugin.CellEditing',{
+	                     clicksToEdit:1 //设置单击单元格编辑
+	                 })
+		      		],
 	      	id : 'longShortRepPanel',
       		border:false,
       		enableTabScroll : true,
@@ -119,7 +126,26 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 			bbar : {
 				xtype : 'pagingtoolbar',
 				store : this.seleteLongShortRepStore,
-				displayInfo : true
+				displayInfo : true,
+				items: ['-', {
+					xtype:'textfield',
+					id:"currentTotalId",
+					readonly:true,
+					fieldLabel:"当前页总计:",
+					width : 140,
+					labelWidth: 70,
+					iconCls: 'button_add',
+					readOnly:true
+				},'-',{
+					xtype:'textfield',
+					id:"totalId",
+					readonly:true,
+					fieldLabel:"所有页总计:",
+					width : 180,
+					labelWidth: 70,
+					iconCls: 'button_add',
+					readOnly:true
+				}]
 			},
 			columns :this.guideinfocolumns,
 			columnLines:true,
@@ -189,7 +215,35 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 									startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 									endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
 									terminalNo : Ext.getCmp('terminalSid').getValue()
-								}
+								},
+								callback : function(record, options, success) { 
+							          if(success==true){
+							        	  var totalMoney = 0;
+							        	  Ext.Array.forEach(record,function(item){
+							        		  totalMoney += Number(item.get("saleAllPrice"));
+							        		})
+							          }
+							          Ext.getCmp('currentTotalId').setValue(totalMoney);
+							          
+							          if(success==true){
+								          Ext.Ajax.request({ 
+												url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
+												method : 'post', 
+												params : { 
+													guideNo : Ext.getCmp('guideNoSid').getValue(),
+													startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
+													endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
+													terminalNo : Ext.getCmp('terminalSid').getValue()
+												}, 
+												success : function(response, options) { 
+													var o = Ext.JSON.decode(response.responseText); 
+													Ext.getCmp('totalId').setValue(o.obj);
+												}, 
+												failure : function() { 
+													} 
+												});
+							          }
+						        }  
 							});
 						}
 					},

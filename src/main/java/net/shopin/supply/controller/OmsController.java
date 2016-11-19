@@ -95,6 +95,34 @@ public class OmsController {
 		}
 		return resultJson;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/selectCashierListTotalMoney", method = { RequestMethod.GET,
+			RequestMethod.POST },produces = "text/html;charset=UTF-8")
+	public String selectCashierListTotalMoney(HttpServletRequest request,
+			HttpServletResponse response,Model model,  OmsInfoVo omsInfoVo, Integer start, Integer limit) {
+
+
+		String resultJson = "";
+		try {
+			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+			
+			String endTime = (String)paramsMap.get("endTime");
+			if(endTime!=null){
+				paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
+			}
+			
+			String totals = this.omsService.selectCashierListTotalMoney(paramsMap);
+
+			resultJson = ResultUtil.createSuccessResult(totals);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultJson;
+	}
+	
 
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -160,21 +188,26 @@ public class OmsController {
 		String resultJson = "";
 		try {
 			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
-			paramsMap.put("start", start);
-			paramsMap.put("limit", limit);
+			
 			
 			String endTime = (String)paramsMap.get("endTime");
 			if(endTime!=null){
 				paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
 			}
 			
+			paramsMap.put("start", start);
+			paramsMap.put("limit", limit);
+			
 	
 			List list = this.omsService.selectLongShortList(paramsMap);
 			int total = this.omsService.SupplyLongShortListCount(paramsMap);
+			String totals = this.omsService.SupplyLongShortListTotalMoney(paramsMap);
+			
 
 
 			model.addAttribute("total", total);
 			model.addAttribute("list", list);
+			model.addAttribute("totals", totals);
 			resultJson = ResultUtil.createSuccessResult(list);
 			resultJson = resultJson.substring(0, resultJson.length()-1) + ",'total':'"+total+"'}";
 			
@@ -183,6 +216,33 @@ public class OmsController {
 		}
 		return resultJson;
 	}
+	
+	
+	//收银员长短款报表查询
+		@ResponseBody
+		@RequestMapping(value = "/selectLongShortListTotalMoney", method = { RequestMethod.GET,
+				RequestMethod.POST },produces = "text/html;charset=UTF-8")
+		public String selectLongShortListTotalMoney(HttpServletRequest request,
+				HttpServletResponse response,Model model,  OmsInfoVo omsInfoVo, Integer start, Integer limit) {
+
+
+			String resultJson = "";
+			try {
+				Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+				
+				
+				String endTime = (String)paramsMap.get("endTime");
+				if(endTime!=null){
+					paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
+				}
+		
+				String totals = this.omsService.SupplyLongShortListTotalMoney(paramsMap);
+				resultJson = ResultUtil.createSuccessResult(totals);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return resultJson;
+		}
 	
 	
 	

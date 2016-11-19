@@ -174,4 +174,14 @@ public class OmsServiceImpl implements IOmsService {
 		return this.omsMapper.selectLongShortListForExcel(paramMap);
 	}
 
+	@Override
+	public String SupplyLongShortListTotalMoney(Map paramMap) {
+		return this.omsMapper.selectLongShortListTotalMoney(paramMap);
+	}
+
+	@Override
+	public String selectCashierListTotalMoney(Map paramMap) {
+		return this.omsMapper.selectCashierListTotalMoney(paramMap);
+	}
+
 }
