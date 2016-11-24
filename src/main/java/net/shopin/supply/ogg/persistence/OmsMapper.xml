@@ -258,11 +258,12 @@
   	
   	
 	SELECT
-	ordn.cashier_number cashier_no,
+	
 	sum(
 		(-1)*ordn.refund_price * ordn.refund_sum
 	) sale_all_price,
 	ori.terminal_no terminal_no,
+	ordn.cashier_number cashier_no,
 	ordn.opt_user_name opt_user_name
 	
 	FROM
@@ -335,11 +336,12 @@
   	
   	
 	SELECT
-	ordn.cashier_number cashier_no,
+	
 	sum(
 		(-1)*ordn.refund_price * ordn.refund_sum
 	) sale_all_price,
 	ori.terminal_no terminal_no,
+	ordn.cashier_number cashier_no,
 	ordn.opt_user_name opt_user_name
 	
 	FROM
@@ -412,11 +414,12 @@
   	
   	
 	SELECT
-	ordn.cashier_number cashier_no,
+	
 	sum(
 		(-1)*ordn.refund_price * ordn.refund_sum
 	) sale_all_price,
 	ori.terminal_no terminal_no,
+	ordn.cashier_number cashier_no,
 	ordn.opt_user_name opt_user_name
 	
 	FROM

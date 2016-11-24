@@ -89,7 +89,35 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 				        });
 				},
 				load: function(store, records, success, eOpts) {
-				}
+				},
+				datachanged: function(store,eOpts){
+			        	  var totalMoney = 0;
+			    /*    	  Ext.Array.forEach(record,function(item){
+			        		  totalMoney += Number(item.get("saleAllPrice"));
+			        		})*/
+			        		store.each(function(item){
+			        			totalMoney += Number(item.get("saleAllPrice"));
+			        		})
+			        		
+			        	  Ext.getCmp('currentTotalId').setValue(totalMoney);
+			          
+				          Ext.Ajax.request({ 
+								url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
+								method : 'post', 
+								params : { 
+									guideNo : Ext.getCmp('guideNoSid').getValue(),
+									startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
+									endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
+									terminalNo : Ext.getCmp('terminalSid').getValue()
+								}, 
+								success : function(response, options) { 
+									var o = Ext.JSON.decode(response.responseText); 
+									Ext.getCmp('totalId').setValue(o.obj);
+								}, 
+								failure : function() { 
+									} 
+								});
+	        }
 			}
 		});
 		
@@ -211,6 +239,8 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 							
 							infoStroe.load({
 								params:{
+									start :0,
+							        limit :20,
 									guideNo : Ext.getCmp('guideNoSid').getValue(),
 									startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 									endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
