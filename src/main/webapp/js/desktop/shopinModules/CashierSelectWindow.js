@@ -105,7 +105,7 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
 			        	Ext.getCmp('cTotalId').setValue(totalMoney);
 			          
 				          Ext.Ajax.request({ 
-								url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
+								url : _appctx + '/oms/selectCashierListTotalMoney.json', 
 								method : 'post', 
 								params : { 
 									shopSid : Ext.getCmp('shopStatisticsSid').getValue(),
