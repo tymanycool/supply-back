@@ -36,6 +36,10 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 	@Override
 	public Integer insertLedgerContractCustom(
 			LedgerContractCustom ledgerContractCustom) throws Exception {
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");
+		
+		
 		//避免重复--根据供应商编码、品牌名称、品类、门店编码、开始日期、结束日期、合同截止日期确定唯一（其实也是无法确定的，人工的，如果重复置为无效）
 		Integer num = this.ledgerContractMapperCustom.selectLegerContractByCriteria(ledgerContractCustom);
 		if (num != 0) {
@@ -99,17 +103,21 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 			String contractReturnDateStr = object.getString("contractReturnDate");
 			if(contractReturnDateStr != null && !"".equals(contractReturnDateStr) && !"null".equals(contractReturnDateStr)) {
 				contractReturnDate = new Date(contractReturnDateStr);
+//				contractReturnDate = sdf.parse(contractReturnDateStr);
+				
 			}
 			String contractType = object.getString("contractType");
 			Date contractBeginDate = null;
 			String contractBeginDateStr = object.getString("contractBeginDate");
 			if(contractBeginDateStr != null && !"".equals(contractBeginDateStr) && !"null".equals(contractBeginDateStr)) {
 				contractBeginDate = new Date(contractBeginDateStr);
+//				contractBeginDate = sdf.parse(contractBeginDateStr);
 			}
 			Date contractEndDate = null;
 			String contractEndDateStr = object.getString("contractEndDate");
 			if(contractEndDateStr != null && !"".equals(contractEndDateStr) && !"null".equals(contractEndDateStr)) {
 				contractEndDate = new Date(contractEndDateStr);
+//				contractEndDate = sdf.parse(contractEndDateStr);
 			}
 			
 			String contractReviewStatus = object.getString("contractReviewStatus");
@@ -118,6 +126,7 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 			String contractReviewDateStr = object.getString("contractReviewDate");
 			if(contractReviewDateStr != null && !"".equals(contractReviewDateStr) && !"null".equals(contractReviewDateStr)) {
 				contractReviewDate = new Date(contractReviewDateStr);
+//				contractReviewDate = sdf.parse(contractReviewDateStr);
 			}
 
 			
@@ -416,23 +425,34 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 		if ("".equals(returnDate) && "".equals(beginAndEndDate)) {
 			return "[]";
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		String[] dates1 = returnDate.split("/");
 		String[] dates2 = beginAndEndDate.split("/");
 		Map<String, Object> map = new HashMap<String, Object>();
-		for (int k = 0; k < dates1.length; k++) {
-			map.put("contractReturnDate", sdf.parse(dates1[k]));
+		int count = dates1.length;
+		
+		JSONArray jsa = new JSONArray();
+		
+		for (int k = 0; k < dates2.length; k++) {
+			JSONObject jsonb = new JSONObject();
+			if(k<=count-1){
+				jsonb.put("contractReturnDate", dates1[k]);
+			}else{
+				jsonb.put("contractReturnDate", "");
+			}
+			
 			String[] dates3 = dates2[k].split("-");
-			map.put("contractBeginDate", sdf.parse(dates3[0]));
-			map.put("contractEndDate", sdf.parse(dates3[1]));
-			map.put("contractType", "");// 合同类型置为空,下同
-			map.put("contractReviewStatus", "");
-			map.put("contractReviewDate", "");
-			map.put("contractReviewer", "");
+			jsonb.put("contractBeginDate", dates3[0]);
+			jsonb.put("contractEndDate", dates3[1]);
+			jsonb.put("contractType", "");// 合同类型置为空,下同
+			jsonb.put("contractReviewStatus", "");
+			jsonb.put("contractReviewDate", "");
+			jsonb.put("contractReviewer", "");
+			
+			jsa.add(jsonb);
 		}
-		Gson gson = new Gson();
-		String json = gson.toJson(map);
-		return "[" + json + "]";
+//		Gson gson = new Gson();
+//		String json = gson.toJson(map);
+		return jsa.toString();
 	}
 	@Override
 	public List<DifferDeductionVo> selectByDifferDeduction() throws Exception {

@@ -441,7 +441,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							//撤柜日期
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"撤柜日期",
 								name:"cabinetDate",
 								value:this.record.data.cabinetDate,
@@ -462,7 +462,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"授权开始日",
 								name:"authorizedStartDate",
 								value:this.record.data.authorizedStartDate,
@@ -471,7 +471,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"授权结束日",
 								name:"authorizedEndDate",
 								value:this.record.data.authorizedEndDate,
@@ -585,7 +585,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"基本签订日期",
 								name:"basicSigningDate",
 								value:this.record.data.basicSigningDate,
@@ -593,7 +593,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"商务签订日期",
 								name:"signingDate",
 								value:this.record.data.signingDate,
@@ -613,7 +613,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"开始日期",
 								name:"startDate",
 								value:this.record.data.startDate,
@@ -621,7 +621,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"结束日期",
 								name:"endDate",
 								value:this.record.data.endDate,
@@ -641,7 +641,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 				        items:[
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"合同截止日期",
 								name:"contractDeadline",
 								value:this.record.data.contractDeadline,
@@ -768,7 +768,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							fieldLabel:"品牌级别",
 							name:"brandLevel",
 							value:this.record.data.brandLevel,
-							width : 300,
+							width : 600,
 							labelWidth:100
 	                	}]
 	                
@@ -803,13 +803,14 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 				        layout: 'hbox',
 				        items:[
 				        	{
-								xtype:"numberfield",
-								allowNegative:false,
-								allowDecimals:true,
+								xtype:"textfield",
+								/*allowNegative:false,
+								allowDecimals:true,*/
 								fieldLabel:"综合管理费(/元/天/平米)",
 								name:"managementFees",
 								value:this.record.data.managementFees,
-								width : 300
+								width : 300,
+								labelWidth:100
 							},
 							
 							{
@@ -878,7 +879,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"审核日期",
 								hidden:true,
 								name:"checkDate",
@@ -1036,18 +1037,18 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 					{
 						name : 'contractReturnDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractType',
 						type : 'string'
 					},{
 						name : 'contractBeginDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractEndDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractReviewStatus',
 						type : 'string'
@@ -1057,7 +1058,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 					},{
 						name : 'contractReviewDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					}
 				
 				],
@@ -1081,18 +1082,18 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 	        		{
 						name : 'contractReturnDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractType',
 						type : 'string'
 					},{
 						name : 'contractBeginDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractEndDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					},{
 						name : 'contractReviewStatus',
 						type : 'string'
@@ -1102,7 +1103,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 					},{
 						name : 'contractReviewDate',
 						type : 'date',
-						dateFormat: 'Y-m-d'
+						dateFormat: 'Y.m.d'
 					}
 				]
    		 });
@@ -1124,11 +1125,11 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 						dataIndex : 'contractReturnDate',
 						text :'合同返回日期',
 						xtype: 'datecolumn',
-						format:'Y-m-d',
+						format:'Y.m.d',
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1144,11 +1145,11 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 						dataIndex : 'contractBeginDate',
 						text :'合同开始日期',
 						xtype: 'datecolumn',
-						format:'Y-m-d',
+						format:'Y.m.d',
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1156,11 +1157,11 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 						dataIndex : 'contractEndDate',
 						text :'合同结束日期',
 						xtype: 'datecolumn',
-						format:'Y-m-d',
+						format:'Y.m.d',
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1192,7 +1193,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 						dataIndex : 'contractReviewDate',
 						text :'审核日期',
 						xtype: 'datecolumn',
-						format:'Y-m-d',
+						format:'Y.m.d',
 						width:80
 					},
 					{
@@ -1236,7 +1237,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 								grid.getStore().getAt(rowIndex).set("contractReviewer",username);
 								//设置审核日期
 								var curDate = new Date()
-								var time = Ext.Date.format(curDate, 'Y-m-d'); 
+								var time = Ext.Date.format(curDate, 'Y.m.d'); 
 								grid.getStore().getAt(rowIndex).set("contractReviewDate",time);
 								
 								
@@ -1265,7 +1266,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 								grid.getStore().getAt(rowIndex).set("contractReviewer",username);
 								//设置审核日期
 								var curDate = new Date()
-								var time = Ext.Date.format(curDate, 'Y-m-d'); 
+								var time = Ext.Date.format(curDate, 'Y.m.d'); 
 								grid.getStore().getAt(rowIndex).set("contractReviewDate",time);
 								
 								
@@ -1345,7 +1346,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 											sm.getSelection()[i].set("contractReviewer",username);
 											//设置审核日期
 											var curDate = new Date()
-											var time = Ext.Date.format(curDate, 'Y-m-d'); 
+											var time = Ext.Date.format(curDate, 'Y.m.d'); 
 											sm.getSelection()[i].set("contractReviewDate",time);
 										}
 										//当前行已被选中，这里需要再次选中，以显示在复选框中
@@ -1380,7 +1381,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 											sm.getSelection()[i].set("contractReviewer",username);
 											//设置审核日期
 											var curDate = new Date()
-											var time = Ext.Date.format(curDate, 'Y-m-d'); 
+											var time = Ext.Date.format(curDate, 'Y.m.d'); 
 											sm.getSelection()[i].set("contractReviewDate",time);
 										}
 										//当前行已被选中，这里需要再次选中，以显示在复选框中

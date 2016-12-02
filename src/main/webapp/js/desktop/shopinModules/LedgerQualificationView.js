@@ -895,6 +895,7 @@ Ext.define("ShopinDesktop.LedgerQualificationView",{
 		 }
 	},
 	listeners:{
+		
 		itemdblclick:function(view, record,item){
 			var thisView = this;
 			var baseUrl = this.baseUrl;

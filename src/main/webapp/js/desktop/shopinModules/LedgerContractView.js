@@ -633,6 +633,7 @@ Ext.define("ShopinDesktop.LedgerContractView",{
 				]
 
 		});
+		
 		//added by syk--start
 		var form = new Ext.form.FormPanel({
 		     baseCls : 'x-plain',

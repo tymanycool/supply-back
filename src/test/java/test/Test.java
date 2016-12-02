@@ -98,5 +98,43 @@ public class Test {
 		System.out.println("看这里：=====》"+result);
 	}
 	
+	
+	@org.junit.Test
+	public void testupdateOrderDeatilByParamForPrint(){
+		Map<String ,String> map=new HashMap<String ,String>();
+		map.put("fromSystem", "print");
+		map.put("detailNos", "20161201432911-1");
+		String url = "http://172.16.200.61:31081/wmsservice";
+		String result = HttpUtil.HttpPost(url, "orderDetail/updateOrderDeatilByParamForPrint.json", map);
+		System.out.println(result);
+	}
+	
+	@org.junit.Test
+	public void printDeliveryForWeb(){
+		String json = "";
+		Map<String ,String> paramMap = new HashMap<String, String>();
+		paramMap.put("deliveryComNo", "400023");
+		paramMap.put("deliveryComName", "顺丰快递");
+		paramMap.put("orderNoList", "20161201432911,");
+		paramMap.put("courierNoList", "972626304840");
+		paramMap.put("expressName", "");
+		paramMap.put("userName", "songchaoshuai");
+		String method = "order/printDeliveryForWeb.json";
+		String url = "http://172.16.200.61:31081/wmsservice";
+		json = HttpUtil.HttpPost(url, method, paramMap);
+		System.out.println(json);
+	}
+	
+	@org.junit.Test
+	public void TestUpdateOrderPrintTime(){
+		String json = "";
+		Map<String ,String> paramMap = new HashMap<String, String>();
+		paramMap.put("orderNo", "20161201432911");
+		String method = "order/updateOrderPrintTime.json";
+		String url = "http://172.16.200.61:31081/wmsservice";
+		json = HttpUtil.HttpPost(url, method, paramMap);
+		System.out.println(json);
+	}
+	
 
 }

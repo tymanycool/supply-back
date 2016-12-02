@@ -386,6 +386,7 @@ Ext.define("ShopinDesktop.LedgerQualificationSearchView",{
 			]
 		});
 	},
+	
 	initComponents: function() {
 		var categoryStore= new Ext.data.ArrayStore ({
 			fields: ['categoryCode','value'],

@@ -441,7 +441,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 							//撤柜日期
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"撤柜日期",
 								name:"cabinetDate",
 								width : 300,
@@ -461,7 +461,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"授权开始日",
 								name:"authorizedStartDate",
 								width : 300
@@ -469,7 +469,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 							
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"授权结束日",
 								name:"authorizedEndDate",
 								width : 300,
@@ -576,14 +576,14 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"基本签订日期",
 								name:"basicSigningDate",
 								width : 300
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"商务签订日期",
 								name:"signingDate",
 								width : 300,
@@ -602,14 +602,14 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 				        items:[
 				        	{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"开始日期",
 								name:"startDate",
 								width : 300
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"结束日期",
 								name:"endDate",
 								width : 300,
@@ -630,7 +630,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 				        items:[
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"合同截止日期",
 								name:"contractDeadline",
 								width : 300
@@ -751,7 +751,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 	                		xtype:"textfield",
 							fieldLabel:"品牌级别",
 							name:"brandLevel",
-							width : 300,
+							width : 600,
 							labelWidth:100
 	                	}]
 	                
@@ -786,12 +786,13 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 				        layout: 'hbox',
 				        items:[
 				        	{
-								xtype:"numberfield",
-								allowNegative:false,
-								allowDecimals:true,
+								xtype:"textfield",
+							/*	allowNegative:false,
+								allowDecimals:true,*/
 								fieldLabel:"综合管理费(/元/天/平米)",
 								name:"managementFees",
-								width : 300
+								width : 300,
+								labelWidth:100
 							},
 							
 							{
@@ -857,7 +858,7 @@ Ext.define("ShopinDesktop.BasicInformationLCAddView", {
 							},
 							{
 								xtype:"datefield",
-								format: 'Y-m-d',
+								format: 'Y.m.d',
 								fieldLabel:"审核日期",
 								hidden:true,
 								name:"checkDate",
@@ -1049,7 +1050,7 @@ Ext.define("ShopinDesktop.ContractEntityLCAddView", {
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1069,7 +1070,7 @@ Ext.define("ShopinDesktop.ContractEntityLCAddView", {
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1081,7 +1082,7 @@ Ext.define("ShopinDesktop.ContractEntityLCAddView", {
 						width:80,
 						editor: {
 			                 xtype:'datefield',
-			                 format:'Y-m-d',
+			                 format:'Y.m.d',
 			                 editable:false
 				        }
 					},
@@ -1446,6 +1447,9 @@ Ext.define("ShopinDesktop.AddLedgerContractWindow", {
            	//alert(start+courseArr+end);
 			
 			
+            
+            
+            
 			
 			editForm.submit({
 				url: baseUrl + "/ledgerContract/insertLedgerContractCustom.json",

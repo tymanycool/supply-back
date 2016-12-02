@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +28,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.shopin.core.util.DateUtils;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -54,6 +59,13 @@ public class LedgerContractController extends BaseController {
 	LedgerContractService ledgerContractService;
 	private static List<LedgerContractCustom> lists=null;
 	private static Logger logger = Logger.getLogger(LedgerContractController.class);
+	
+	@InitBinder    
+	public void initBinder(WebDataBinder binder) {    
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy.MM.dd"), true));    
+    }   
+	
+	
 	@ResponseBody
 	@RequestMapping("/insertLedgerContractCustom")
 	public String insertLedgerContractCustom(LedgerContractCustom ledgerContractCustom,HttpServletRequest request) {
@@ -568,4 +580,16 @@ public class LedgerContractController extends BaseController {
 		ExcelUtil.createExcel(response, tableHeader,array);
 	}
 	
+	
+	
+	public static void main(String[] args) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy.MM.dd");//小写的mm表示的是分钟  
+		String dstr="2008.4.24";  
+		try {
+			java.util.Date date=sdf.parse(dstr);
+			System.out.println(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+	}
 }

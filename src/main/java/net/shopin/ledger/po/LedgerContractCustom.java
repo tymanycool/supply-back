@@ -3,6 +3,8 @@ package net.shopin.ledger.po;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class LedgerContractCustom {
 
@@ -15,13 +17,10 @@ public class LedgerContractCustom {
 	private String settlementStatus;
 	
 	private String cabinetStatus;
-	
 	private Date cabinetDate;
 
 	private String signMark;
-
 	private Date authorizedStartDate;
-
 	private Date authorizedEndDate;
 
 	private String category;
@@ -43,13 +42,9 @@ public class LedgerContractCustom {
 	private Boolean decorateRules;//商户装修守则
 	
 	private String assessmentIndicator;
-
 	private Date signingDate;
-
 	private Date startDate;
-
 	private Date endDate;
-
 	private Date contractDeadline;
 	
 	private String brandLevel;//品牌级别
@@ -82,7 +77,6 @@ public class LedgerContractCustom {
 	private String checkTag;
 
 	private String checkName;
-
 	private Date checkDate;
 
 	private Boolean valid;
@@ -110,7 +104,6 @@ public class LedgerContractCustom {
 	private String fixedTelephone;
 
 	private String fixedTelephoneName;
-	
 	private Date basicSigningDate;
 
 	private LedgerContractSupplyInfo ledgerContractSupplyInfo;
