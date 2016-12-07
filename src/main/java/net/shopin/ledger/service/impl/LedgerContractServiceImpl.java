@@ -256,18 +256,18 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 			
 			Date contractReturnDate = null;
 			String contractReturnDateStr = object.getString("contractReturnDate");
-			if(contractReturnDateStr != null && !"".equals(contractReturnDateStr) && !"null".equals(contractReturnDateStr)) {
+			if(contractReturnDateStr != null && !"".equals(contractReturnDateStr) && !"null".equals(contractReturnDateStr)&& !"undefined".equals(contractReturnDateStr)) {
 				contractReturnDate = new Date(contractReturnDateStr);
 			}
 			String contractType = object.getString("contractType");
 			Date contractBeginDate = null;
 			String contractBeginDateStr = object.getString("contractBeginDate");
-			if(contractBeginDateStr != null && !"".equals(contractBeginDateStr) && !"null".equals(contractBeginDateStr)) {
+			if(contractBeginDateStr != null && !"".equals(contractBeginDateStr) && !"null".equals(contractBeginDateStr)&& !"undefined".equals(contractBeginDateStr)) {
 				contractBeginDate = new Date(contractBeginDateStr);
 			}
 			Date contractEndDate = null;
 			String contractEndDateStr = object.getString("contractEndDate");
-			if(contractEndDateStr != null && !"".equals(contractEndDateStr) && !"null".equals(contractEndDateStr)) {
+			if(contractEndDateStr != null && !"".equals(contractEndDateStr) && !"null".equals(contractEndDateStr) && !"undefined".equals(contractEndDateStr)) {
 				contractEndDate = new Date(contractEndDateStr);
 			}
 			
@@ -275,7 +275,7 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 			String contractReviewer = object.getString("contractReviewer");
 			Date contractReviewDate = null;
 			String contractReviewDateStr = object.getString("contractReviewDate");
-			if(contractReviewDateStr != null && !"".equals(contractReviewDateStr) && !"null".equals(contractReviewDateStr)) {
+			if(contractReviewDateStr != null && !"".equals(contractReviewDateStr) && !"null".equals(contractReviewDateStr) && !"undefined".equals(contractReviewDateStr)) {
 				contractReviewDate = new Date(contractReviewDateStr);
 			}
 			
