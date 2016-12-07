@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.shopin.core.util.json.JsonUtil;
 import com.shopin.core.util.regExp.BigDecimalUtil;
 @Service
 public class LedgerContractServiceImpl implements LedgerContractService {
@@ -216,6 +217,7 @@ public class LedgerContractServiceImpl implements LedgerContractService {
 		LedgerContract ledgerContract = new LedgerContract();
 		PropertyUtils.copyProperties(ledgerContract, ledgerContractCustom);
 		//将合同台账基本信息更新到数据库
+		logger.info("供应商"+ledgerContractCustom.getSupplierCode()+"修改台账信息传递参数为:"+JsonUtil.Object2JsonFilterNull(ledgerContract));
 		ledgerContractMapperCustom.updateByPrimaryKeySelectiveOfLedgerContract(ledgerContract);
 		
 		//step2：更新供应商基本信息
