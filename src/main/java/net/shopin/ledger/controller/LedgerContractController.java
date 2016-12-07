@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shopin.core.util.DateUtils;
+import com.shopin.core.util.json.JsonUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -251,6 +252,7 @@ public class LedgerContractController extends BaseController {
 			ledgerContractCustom.setSettlementStatus(ledgerContractCustom.getSettlementStatus());
 		}
 		try {
+			logger.info("供应商"+ledgerContractCustom.getSupplierCode()+"在controller中修改台账信息传递参数为:"+JsonUtil.Object2JsonFilterNull(ledgerContractCustom));
 			ledgerContractService.updateLedgerContractCustom(ledgerContractCustom);
 		} catch (Exception e) {
 			e.printStackTrace();
