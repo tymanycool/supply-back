@@ -557,7 +557,7 @@ Ext.define("ShopinDesktop.BasicInformationLCUpdateView", {
 								allowDecimals:true,
 								fieldLabel:"扣率",
 								name:"deductionRate",
-								value:this.record.data.deductionRate,
+								value:this.record.data.deductionRate*0.01,
 								width : 300
 							},
 							
