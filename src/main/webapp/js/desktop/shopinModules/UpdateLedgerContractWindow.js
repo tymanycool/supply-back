@@ -997,6 +997,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 		//构造协议历程数据
 		var courseData = new Array();
 		var courseJson = Ext.decode(this.record.data.courseAllInfo);
+		console.log(this.record.data.courseAllInfo);
 		Ext.each(courseJson, function(course){
 			var courseDataItem = new Array();
 			
@@ -1037,18 +1038,18 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 					{
 						name : 'contractReturnDate',
 						type : 'date',
-						dateFormat: 'Y.m.d'
+						dateFormat: 'Y-m-d'
 					},{
 						name : 'contractType',
 						type : 'string'
 					},{
 						name : 'contractBeginDate',
 						type : 'date',
-						dateFormat: 'Y.m.d'
+						dateFormat: 'Y-m-d'
 					},{
 						name : 'contractEndDate',
 						type : 'date',
-						dateFormat: 'Y.m.d'
+						dateFormat: 'Y-m-d'
 					},{
 						name : 'contractReviewStatus',
 						type : 'string'
@@ -1058,7 +1059,7 @@ Ext.define("ShopinDesktop.ContractEntityLCUpdateView", {
 					},{
 						name : 'contractReviewDate',
 						type : 'date',
-						dateFormat: 'Y.m.d'
+						dateFormat: 'Y-m-d'
 					}
 				
 				],
