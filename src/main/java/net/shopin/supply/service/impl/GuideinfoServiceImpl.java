@@ -440,10 +440,15 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 			if(guideSupplyList.size() > 0){
 				
 				for(GuideSupply guideSupply : guideSupplyList){
-					guideSupply.setValidBit(0);//是否有效 0:无效 1:有效
+					guideSupply.setValidBit(guideinfo.getValidBit());//是否有效 0:无效 1:有效
 					result = this.guideSupplyMapper.updateValidBitStatus(guideSupply);
 					if(result!=1){
-						return ResultUtil.createFailureResult("00000", "删除导购时删除导购下绑定供应商信息失败！");
+						if(guideinfo.getValidBit().equals("0")){
+							return ResultUtil.createFailureResult("00000", "删除导购时删除导购下绑定供应商信息失败！");
+						}else{
+							return ResultUtil.createFailureResult("00000", "恢复导购时恢复导购下绑定供应商信息失败！");
+						}
+						
 					}else{
 						String jsonData = ResultUtil.createSuccessResult(guideSupply);
 						GuideLog guideLog = new GuideLog();
@@ -464,10 +469,15 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 			List<GuideLogininfo> guideLogininfoList = this.guideLogininfoMapper.selectByGuideNo(map);
 			if(guideLogininfoList.size()>0){
 				for(GuideLogininfo guideLogininfo : guideLogininfoList){
-					guideLogininfo.setValidBit(0);
+					guideLogininfo.setValidBit(guideinfo.getValidBit());
 					result = this.guideLogininfoMapper.updateValidBitStatus(guideLogininfo);
 					if(result != 1){
-						return ResultUtil.createFailureResult("00000", "删除导购时删除导购胸卡编号信息失败！");
+						if(guideinfo.getValidBit().equals("0")){
+							return ResultUtil.createFailureResult("00000", "删除导购时删除导购胸卡编号信息失败！");
+						}else{
+							return ResultUtil.createFailureResult("00000", "恢复导购时恢复导购胸卡编号信息失败！");
+						}
+						
 					}else{
 						String jsonData = ResultUtil.createSuccessResult(guideLogininfo);
 						GuideLog guideLog = new GuideLog();
@@ -487,7 +497,11 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 			
 			result = this.guideinfoMapper.updateValidBitStatus(guideinfo);
 			if(result!=1){
-				return ResultUtil.createFailureResult("00000", "删除导购基本信息失败！");
+				if(guideinfo.getValidBit().equals("0")){
+					return ResultUtil.createFailureResult("00000", "删除导购基本信息失败！");
+				}else{
+					return ResultUtil.createFailureResult("00000", "恢复导购基本信息失败！");
+				}
 			}else{
 				String jsonData = ResultUtil.createSuccessResult(guideinfo);
 				GuideLog guideLog = new GuideLog();
@@ -915,5 +929,87 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 		GuideinfoVO guideinfo= this.guideinfoMapper.selectByGuideNo(guideNo);
 		return guideinfo;
 	}
+
+	@Override
+	public String delValidBitStatus(Guideinfo guideinfo) {
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+		Integer result = 0;
+		try{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("guideNo", guideinfo.getGuideNo());
+			List<GuideSupply> guideSupplyList = this.guideSupplyMapper.selectListByParam(map);
+			if(guideSupplyList.size() > 0){
+				
+				for(GuideSupply guideSupply : guideSupplyList){
+					guideSupply.setValidBit(guideinfo.getValidBit());//是否有效 0:无效 1:有效
+					result = this.guideSupplyMapper.updateValidBitStatus(guideSupply);
+					if(result!=1){
+						return ResultUtil.createFailureResult("00000", "删除导购时删除导购下绑定供应商信息失败！");
+					}else{
+						String jsonData = ResultUtil.createSuccessResult(guideSupply);
+						GuideLog guideLog = new GuideLog();
+						guideLog.setGuideNo(guideinfo.getGuideNo());
+						guideLog.setOperator(guideinfo.getOperator());
+						guideLog.setOperatTime(new Date());
+						guideLog.setDescription("删除导购下绑定供应商信息："+jsonData);
+						
+						try{
+							this.guideLogMapper.insert(guideLog);
+						}catch (Exception e) {
+							this.logger.error("删除导购时添加解绑导购与供应商Log信息失败！", e);
+						}
+					}
+				}
+			}
+			
+			List<GuideLogininfo> guideLogininfoList = this.guideLogininfoMapper.selectByGuideNo(map);
+			if(guideLogininfoList.size()>0){
+				for(GuideLogininfo guideLogininfo : guideLogininfoList){
+					guideLogininfo.setValidBit(guideinfo.getValidBit());
+					result = this.guideLogininfoMapper.updateValidBitStatus(guideLogininfo);
+					if(result != 1){
+						return ResultUtil.createFailureResult("00000", "删除导购时删除导购胸卡编号信息失败！");
+					}else{
+						String jsonData = ResultUtil.createSuccessResult(guideLogininfo);
+						GuideLog guideLog = new GuideLog();
+						guideLog.setGuideNo(guideinfo.getGuideNo());
+						guideLog.setOperator(guideinfo.getOperator());
+						guideLog.setOperatTime(new Date());
+						guideLog.setDescription("删除导购时删除导购胸卡编号信息："+jsonData);
+						
+						try{
+							this.guideLogMapper.insert(guideLog);
+						}catch (Exception e) {
+							this.logger.error("删除导购时删除导购胸卡编号息失败！", e);
+						}
+					}
+				}
+			}
+			
+//			result = this.guideinfoMapper.updateValidBitStatus(guideinfo);
+			result = this.guideinfoMapper.delValidBitStatus(guideinfo);
+			if(result!=1){
+				return ResultUtil.createFailureResult("00000", "删除导购基本信息失败！");
+			}else{
+				String jsonData = ResultUtil.createSuccessResult(guideinfo);
+				GuideLog guideLog = new GuideLog();
+				guideLog.setGuideNo(guideinfo.getGuideNo());
+				guideLog.setOperator(guideinfo.getOperator());
+				guideLog.setOperatTime(new Date());
+				guideLog.setDescription("删除导购基本信息："+jsonData);
+				
+				try{
+					this.guideLogMapper.insert(guideLog);
+				}catch (Exception e) {
+					this.logger.error("删除导购时添加删除导购Log信息失败！", e);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result.toString();
+	}
+	
 
 }

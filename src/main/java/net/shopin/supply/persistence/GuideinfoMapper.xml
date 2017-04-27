@@ -250,6 +250,9 @@
     </set>
     where sid = #{sid,jdbcType=BIGINT}
   </update>
+  <update id="delValidBitStatus" parameterType="net.shopin.supply.domain.entity.Guideinfo" >
+   delete from  supply_guideinfo where sid = #{sid,jdbcType=BIGINT}
+  </update>
    <select id="selectGuideListByParam" parameterType="java.util.Map" resultType="net.shopin.supply.domain.entity.Guideinfo">
 		select
 			<include refid="Base_Column_List" />

@@ -493,6 +493,7 @@ public class GuideinfoController {
 		String sid = request.getParameter("sid");
 		String guideNo = request.getParameter("guideNo");
 		String username = request.getParameter("username");
+		String validbit = request.getParameter("validBit");
 //		String userSid = request.getParameter("userSid");
 		
 		if(sid == null || sid.isEmpty()){
@@ -510,7 +511,7 @@ public class GuideinfoController {
 				
 				Guideinfo guideinfo = new Guideinfo();
 				guideinfo.setSid(Integer.parseInt(sid));
-				guideinfo.setValidBit(0);//0无效
+				guideinfo.setValidBit(Integer.parseInt(validbit));//0无效
 				guideinfo.setOperatorTime(new Date());
 				guideinfo.setGuideNo(Integer.parseInt(guideNo));
 				guideinfo.setOperator(username);
@@ -521,7 +522,71 @@ public class GuideinfoController {
 			}
 			
 			if(!result.equals("1")){
-				json = ResultUtil.createFailureResult("00000" , "删除失败");
+				if(validbit.equals("0")||validbit=="0"){
+					json = ResultUtil.createFailureResult("00000" , "注销失败");
+				}else{
+					json = ResultUtil.createFailureResult("00000" , "恢复失败");
+				}
+				
+			}else{
+				json = ResultUtil.createSuccessResult();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			json = ResultUtil.createFailureResult("操作失败！",e.getMessage());
+		}
+		return json;
+	}
+	
+	/**
+	 * 删除导购信息
+	* @Title: updateGuidelValidStatus 
+	* @Description: TODO(有胸卡编号的导购只修改导购信息的有效状态，没有胸卡编号的导购永久删除) 
+	* @param @param request guideNo 导购编号， username 系统登录用户姓名
+	* @param @param response
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/delGuidelValidStatus", method = {RequestMethod.GET, RequestMethod.POST})
+	public String delGuidelValidStatus(HttpServletRequest request, HttpServletResponse response) {
+		String json="";
+		String result = "";
+		
+		String sid = request.getParameter("sid");
+		String guideNo = request.getParameter("guideNo");
+		String username = request.getParameter("username");
+		String validbit = request.getParameter("validBit");
+//		String userSid = request.getParameter("userSid");
+		
+		if(sid == null || sid.isEmpty()){
+			return ResultUtil.createFailureResult("00000", "sid is null");
+		}
+		if(guideNo == null || guideNo.isEmpty()){
+			return ResultUtil.createFailureResult("00000", "guideNo is null");
+		}
+		
+		try {
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("guideNo", guideNo);
+			List<GuideLogininfo> guideLogininfo = this.guideLogininfoService.selectListByParam(map);
+			if(guideLogininfo.size() > 0){
+				
+				Guideinfo guideinfo = new Guideinfo();
+				guideinfo.setSid(Integer.parseInt(sid));
+				guideinfo.setValidBit(Integer.parseInt(validbit));//0无效
+				guideinfo.setOperatorTime(new Date());
+				guideinfo.setGuideNo(Integer.parseInt(guideNo));
+				guideinfo.setOperator(username);
+//				guideinfo.setOperatorSid(Integer.parseInt(userSid));
+				result = this.guideinfoService.delValidBitStatus(guideinfo);
+			}else{
+				result = this.guideinfoService.delGuidinfo(Integer.parseInt(sid)).toString();
+			}
+			
+			if(!result.equals("1")){
+					json = ResultUtil.createFailureResult("00000" , "删除失败");
 			}else{
 				json = ResultUtil.createSuccessResult();
 			}
