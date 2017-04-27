@@ -29,11 +29,15 @@ public interface IGuideinfoService {
 	public List<Guideinfo> selectGuideListByParam(Map paramMap);
 	
 	/**
-	 * 删除导购信息(只修改导购信息的有效状态)
+	 * 修改导购信息(只修改导购信息的有效状态)
 	 * @param guideinfo
 	 */
 	public String updateValidBitStatus(Guideinfo guideinfo);
-	
+	/**
+	 * 删除导购信息(只修改导购信息的有效状态)
+	 * @param guideinfo
+	 */
+	public String delValidBitStatus(Guideinfo guideinfo);
 	/**
 	 * 获取导购基本信息和对应导购胸卡编号信息列表(带分页)
 	* @Title: getAllGuideInfoListPage 

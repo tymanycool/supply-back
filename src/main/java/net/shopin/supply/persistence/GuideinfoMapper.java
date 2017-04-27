@@ -11,6 +11,8 @@ import com.shopin.core.framework.base.persistence.BaseMapper;
 public interface GuideinfoMapper extends BaseMapper<Guideinfo>{
 	
 	public int updateValidBitStatus(Guideinfo guideinfo);
+	
+	public int delValidBitStatus(Guideinfo guideinfo);
 
 	/**
 	 * 通过供应商门店获取导购组

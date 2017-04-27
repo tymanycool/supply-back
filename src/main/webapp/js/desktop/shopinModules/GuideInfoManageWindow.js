@@ -296,34 +296,79 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							}
 						]	
 					},{
+						text:"注销",
+						xtype:'actioncolumn',
+						sortable: true,
+						width:50,
+						align:'center',
+						items :[
+							{
+							text : '注销',
+							xtype : 'button',
+							tooltip: '注销',
+							icon:_appctx+'/images/remove.gif',
+							handler:function(grid, rowIndex, colIndex){
+								var record = grid.getStore().getAt(rowIndex);  
+								
+								Ext.Msg.confirm("提示","确认要注销该导购信息？（注销会解除供应商绑定，解除胸卡绑定，请谨慎操作）",function(button){
+									if(button=="yes"){
+										sid = record.data.sid;
+										guideNo = record.data.guideNo;
+										validBit = 0;
+										delGuideinfo(sid,guideNo,validBit);
+									}
+								});
+								}
+							},
+						]	
+					},
+					{
+						text:"恢复",
+						xtype:'actioncolumn',
+						sortable: true,
+						width:50,
+						align:'center',
+						items :[
+							{
+							text : '恢复',
+							xtype : 'button',
+							tooltip: '恢复',
+							icon:_appctx+'/images/reset.gif',
+							handler:function(grid, rowIndex, colIndex){
+								var record = grid.getStore().getAt(rowIndex);  
+								
+								Ext.Msg.confirm("提示","确认要恢复该导购信息？（恢复会重新绑定供应商，重新绑定胸卡，请谨慎操作）",function(button){
+									if(button=="yes"){
+										sid = record.data.sid;
+										guideNo = record.data.guideNo;
+										validBit = 1;
+										delGuideinfo(sid,guideNo,validBit);
+									}
+								});
+								}
+							},
+						]	
+					},{
 						text:"删除",
 						xtype:'actioncolumn',
 						sortable: true,
-						width:40,
+						width:50,
 						align:'center',
 						items :[
 							{
 							text : '删除',
 							xtype : 'button',
 							tooltip: '删除',
-							icon:_appctx+'/images/remove.gif',
+							icon:_appctx+'/images/del.gif',
 							handler:function(grid, rowIndex, colIndex){
-								
-								
-								/*if(roleUser.indexOf("91") > -1 )
-								{
-									
-								    Ext.Msg.alert("错误","没有此权限！");
-								    return;
-								}*/
-								
 								var record = grid.getStore().getAt(rowIndex);  
 								
-								Ext.Msg.confirm("提示","确认要删除该导购信息？",function(button){
+								Ext.Msg.confirm("提示","确认要删除该导购信息？（彻底删除不可恢复）",function(button){
 									if(button=="yes"){
 										sid = record.data.sid;
 										guideNo = record.data.guideNo;
-										delGuideinfo(sid,guideNo);
+										validBit = 0;
+										delTrueGuideinfo(sid,guideNo,validBit);
 									}
 								});
 								}
@@ -817,12 +862,42 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 					sid : sid,
 					guideNo : guideNo,
 					username : username,
-					userSid : userSid
+					userSid : userSid,
+					validBit : validBit
 					},
 				success: function(response){
 					var result = Ext.decode(response.responseText);
 					if(result.success=="true"){
-						Ext.Msg.alert('','删除成功');
+						Ext.Msg.alert('','操作成功！');
+						me.guideInfoStore.reload();
+					}else{
+						Ext.Msg.alert('错误',result.memo);
+					}
+				},
+				failure: function(){
+					Ext.Msg.alert('','操作失败，请与管理员联系');
+				}
+				})
+		 }
+		
+		/**
+		 * shanchu del miao
+		 */
+		function delTrueGuideinfo(sid){
+			Ext.Ajax.request({
+				url : _appctx + '/guideinfo/delGuidelValidStatus',
+				method:'POST',
+				params: { 
+					sid : sid,
+					guideNo : guideNo,
+					username : username,
+					userSid : userSid,
+					validBit : validBit
+					},
+				success: function(response){
+					var result = Ext.decode(response.responseText);
+					if(result.success=="true"){
+						Ext.Msg.alert('','删除成功！');
 						me.guideInfoStore.reload();
 					}else{
 						Ext.Msg.alert('错误',result.memo);

@@ -57,7 +57,9 @@
 			<if test="supplyId != null">
 				and supply_id = #{supplyId,jdbcType=BIGINT}
 			</if>
-			and valid_bit = 1
+			<if test="validbit != null">
+				and valid_bit = #{validbit,jdbcType=BIGINT}
+			</if>
 		</where> 
 	</select>
 	<select id="selectGuideSupplyByParam" parameterType="net.shopin.supply.domain.entity.GuideSupply" resultMap="BaseResultMap">
