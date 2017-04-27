@@ -62,7 +62,7 @@ Ext.define('ShopinDesktop.GuideBoundSupplyWindow', {
 			proxy : {
 					type : 'ajax',
 					api : {
-						read : _appctx + '/guideSupply/list?guideNo='+guideNo,
+						read : _appctx + '/guideSupply/list?guideNo='+guideNo+'&validBit=1',
 					},
 					idParam : 'sid',
 					reader : {

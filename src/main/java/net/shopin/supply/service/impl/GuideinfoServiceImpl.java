@@ -435,6 +435,12 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 		Integer result = 0;
 		try{
 			Map<String,Object> map = new HashMap<String, Object>();
+			if(guideinfo.getValidBit().equals(0)){
+				map.put("validbit","1");
+			}
+			if(guideinfo.getValidBit().equals(1)){
+				map.put("validbit","0");
+			}
 			map.put("guideNo", guideinfo.getGuideNo());
 			List<GuideSupply> guideSupplyList = this.guideSupplyMapper.selectListByParam(map);
 			if(guideSupplyList.size() > 0){

@@ -60,12 +60,18 @@ public class GuideSupplyController {
 	public String getGuideSupplyList(Model model,HttpServletRequest request, HttpServletResponse response) {
 		
 		String guideNo = request.getParameter("guideNo");
+		String  validBit= request.getParameter("validBit");
+		
 		String json = "";
 		try {
 			Map<String,Object> map = new HashMap<String,Object>();
 			if(null != guideNo && !guideNo.equals("")){
 				map.put("guideNo", guideNo);
 			}
+			if(null != validBit && !validBit.equals("")){
+				map.put("validBit", validBit);
+			}
+			
 			List<GuideSupply> guideSupplyList = this.guideSupplyService.selectListByParam(map);
 			map.put("list",guideSupplyList);
 			map.put("total", guideSupplyList.size());

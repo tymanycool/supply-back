@@ -310,7 +310,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							handler:function(grid, rowIndex, colIndex){
 								var record = grid.getStore().getAt(rowIndex);  
 								
-								Ext.Msg.confirm("提示","确认要注销该导购信息？",function(button){
+								Ext.Msg.confirm("提示","确认要注销该导购信息？（注销会解除供应商绑定，解除胸卡绑定，请谨慎操作）",function(button){
 									if(button=="yes"){
 										sid = record.data.sid;
 										guideNo = record.data.guideNo;
@@ -337,7 +337,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							handler:function(grid, rowIndex, colIndex){
 								var record = grid.getStore().getAt(rowIndex);  
 								
-								Ext.Msg.confirm("提示","确认要恢复该导购信息？",function(button){
+								Ext.Msg.confirm("提示","确认要恢复该导购信息？（恢复会重新绑定供应商，重新绑定胸卡，请谨慎操作）",function(button){
 									if(button=="yes"){
 										sid = record.data.sid;
 										guideNo = record.data.guideNo;
@@ -363,7 +363,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 							handler:function(grid, rowIndex, colIndex){
 								var record = grid.getStore().getAt(rowIndex);  
 								
-								Ext.Msg.confirm("提示","确认要删除该导购信息？",function(button){
+								Ext.Msg.confirm("提示","确认要删除该导购信息？（彻底删除不可恢复）",function(button){
 									if(button=="yes"){
 										sid = record.data.sid;
 										guideNo = record.data.guideNo;
