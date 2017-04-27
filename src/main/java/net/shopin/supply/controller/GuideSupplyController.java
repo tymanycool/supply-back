@@ -69,7 +69,7 @@ public class GuideSupplyController {
 				map.put("guideNo", guideNo);
 			}
 			if(null != validBit && !validBit.equals("")){
-				map.put("validBit", validBit);
+				map.put("validbit", validBit);
 			}
 			
 			List<GuideSupply> guideSupplyList = this.guideSupplyService.selectListByParam(map);
