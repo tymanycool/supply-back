@@ -145,6 +145,7 @@ Ext.define('ShopinDesktop.GuideInfoManageWindow', {
 						hidden : true,
 						hideable : false
 					}, 
+					{header:'Sid',dataIndex:'sid',width:80,sortable:true},
 					{header:'导购编号',dataIndex:'guideNo',id : 'sidId',hidden : true,hideable : false},
 //					{header:'导购胸卡编号',dataIndex:'chestNum',width:80,sortable:true},
 					{header:'姓名',dataIndex:'name',width:80,sortable:true},
