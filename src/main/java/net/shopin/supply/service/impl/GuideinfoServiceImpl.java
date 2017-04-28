@@ -994,7 +994,8 @@ public class GuideinfoServiceImpl implements IGuideinfoService {
 			}
 			
 //			result = this.guideinfoMapper.updateValidBitStatus(guideinfo);
-			result = this.guideinfoMapper.delValidBitStatus(guideinfo);
+//			result = this.guideinfoMapper.delValidBitStatus(guideinfo);
+			result = this.guideinfoMapper.delete(guideinfo.getSid());
 			if(result!=1){
 				return ResultUtil.createFailureResult("00000", "删除导购基本信息失败！");
 			}else{
