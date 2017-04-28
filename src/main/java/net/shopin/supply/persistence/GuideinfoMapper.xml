@@ -117,50 +117,46 @@
   </select>
    <select id="getAllGuideInfoListPage" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
 		SELECT
-			info.*, p.flag,
+			s.*, p.flag,
+			l.chestcard_number,
+			l.shop_id,
+			l.shop_name,
 			p.start_time,
 			p.end_time,
 			p.operatoe_name,
 			p.operat_time,
 			p.customer_flag
 		FROM
-			(((
-				SELECT
-					s.*, l.chestcard_number,
-					l.shop_id,
-					l.shop_name
-				FROM
-					supply_guideinfo s
-				LEFT JOIN supply_guide_logininfo l ON s.guide_no = l.guide_no
-			) info
-		 LEFT JOIN supply_permission p on info.guide_no = p.guide_no )
-		 LEFT JOIN supply_guide_supply sgs on info.guide_no = sgs.guide_no
-		)
+			supply_guideinfo s
+		LEFT JOIN supply_guide_logininfo l ON s.guide_no = l.guide_no
+		LEFT JOIN supply_permission p ON s.guide_no = p.guide_no
+		LEFT JOIN supply_guide_supply sgs ON s.guide_no = sgs.guide_no
     	
     <where>
     	<if test="name != null" >
-		      and info.name LIKE CONCAT('%','${name}','%')
+		      s.name LIKE CONCAT('${name}','%')
 		</if>
     	<if test="spell != null" >
-		      and info.spell LIKE CONCAT('%','${spell}','%')
+		      and s.spell LIKE CONCAT('${spell}','%')
 		</if>
 		<if test="chestcardNumber != null" >
-		      and info.chestcard_number LIKE CONCAT('%','${chestcardNumber}','%')
+		      and l.chestcard_number LIKE CONCAT('${chestcardNumber}','%')
 		</if>
 		<if test="validBit != null" >
-		      and info.valid_bit = #{validBit,jdbcType=INTEGER}
+		      and s.valid_bit = #{validBit,jdbcType=INTEGER}
 		</if>
 		<if test="guideStatusId != null" >
-		      and info.guide_status = #{guideStatusId,jdbcType=INTEGER}
+		      and s.guide_status = #{guideStatusId,jdbcType=INTEGER}
 		</if>
 		<if test="shopId != null" >
-		      and info.shop_id = #{shopId,jdbcType=INTEGER}
+		      and l.shop_id = #{shopId,jdbcType=INTEGER}
 		</if>
 		<if test="supplyId != null" >
 		      and sgs.supply_id = #{supplyId,jdbcType=INTEGER}
 		</if>
     </where>
-    order by info.createtime desc limit #{start}, #{limit}
+    GROUP BY guide_no
+    order by s.createtime desc limit #{start}, #{limit}
   </select>
   <select id="getAllGuideInfoList" resultMap="NewBaseResultMap" parameterType="java.util.Map" >
 
