@@ -662,5 +662,6 @@
     	supply_permission p
     	on s.guide_no = p.guide_no
 	 where s.guide_no = #{guideNo,jdbcType=INTEGER}
+	 group by s.guide_no
   </select>
 </mapper>
