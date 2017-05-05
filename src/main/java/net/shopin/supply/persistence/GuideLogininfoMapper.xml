@@ -108,6 +108,7 @@
 				and login_password = #{loginPassword,jdbcType=VARCHAR}
 			</if>
 			and valid_bit = 1
+			group by login_username
 		</where> 
 	</select>
 	 <select id="checkChestCardNumIsUnique"  parameterType="net.shopin.supply.domain.entity.GuideLogininfo" resultMap="BaseResultMap">
