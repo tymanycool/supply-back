@@ -40,7 +40,7 @@ Ext.define('ShopinDesktop.GetRedisDelcacheWindow',{
 						leaf: true,
 						id:"selectRedisView",
 					},{
-						text: "清楚缓存数据",
+						text: "清除缓存数据",
 						iconCls:'button_tree',
 						leaf: true,
 						id:"delRedisView"
@@ -72,10 +72,10 @@ Ext.define('ShopinDesktop.GetRedisDelcacheWindow',{
 			        		var oldId = Ext.getCmp(newId+1);
 			        		if(oldId == undefined){
 			        			if(newId=="selectRedisView"){
-			        				if(!hasPermission("selectRedisView")){
-			        					Ext.Msg.alert('提示',"只有管理员才有权操作！");
-			        					return;
-			        				}
+//			        				if(!hasPermission("selectRedisView")){
+//			        					Ext.Msg.alert('提示',"只有管理员才有权操作！");
+//			        					return;
+//			        				}
 			        				Ext.getCmp('cacheInfoView').add(
 			        						Ext.create("ShopinDesktop.selectRedisView", {
 												id: 'selectRedisView1',
@@ -89,10 +89,10 @@ Ext.define('ShopinDesktop.GetRedisDelcacheWindow',{
 										  );
 			        				Ext.getCmp('cacheInfoView').setActiveTab(Ext.getCmp("selectRedisView1"));
 			        			}else if(newId=="delRedisView"){
-			        				if(!hasPermission("delRedisView")){
-			        					Ext.Msg.alert('提示',"只有管理员才有权操作！");
-			        					return;
-			        				}
+//			        				if(!hasPermission("delRedisView")){
+//			        					Ext.Msg.alert('提示',"只有管理员才有权操作！");
+//			        					return;
+//			        				}
 			        				Ext.getCmp('cacheInfoView').add(
 											Ext.create("ShopinDesktop.delRedisView", {
 												id: "delRedisView1",
