@@ -264,7 +264,7 @@ public class GuideLogininfoController {
 					if(null == padSupply){
 						return ResultUtil.createFailureResult("00000", "此pad没有绑定供应商！");
 					}
-					int supplyId = padSupply.getSupplyId();
+					Integer supplyId = padSupply.getSupplyId();
 					map.put("guideNo", guideNo);
 					map.put("supplyId", supplyId);
 					map.put("shopId", padSupply.getShopId());
@@ -363,7 +363,7 @@ public class GuideLogininfoController {
 							 PadSupply padsupply = padSupplyList.get(i);
 							 if(padsupply!=null){
 								 Map<String,Object> supplyMap = new HashMap<String, Object>();
-								 int supplySid = padsupply.getSupplyId();
+								 Integer supplySid = padsupply.getSupplyId();
 								 String supplyName = padsupply.getSupplyName();
 								 supplyMap.put("supplyId", supplySid);
 								 supplyMap.put("companyName", supplyName);
