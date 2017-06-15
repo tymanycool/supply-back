@@ -3,11 +3,17 @@ package test;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.apache.xerces.util.SynchronizedSymbolTable;
 import org.junit.Ignore;
+
+import com.shopin.redis3.utils.Redis3Utils;
 
 import net.shopin.supply.util.HttpUtil;
 
 public class TestPadGuideinfoControll {
+	
+	private Logger logger = Logger.getLogger(this.getClass());
 	
 	@Ignore
 	@org.junit.Test
@@ -62,5 +68,17 @@ public class TestPadGuideinfoControll {
 		System.out.println(result);
 		
 	}
+	
+	@org.junit.Test
+	public void testgetRedis(){
+		String key = "101548skuList";
+		try {
+			String json = Redis3Utils.get(key);
+			System.out.println(json);
+		} catch (Exception e) {
+			logger.info("从缓存中获取 Key="+key+"  对应的缓存数据失败！");
+		}
+	}
+	
 
 }

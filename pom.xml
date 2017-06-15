@@ -157,6 +157,7 @@
 		<jedis.version>2.8.1</jedis.version>
 		<mail.version>1.4.7</mail.version>
 		<edtTTPj.version>2.4.0</edtTTPj.version>
+		<redis-utils>0.0.4</redis-utils>
 	</properties>
 
 	<dependencies>
@@ -588,6 +589,12 @@
 			<groupId>net.sf.ezmorph</groupId>
 			<artifactId>ezmorph</artifactId>
 			<version>1.0.6</version>
+		</dependency>
+		<!-- redis -->
+		<dependency>
+			<groupId>net.shopin.utils</groupId>
+			<artifactId>redis-utils</artifactId>
+			<version>${redis-utils}</version>
 		</dependency>
 		<!-- html paser -->
 		<dependency>
