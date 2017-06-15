@@ -359,12 +359,15 @@ public class GuideLogininfoController {
 						resultMap.put("uploadResourceDTOs", resourcelist);
 						
 						for(int i=0;i<padSupplyList.size();i++){
-							Map<String,Object> supplyMap = new HashMap<String, Object>();
-							int supplySid = padSupplyList.get(i).getSupplyId();
-							String supplyName = padSupplyList.get(i).getSupplyName();
-							supplyMap.put("supplyId", supplySid);
-							supplyMap.put("companyName", supplyName);
-							list.add(supplyMap);
+							 PadSupply padsupply = padSupplyList.get(i);
+							 if(padsupply!=null){
+								 Map<String,Object> supplyMap = new HashMap<String, Object>();
+								 int supplySid = padsupply.getSupplyId();
+								 String supplyName = padsupply.getSupplyName();
+								 supplyMap.put("supplyId", supplySid);
+								 supplyMap.put("companyName", supplyName);
+								 list.add(supplyMap);
+							 }
 						}
 						resultMap.put("lstSupply", list);
 						logger.info("********************777777777777777*****************");
