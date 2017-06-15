@@ -259,8 +259,7 @@ public class GuideLogininfoController {
 				
 				if(useType == 0){//0：导购
 					PadSupply padSupply = this.padSupplyService.selectPadSupplyByPadNo(map);
-					logger.info("############ padsupply = "+padSupply);
-					logger.info("############ padsupplyID = "+padSupply.getSupplyId());
+					
 					if(null == padSupply){
 						return ResultUtil.createFailureResult("00000", "此pad没有绑定供应商！");
 					}
@@ -360,15 +359,12 @@ public class GuideLogininfoController {
 						resultMap.put("uploadResourceDTOs", resourcelist);
 						
 						for(int i=0;i<padSupplyList.size();i++){
-							 PadSupply padsupply = padSupplyList.get(i);
-							 if(padsupply!=null){
-								 Map<String,Object> supplyMap = new HashMap<String, Object>();
-								 Integer supplySid = padsupply.getSupplyId();
-								 String supplyName = padsupply.getSupplyName();
-								 supplyMap.put("supplyId", supplySid);
-								 supplyMap.put("companyName", supplyName);
-								 list.add(supplyMap);
-							 }
+							Map<String,Object> supplyMap = new HashMap<String, Object>();
+							Integer supplySid = padSupplyList.get(i).getSupplyId();
+							String supplyName = padSupplyList.get(i).getSupplyName();
+							supplyMap.put("supplyId", supplySid);
+							supplyMap.put("companyName", supplyName);
+							list.add(supplyMap);
 						}
 						resultMap.put("lstSupply", list);
 						logger.info("********************777777777777777*****************");
