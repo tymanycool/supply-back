@@ -90,7 +90,7 @@ Ext.define('ShopinDesktop.GuideinfoUpdateWindow', {
 		var entrytime = record.data.entrytime;
 		var leavetime = record.data.leavetime;
 		var guideStatus = record.data.guideStatus;
-//		var guideBit = record.data.guideBit;
+		var guideBit = record.data.guideBit+'';
 			
   		var chestCombo= new Ext.data.ArrayStore({
 			fields: ['chestBitCode','value'],
@@ -987,8 +987,35 @@ Ext.define('ShopinDesktop.GuideinfoUpdateWindow', {
 										name:'education',
 										mode:'local',
 										value : education
-									}
-			                    ]
+									}]
+			                },{
+			                	xtype: 'container',
+			                    layout: 'hbox',
+			                    height:5
+			                },{
+			                    xtype: 'container',
+			                    layout: 'hbox',
+			                    items: [{
+										fieldLabel:"身份",
+										afterLabelTextTpl: required,
+										xtype:"combo",
+										width : 300,
+										editable:false,
+										store:new Ext.data.ArrayStore({
+											fields: ['identityCode','value'],
+											data : [
+											['0',"主管"],['1',"导购"],['2',"客服"]
+											]
+										}),
+										valueField: 'identityCode',
+										displayField:'value',
+										hiddenName:'value',
+										triggerAction : 'all',
+										name:'guideBit',
+										mode:'local',
+										allowBlank : false,
+										value:guideBit
+									}]
 			                }]
 			            },
 			            {
