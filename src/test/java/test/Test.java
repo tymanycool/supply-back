@@ -135,6 +135,10 @@ public class Test {
 		json = HttpUtil.HttpPost(url, method, paramMap);
 		System.out.println(json);
 	}
+
+	public static void main(String[] args) {
+
+	}
 	
 
 }

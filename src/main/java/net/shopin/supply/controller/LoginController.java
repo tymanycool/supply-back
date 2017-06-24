@@ -22,6 +22,7 @@ import net.shopin.supply.service.IRoleUserService;
 import net.shopin.supply.service.ISystemUserService;
 import net.shopin.supply.util.MD5Util;
 import net.shopin.supply.util.ResultUtil;
+import com.shopin.redis3.utils.Redis3Utils;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.logging.Log;

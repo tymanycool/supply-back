@@ -36,7 +36,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var allResource = '<%=session.getAttribute("resources")%>';
 			var userInfor = '<%=session.getAttribute("userInfor")%>';
 			var user = Ext.JSON.decode(userInfor);
-			
+			console.log(user);
+			alert(typeof user);
+
+
 			Ext.tip.QuickTipManager.init();
 			Ext.Loader.setConfig({enabled:true});
 			Ext.Loader.setPath({				//命名空间的设置

@@ -249,7 +249,8 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
 						hiddenName:'sid',
 						triggerAction : 'all',
 						name:'shop',
-						mode:'local'
+						mode:'local',
+						 value:user.shopName
 					},
 					{
 						xtype : "textfield",
