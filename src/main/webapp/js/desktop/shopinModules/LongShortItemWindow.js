@@ -44,6 +44,24 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 			singleSelect : true
 			});
 		var checkbox = this.sm;
+		
+		
+        var shopStore = new Ext.data.JsonStore({
+            autoLoad: true,
+            proxy: {
+                type: 'ajax',
+                api: {
+                    read: _appctx + '/guideSupply/getShopsList'
+                },
+                idParam: 'sid',
+                reader: {
+                    type: 'json',
+                    root: 'result'
+                }
+            },
+            fields: ["sid", "shopName"]
+
+        });
 
 		this.seleteLongShortRepStore = Ext.create("Ext.data.Store", {
 			autoLoad: false,
@@ -82,6 +100,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 					}
 					
 					Ext.apply(store.proxy.extraParams, {
+						shopSid: Ext.getCmp('shopStatisticsId').getValue(),
 						guideNo : Ext.getCmp('guideNoSid').getValue(),
 						startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 						endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
@@ -105,6 +124,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 								url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
 								method : 'post', 
 								params : { 
+									shopSid: Ext.getCmp('shopStatisticsId').getValue(),
 									guideNo : Ext.getCmp('guideNoSid').getValue(),
 									startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 									endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
@@ -185,6 +205,30 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 				width:"100%",
 				columns: 7,
 				items:[
+						{
+						    xtype: "combo",
+						    fieldLabel: '门店',
+						    labelWidth: 30,
+						    labelAlign: "right",
+						    width: 120,
+						    id: "shopStatisticsId",
+						    store: shopStore,
+						    valueField: 'sid',
+						    displayField: 'shopName',
+						    hiddenName: 'sid',
+						    editable: false,
+						    readOnly:function(){
+						    	if(user.shopSid=1000){
+						    		return false;
+						    	}else{
+						    		return true;
+						    	}
+						    },
+						    triggerAction: 'all',
+						    name: 'shop',
+						    mode: 'local',
+						    value: user.shopSid
+						},
 					 {
 						xtype : "textfield",
 						id:"terminalSid",
@@ -230,6 +274,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 						width:50,
 						margin:"0 10 0 10",
 						handler: function() {
+							var shopSid = Ext.getCmp('shopStatisticsId').getValue();
 							var startTime = Ext.getCmp('startTimeId').getValue();
 							var endTime = Ext.getCmp('endTimeId').getValue();
 							if(startTime==null||startTime==""||endTime==null||endTime==""){
@@ -241,6 +286,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 								params:{
 									start :0,
 							        limit :20,
+							        shopSid: Ext.getCmp('shopStatisticsId').getValue(),
 									guideNo : Ext.getCmp('guideNoSid').getValue(),
 									startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 									endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
@@ -260,6 +306,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 												url : _appctx + '/oms/selectLongShortListTotalMoney.json', 
 												method : 'post', 
 												params : { 
+													shopSid: Ext.getCmp('shopStatisticsId').getValue(),
 													guideNo : Ext.getCmp('guideNoSid').getValue(),
 													startTime :  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d'),
 													endTime : Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d'),
@@ -311,6 +358,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 				}*/
 			}
 		});
+
 		
 //		Ext.getCmp('payValidBit').select(validPayCombo.getAt(0));
 //		Ext.getCmp('shopGuideStatusId').select(guideStatusCombo.getAt(0));
