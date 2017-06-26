@@ -267,17 +267,18 @@ Ext.define('ShopinDesktop.CashierSelectWindow', {
                             valueField: 'sid',
                             displayField: 'shopName',
                             hiddenName: 'sid',
-                            readOnly: function () {
-                                if (user.shopName == 1000) {
-                                    return false;
-                                } else {
-                                    return true;
-                                }
+                            editable: false,
+                            readOnly:function(){
+                            	if(user.shopSid=1000){
+                            		return false;
+                            	}else{
+                            		return true;
+                            	}
                             },
                             triggerAction: 'all',
                             name: 'shop',
                             mode: 'local',
-                            value: user.shopName + ''
+                            value: user.shopSid
                         },
                         {
                             xtype: "textfield",

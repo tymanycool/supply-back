@@ -6,10 +6,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!DOCTYPE html>
 
-<meta http-equiv="pragma" content="no-cache"  />
-<meta http-equiv="content-type" content="no-cache, must-revalidate" />
-<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
-
 <html>
    <head>
 		<title>供应商管理后台</title>
@@ -62,6 +58,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 
-	<body onLoad="JavaScript:document.yourFormName.reset()" style="background-image: url(wallpapers/Dark-Sencha-back.jpg)">
+	<body style="background-image: url(wallpapers/Dark-Sencha-back.jpg)">
 	</body>
 </html>
