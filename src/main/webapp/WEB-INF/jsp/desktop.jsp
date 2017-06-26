@@ -5,6 +5,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 
 <!DOCTYPE html>
+
+<meta http-equiv="pragma" content="no-cache"  />
+<meta http-equiv="content-type" content="no-cache, must-revalidate" />
+<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
+
 <html>
    <head>
 		<title>供应商管理后台</title>
@@ -35,9 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var shopid = '<%=session.getAttribute("shopid")%>';
 			var allResource = '<%=session.getAttribute("resources")%>';
 			var userInfor = '<%=session.getAttribute("userInfor")%>';
-			var user = Ext.JSON.decode(userInfor);
-			console.log(user);
-			alert(typeof user);
+            var user = Ext.JSON.decode(userInfor);
 
 
 			Ext.tip.QuickTipManager.init();
@@ -59,6 +62,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 
-	<body style="background-image: url(wallpapers/Dark-Sencha-back.jpg)">
+	<body onLoad="JavaScript:document.yourFormName.reset()" style="background-image: url(wallpapers/Dark-Sencha-back.jpg)">
 	</body>
 </html>
