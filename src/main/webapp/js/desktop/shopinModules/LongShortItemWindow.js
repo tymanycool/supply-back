@@ -332,6 +332,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 						ctCls: 'x-btn-over',
 						margin : '0 0 0 0',
 						handler : function() {
+							var  shopSid = Ext.getCmp('shopStatisticsId').getValue();
 						 var guideNo = Ext.getCmp('guideNoSid').getValue();
 						 var startTime =  Ext.util.Format.date(Ext.getCmp('startTimeId').getValue(),'Y-m-d');
 						 var endTime = Ext.util.Format.date(Ext.getCmp('endTimeId').getValue(),'Y-m-d');
@@ -343,7 +344,7 @@ Ext.define('ShopinDesktop.LongShortItemWindow', {
 							}
 							
 							var appWindow = window.open(_appctx+"/oms/exportLongShortReportToExcel.json?guideNo="+guideNo+
-									"&startTime="+startTime+"&endTime="+endTime+"&terminalNo="+terminalNo);
+									"&startTime="+startTime+"&endTime="+endTime+"&terminalNo="+terminalNo+"&shopSid="+shopSid);
 							appWindow.focus();
 						}
 					}
