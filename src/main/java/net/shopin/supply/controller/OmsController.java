@@ -260,6 +260,7 @@ public class OmsController {
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		String terminalNo = request.getParameter("terminalNo");
+		String shopSid = request.getParameter("shopSid");
 		
 		if(null != guideNo && !guideNo.equals("")){
 			map.put("guideNo", guideNo);
@@ -272,6 +273,9 @@ public class OmsController {
 		}
 		if(null != terminalNo && !terminalNo.equals("")){
 			map.put("terminalNo", terminalNo);
+		}
+		if(null != shopSid && !shopSid.equals("")){
+			map.put("shopSid", shopSid);
 		}
 		
 		List<OmsInfoVo> guideinfoList = this.omsService.selectLongShortListForExcel(map);
