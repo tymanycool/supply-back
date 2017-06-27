@@ -251,6 +251,9 @@
       <if test="guideNo != null and guideNo !='' ">
         and  oodn.opt_user_name = #{guideNo}
       </if>
+		<if test="shopSid != null and shopSid !='' ">
+			and  oodn.shop_sid = #{shopSid}
+		</if>
       <if test="startTime != null and startTime !='' ">
         and  oon.pay_time &gt;= #{startTime}
       </if>
@@ -288,6 +291,9 @@
   		<if test="guideNo != null and guideNo !='' ">
   			AND ordn.opt_user_name = #{guideNo}
   		</if>
+		<if test="shopSid != null and shopSid !='' ">
+			and  ordn.shop_sid = #{shopSid}
+		</if>
   		<if test="startTime != null and startTime !='' ">
   			and  orn.cash_return_time &gt;= #{startTime}
   		</if>
