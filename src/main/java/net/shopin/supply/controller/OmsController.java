@@ -72,6 +72,12 @@ public class OmsController {
 		String resultJson = "";
 		try {
 			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+
+            String shopSid = request.getParameter("shopSid");
+            if("1000".equals(shopSid)){
+                paramsMap.remove("shopSid");
+            }
+
 			paramsMap.put("start", start);
 			paramsMap.put("limit", limit);
 			
@@ -79,7 +85,8 @@ public class OmsController {
 			if(endTime!=null){
 				paramsMap.put("endTime", DateUtils.addDays2(endTime, 1));
 			}
-			
+
+
 	
 			int total = this.omsService.SupplyCashierListCount(paramsMap);
 			List list = this.omsService.selectCashierList(paramsMap);
@@ -107,6 +114,11 @@ public class OmsController {
 		String resultJson = "";
 		try {
 			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+
+            String shopSid = request.getParameter("shopSid");
+            if("1000".equals(shopSid)){
+                paramsMap.remove("shopSid");
+            }
 			
 			String endTime = (String)paramsMap.get("endTime");
 			if(endTime!=null){
@@ -164,6 +176,10 @@ public class OmsController {
 			map.put("terminalNo", terminalNo);
 		}
 
+
+        if("1000".equals(shopSid)){
+            map.remove("shopSid");
+        }
 		
 		
 		List<OmsInfoVo> guideinfoList = this.omsService.selectCashierListForExcel(map);
@@ -188,6 +204,11 @@ public class OmsController {
 		String resultJson = "";
 		try {
 			Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+
+            String shopSid = request.getParameter("shopSid");
+            if("1000".equals(shopSid)){
+                paramsMap.remove("shopSid");
+            }
 			
 			
 			String endTime = (String)paramsMap.get("endTime");
@@ -229,6 +250,11 @@ public class OmsController {
 			String resultJson = "";
 			try {
 				Map<String, Object> paramsMap = CollectionsUtils.BeanToMapFilterNull(omsInfoVo);
+
+                String shopSid = request.getParameter("shopSid");
+                if("1000".equals(shopSid)){
+                    paramsMap.remove("shopSid");
+                }
 				
 				
 				String endTime = (String)paramsMap.get("endTime");
@@ -277,6 +303,10 @@ public class OmsController {
 		if(null != shopSid && !shopSid.equals("")){
 			map.put("shopSid", shopSid);
 		}
+
+        if("1000".equals(shopSid)){
+            map.remove("shopSid");
+        }
 		
 		List<OmsInfoVo> guideinfoList = this.omsService.selectLongShortListForExcel(map);
 		if(null != guideinfoList){
