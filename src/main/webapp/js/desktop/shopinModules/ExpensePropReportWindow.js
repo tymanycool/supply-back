@@ -102,9 +102,11 @@ Ext.define('ShopinDesktop.ExpensePropReportWindow', {
 						    async:false,
 						    success: function(response){
 						    	var array = Ext.JSON.decode(response.responseText);
+
 						    	Ext.Array.each(array, function(item, index){
+
 						    		var no = index + 1;
-						    		columns.push({xtype:'gridcolumn', text: item+'日', 
+						    		columns.push({xtype:'gridcolumn', text: item+'日',
 										columns: [
 											{text: '经营面积', dataIndex: 'area'+no, width: 60},
 											{text: '天数', dataIndex: 'days'+no, width: 40},
@@ -170,24 +172,28 @@ Ext.define('ShopinDesktop.ExpensePropReportWindow', {
 	initComponents: function(me){
 		this.expensePropStore = Ext.create('Ext.data.JsonStore', {
 			fields: [
-				{name: 'sid', type: 'int'},
-				{name: 'shopSid', type: 'string'},
-				{name: 'categoryName', type: 'string'},
-				{name: 'supplySid', type: 'string'},
-				{name: 'supplyName', type: 'string'},
-				{name: 'brand', type: 'string'},
-				{name: 'area1', type: 'float'},
-				{name: 'days1', type: 'int'},
-				{name: 'expStatus1', type: 'int'},
-				{name: 'area2', type: 'float'},
-				{name: 'days2', type: 'int'},
-				{name: 'expStatus2', type: 'int'},
-				{name: 'area3', type: 'float'},
-				{name: 'days3', type: 'int'},
-				{name: 'expStatus3', type: 'int'},
-				{name: 'area4', type: 'float'},
-				{name: 'days4', type: 'int'},
-				{name: 'expStatus4', type: 'int'},
+				{name: 'sid', type: 'int'},{name: 'shopSid', type: 'string'},{name: 'categoryName', type: 'string'},{name: 'supplySid', type: 'string'},{name: 'supplyName', type: 'string'},{name: 'brand', type: 'string'},
+				{name: 'area1', type: 'float'},{name: 'days1', type: 'int'},{name: 'expStatus1', type: 'int'},
+				{name: 'area2', type: 'float'},{name: 'days2', type: 'int'},{name: 'expStatus2', type: 'int'},
+				{name: 'area3', type: 'float'},{name: 'days3', type: 'int'},{name: 'expStatus3', type: 'int'},
+                {name: 'area4', type: 'float'},{name: 'days4', type: 'int'},{name: 'expStatus4', type: 'int'},
+                {name: 'area5', type: 'float'},{name: 'days5', type: 'int'},{name: 'expStatus5', type: 'int'},
+                {name: 'area6', type: 'float'},{name: 'days6', type: 'int'},{name: 'expStatus6', type: 'int'},
+                {name: 'area7', type: 'float'},{name: 'days7', type: 'int'},{name: 'expStatus7', type: 'int'},
+                {name: 'area8', type: 'float'},{name: 'days8', type: 'int'},{name: 'expStatus8', type: 'int'},
+                {name: 'area9', type: 'float'},{name: 'days9', type: 'int'},{name: 'expStatus9', type: 'int'},
+                {name: 'area10', type: 'float'},{name: 'days10', type: 'int'},{name: 'expStatus10', type: 'int'},
+                {name: 'area11', type: 'float'},{name: 'days11', type: 'int'},{name: 'expStatus11', type: 'int'},
+                {name: 'area12', type: 'float'},{name: 'days12', type: 'int'},{name: 'expStatus12', type: 'int'},
+                {name: 'area13', type: 'float'},{name: 'days13', type: 'int'},{name: 'expStatus13', type: 'int'},
+                {name: 'area14', type: 'float'},{name: 'days14', type: 'int'},{name: 'expStatus14', type: 'int'},
+                {name: 'area15', type: 'float'},{name: 'days15', type: 'int'},{name: 'expStatus15', type: 'int'},
+                {name: 'area16', type: 'float'},{name: 'days16', type: 'int'},{name: 'expStatus16', type: 'int'},
+                {name: 'area17', type: 'float'},{name: 'days17', type: 'int'},{name: 'expStatus17', type: 'int'},
+                {name: 'area18', type: 'float'},{name: 'days18', type: 'int'},{name: 'expStatus18', type: 'int'},
+                {name: 'area19', type: 'float'},{name: 'days19', type: 'int'},{name: 'expStatus19', type: 'int'},
+                {name: 'area20', type: 'float'},{name: 'days20', type: 'int'},{name: 'expStatus20', type: 'int'},
+
 				{name: 'totalExpense', type: 'int'}
 			],
 			pageSize : 45,
